@@ -104,3 +104,7 @@ GLOBAL_LIST_INIT(turfs_without_ground, typecacheof(list(
 #define iseffect(O) (istype(O, /obj/effect))
 
 #define isProbablyWallMounted(O) (O.pixel_x > 20 || O.pixel_x < -20 || O.pixel_y > 20 || O.pixel_y < -20)
+
+// vehicles don't exist here but if we need those, just in case
+// #define isvehicle(O) (istype(O, /obj/vehicle))
+#define isvehicle(O) (FALSE)

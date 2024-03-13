@@ -1358,3 +1358,8 @@
 #define COMSIG_KEY_USE "key_use"
 /// Sent when you want to check if the object is locked : (atom/source, mob/user)
 #define COMSIG_TRY_LOCKED_ACTION "try_locked_action"
+
+///From element/elevation/reset_elevation(): (list/values)
+#define COMSIG_TURF_RESET_ELEVATION "turf_reset_elevation"
+	#define ELEVATION_CURRENT_PIXEL_SHIFT 1
+	#define ELEVATION_MAX_PIXEL_SHIFT 2

@@ -40,6 +40,7 @@
 	if(_buildstack)
 		buildstack = _buildstack
 	AddElement(/datum/element/climbable)
+	AddElement(/datum/element/elevation, pixel_shift=12)
 
 /obj/structure/table/examine(mob/user)
 	. = ..()
