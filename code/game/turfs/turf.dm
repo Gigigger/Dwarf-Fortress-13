@@ -58,7 +58,7 @@ GLOBAL_LIST_EMPTY(station_turfs)
 
 
 	/// Border smoothing overlays
-	var/list/borders = list()
+	var/list/borders = null
 
 	///How 'hard' is this mineral. Use case differs from type to type. Minerals and some floors use it for mining, walls use it for breaking.
 	var/hardness = 1
@@ -91,6 +91,9 @@ GLOBAL_LIST_EMPTY(station_turfs)
 
 	// by default, vis_contents is inherited from the turf that was here before
 	vis_contents.Cut()
+
+	if(SSicon_smooth.border_smooth)
+		borders = list()
 
 	assemble_baseturfs()
 
