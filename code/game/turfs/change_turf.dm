@@ -179,7 +179,6 @@ GLOBAL_LIST_INIT(blacklisted_automated_baseturfs, typecacheof(list(
 /turf/proc/ScrapeAway(amount=1, flags)
 	if(!amount)
 		return
-	var/change_type = /turf/open/openspace
 	if(length(baseturfs))
 		var/list/new_baseturfs = baseturfs.Copy()
 		var/turf_type = new_baseturfs[max(1, new_baseturfs.len - amount + 1)]
@@ -198,7 +197,8 @@ GLOBAL_LIST_INIT(blacklisted_automated_baseturfs, typecacheof(list(
 			new_baseturf_materials = baseturf_materials[1]
 		return ChangeTurf(turf_type, new_baseturfs, new_baseturf_materials, flags, new_materials)
 
-	return ChangeTurf(change_type, baseturfs, null, flags, null) // The bottom baseturf will never go away
+	else
+		return ChangeTurf(baseturfs, /turf/open/openspace, null, flags, baseturf_materials)
 
 // Make a new turf and put it on top
 // The args behave identical to PlaceOnBottom except they go on top

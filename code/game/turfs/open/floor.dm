@@ -67,9 +67,12 @@
 			var/turf/closed/TC = TD
 			if(TC.floor_type == type)
 				TC.ScrapeAway()
-			else if(baseturfs.len < 2 || !(TC.floor_type in baseturfs))
+			else if(islist(baseturfs) && (baseturfs.len < 2 || !(TC.floor_type in baseturfs)))
 				baseturfs.Insert(2, TC.floor_type)
 				baseturf_materials.Insert(2, TC.materials)
+			else
+				baseturfs = TC.floor_type
+				baseturf_materials = TC.materials
 		var/turf/newturf = ScrapeAway()
 		if(isopenspace(newturf))
 			user.visible_message(span_notice("[user] digs out a hole in the ground."), span_notice("You dig out a hole in the ground."))

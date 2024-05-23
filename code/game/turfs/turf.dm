@@ -346,22 +346,19 @@ GLOBAL_LIST_EMPTY(station_turfs)
 		if(baseturfs[1] != /turf/open/openspace)
 			baseturfs.Insert(1, /turf/open/openspace)
 
+		if(length(baseturfs) == 1)
+			baseturfs = baseturfs[1]
+
+		if(length(baseturf_materials) == 1)
+			baseturf_materials = baseturf_materials[1]
+
 	else
 		var/baseturf_to_use = baseturfs
 
-		if(ispath(baseturfs, /turf/baseturf_bottom) || ispath(baseturfs, /turf/baseturf_skipover))
+		if(ispath(baseturfs, /turf/baseturf_bottom) || ispath(baseturfs, /turf/baseturf_skipover) || !baseturfs)
 			baseturf_to_use = /turf/open/openspace
 
-		baseturfs = list(baseturf_to_use)
-		if(baseturfs[1] != /turf/open/openspace)
-			baseturfs.Insert(1, /turf/open/openspace)
-
-	if(!islist(baseturf_materials))
-		baseturf_materials = list(baseturf_materials)
-		if(baseturf_materials[1] != null)
-			baseturf_materials.Insert(1, null)
-		for(var/i in 1 to baseturfs.len-baseturf_materials.len)
-			baseturf_materials += null
+		baseturfs = baseturf_to_use
 
 /turf/proc/levelupdate()
 	for(var/obj/O in src)
