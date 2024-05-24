@@ -5,7 +5,6 @@
 	icon_state = "stone_table-0"
 	base_icon_state = "stone_table"
 	resistance_flags = FIRE_PROOF | ACID_PROOF
-	max_integrity = 300
 	materials = list(PART_STONE=/datum/material/stone)
 	buildstack = /obj/item/stack/sheet/stone
 
