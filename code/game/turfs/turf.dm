@@ -345,6 +345,13 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	if(islist(baseturfs))
 		if(baseturfs[1] != /turf/open/openspace)
 			baseturfs.Insert(1, /turf/open/openspace)
+			baseturf_materials.Insert(1, null)
+
+		var/extra_openspace_indx = baseturfs.Find(/turf/open/openspace, 2)
+		while(extra_openspace_indx)
+			baseturfs.Cut(extra_openspace_indx, extra_openspace_indx+1)
+			baseturf_materials.Cut(extra_openspace_indx, extra_openspace_indx+1)
+			extra_openspace_indx = baseturfs.Find(/turf/open/openspace, 2)
 
 		if(length(baseturfs) == 1)
 			baseturfs = baseturfs[1]
