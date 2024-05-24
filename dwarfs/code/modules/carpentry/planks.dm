@@ -50,3 +50,9 @@
 
 /obj/structure/lattice/build_material_icon(_file, state)
 	return apply_palettes(..(), materials)
+
+/obj/structure/lattice/HandleTurfChange(turf/T)
+	. = ..()
+	//just in case
+	if(!isopenspace(T))
+		qdel(src)

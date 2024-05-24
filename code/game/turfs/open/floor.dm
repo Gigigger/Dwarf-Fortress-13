@@ -156,12 +156,6 @@
 	W?.update_icon()
 	return W
 
-/turf/open/floor/AfterChange(flags, oldType)
-	. = ..()
-	var/obj/L = (locate(/obj/structure/lattice) in src)
-	if(L)
-		qdel(L)
-
 /turf/open/floor/attackby(obj/item/I, mob/user, params)
 	if(!I || !user)
 		return TRUE
