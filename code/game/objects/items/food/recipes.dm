@@ -84,7 +84,7 @@ GLOBAL_LIST_EMPTY(cooking_recipes)
 	exp_gain = 36
 
 /datum/cooking_recipe/oven/sheet/balanced_roll
-	req_items = list(/obj/item/food/flat_dough=2, /obj/item/food/slice/meat/chicken=3, /obj/item/growable/carrot=2, /obj/item/food/slice/plump_helmet=2)
+	req_items = list(/obj/item/food/flat_dough=2, /obj/item/food/slice/meat=3, /obj/item/growable/carrot=2, /obj/item/food/slice/plump_helmet=2)
 	result = /obj/item/transfer_food/sheet/roll
 	req_lvl = 6
 	cooking_text = "Place everything on the baking sheet and bake it in the oven."
