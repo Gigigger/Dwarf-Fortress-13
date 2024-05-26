@@ -41,6 +41,7 @@
 	)
 
 	AddElement(/datum/element/connect_loc, loc_connections)
+	AddElement(/datum/element/elevation, pixel_shift=10)
 
 	return ..()
 
