@@ -84,6 +84,7 @@
 
 #define BELOW_MOB_LAYER 3.7
 #define LYING_MOB_LAYER 3.8
+#define VEHICLE_LAYER 3.9
 #define MOB_BELOW_PIGGYBACK_LAYER 3.94
 //#define MOB_LAYER 4 //For easy recordkeeping; this is a byond define
 #define MOB_SHIELD_LAYER 4.01
