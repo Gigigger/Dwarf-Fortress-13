@@ -205,15 +205,11 @@
 /datum/smithing_recipe/arrow_head
 	name = "\[part\] arrow"
 	result = /obj/item/partial/arrow_head
-	min_resulting = 4
-	max_resulting = 8
 	cat = SMITHING_RECIPE_WEAPONS
 
 /datum/smithing_recipe/bolt_head
 	name = "\[part\] bolt"
 	result = /obj/item/partial/bolt_head
-	min_resulting = 4
-	max_resulting = 8
 	cat = SMITHING_RECIPE_WEAPONS
 
 /datum/smithing_recipe/crossbow_parts
@@ -413,11 +409,13 @@
 /datum/crafter_recipe/workbench_recipe/arrow
 	name = "arrow"
 	result = /obj/item/ammo_casing/caseless/bow_arrow
+	result_amount = 5
 	reqs = list(/obj/item/stick=1, /obj/item/partial/arrow_head=1)
 
 /datum/crafter_recipe/workbench_recipe/bolt
 	name = "bolt"
 	result = /obj/item/ammo_casing/caseless/crossbow_arrow
+	result_amount = 5
 	reqs = list(/obj/item/stick=1, /obj/item/partial/bolt_head=1)
 
 /datum/crafter_recipe/workbench_recipe/bow
