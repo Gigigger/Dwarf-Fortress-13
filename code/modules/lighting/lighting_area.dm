@@ -1,7 +1,7 @@
 /area
 	luminosity = 1
 	///The mutable appearance we underlay to show light
-	var/mutable_appearance/lighting_effect = null
+	var/obj/lighting_effect = null
 	///Whether this area has a currently active base lighting, bool
 	var/area_has_base_lighting = FALSE
 	///alpha 0-255 of lighting_effect and thus baselighting intensity
@@ -42,9 +42,9 @@
 	if(!area_has_base_lighting)
 		add_base_lighting()
 		return
-	remove_base_lighting()
 	if(base_lighting_alpha && base_lighting_color)
-		add_base_lighting()
+		lighting_effect.alpha = base_lighting_alpha
+		lighting_effect.color = base_lighting_color
 
 /area/proc/remove_base_lighting()
 	for(var/turf/T in src)
@@ -53,14 +53,19 @@
 	area_has_base_lighting = FALSE
 
 /area/proc/add_base_lighting()
-	lighting_effect = mutable_appearance('icons/effects/alphacolors.dmi', "white")
+	if(lighting_effect)
+		return
+	lighting_effect = new/obj()
+	lighting_effect.icon = 'icons/effects/alphacolors.dmi'
+	lighting_effect.icon_state = "white"
 	lighting_effect.plane = LIGHTING_PLANE
 	lighting_effect.layer = LIGHTING_PRIMARY_LAYER
 	lighting_effect.blend_mode = BLEND_ADD
 	lighting_effect.alpha = base_lighting_alpha
 	lighting_effect.color = base_lighting_color
 	lighting_effect.appearance_flags = RESET_TRANSFORM | RESET_ALPHA | RESET_COLOR
+	lighting_effect.vis_flags = NONE
 	for(var/turf/T in src)
-		T.add_overlay(lighting_effect)
+		T.vis_contents += lighting_effect
 		T.luminosity = 1
 	area_has_base_lighting = TRUE

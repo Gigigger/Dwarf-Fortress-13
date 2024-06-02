@@ -89,9 +89,6 @@ GLOBAL_LIST_EMPTY(station_turfs)
 		stack_trace("Warning: [src]([type]) initialized multiple times!")
 	flags_1 |= INITIALIZED_1
 
-	// by default, vis_contents is inherited from the turf that was here before
-	vis_contents.Cut()
-
 	if(SSicon_smooth.border_smooth)
 		borders = list()
 
@@ -107,8 +104,8 @@ GLOBAL_LIST_EMPTY(station_turfs)
 		if(canSmoothWith[length(canSmoothWith)] > MAX_S_TURF) //If the last element is higher than the maximum turf-only value, then it must scan turf contents for smoothing targets.
 			smoothing_flags |= SMOOTH_OBJ
 		SET_BITFLAG_LIST(canSmoothWith)
-	// if (smoothing_flags & (SMOOTH_CORNERS|SMOOTH_BITMASK))
-	QUEUE_SMOOTH(src)
+	if (smoothing_flags & (SMOOTH_CORNERS|SMOOTH_BITMASK|SMOOTH_BITMASK_SIMPLE))
+		QUEUE_SMOOTH(src)
 
 	for(var/atom/movable/AM in src)
 		Entered(AM)
