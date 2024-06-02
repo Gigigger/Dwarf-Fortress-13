@@ -18,14 +18,14 @@
 	if (!armor)
 		armor = list(SHARP = 0, PIERCE = 0, BLUNT = 0, FIRE = 50, ACID = 50)
 	. = ..()
-	if(smoothing_flags & (SMOOTH_CORNERS|SMOOTH_BITMASK))
+	if(smoothing_flags & (SMOOTH_CORNERS|SMOOTH_BITMASK|SMOOTH_BITMASK_SIMPLE))
 		QUEUE_SMOOTH(src)
 		QUEUE_SMOOTH_NEIGHBORS(src)
 		if(smoothing_flags & SMOOTH_CORNERS)
 			icon_state = ""
 
 /obj/structure/Destroy()
-	if(smoothing_flags & (SMOOTH_CORNERS|SMOOTH_BITMASK))
+	if(smoothing_flags & (SMOOTH_CORNERS|SMOOTH_BITMASK|SMOOTH_BITMASK_SIMPLE))
 		QUEUE_SMOOTH_NEIGHBORS(src)
 	return ..()
 

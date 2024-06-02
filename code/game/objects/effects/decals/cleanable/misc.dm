@@ -55,7 +55,7 @@
 		icon_state = "dirt"
 
 /obj/effect/decal/cleanable/dirt/Destroy()
-	if(smoothing_flags & (SMOOTH_CORNERS|SMOOTH_BITMASK))
+	if(smoothing_flags & (SMOOTH_CORNERS|SMOOTH_BITMASK|SMOOTH_BITMASK_SIMPLE))
 		QUEUE_SMOOTH_NEIGHBORS(src)
 	return ..()
 

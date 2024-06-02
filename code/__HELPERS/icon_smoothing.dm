@@ -212,6 +212,8 @@ DEFINE_BITFIELD(smoothing_junction, list(
 			corners_cardinal_smooth(calculate_adjacencies())
 	else if(smoothing_flags & SMOOTH_BITMASK)
 		bitmask_smooth()
+	else if(smoothing_flags & SMOOTH_BITMASK_SIMPLE)
+		bitmask_smooth_simple()
 	else
 		CRASH("smooth_icon called for [src] with smoothing_flags == [smoothing_flags]")
 
@@ -491,6 +493,13 @@ DEFINE_BITFIELD(smoothing_junction, list(
 
 	set_smoothed_icon_state(new_junction)
 
+/atom/proc/bitmask_smooth_simple()
+	var/new_junction = NONE
+
+	for(var/direction in GLOB.cardinals) //Cardinal case first.
+		SET_ADJ_IN_DIR(src, new_junction, direction, direction)
+
+	set_smoothed_icon_state(new_junction)
 
 ///Changes the icon state based on the new junction bitmask. Returns the old junction value.
 /atom/proc/set_smoothed_icon_state(new_junction)
@@ -540,14 +549,14 @@ DEFINE_BITFIELD(smoothing_junction, list(
 	var/list/away_turfs = block(locate(1, 1, zlevel), locate(world.maxx, world.maxy, zlevel))
 	for(var/V in away_turfs)
 		var/turf/T = V
-		if(T.smoothing_flags & (SMOOTH_CORNERS|SMOOTH_BITMASK))
+		if(T.smoothing_flags & (SMOOTH_CORNERS|SMOOTH_BITMASK|SMOOTH_BITMASK_SIMPLE))
 			if(now)
 				T.smooth_icon()
 			else
 				QUEUE_SMOOTH(T)
 		for(var/R in T)
 			var/atom/A = R
-			if(A.smoothing_flags & (SMOOTH_CORNERS|SMOOTH_BITMASK))
+			if(A.smoothing_flags & (SMOOTH_CORNERS|SMOOTH_BITMASK|SMOOTH_BITMASK_SIMPLE))
 				if(now)
 					A.smooth_icon()
 				else

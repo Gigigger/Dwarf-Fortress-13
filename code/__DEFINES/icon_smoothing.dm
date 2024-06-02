@@ -3,21 +3,24 @@
 #define SMOOTH_CORNERS	(1<<0)
 /// Smoothing system in where adjacencies are calculated and used to select a pre-baked icon_state, encoded by bitmasking.
 #define SMOOTH_BITMASK		(1<<1)
-/// Smoothing borders between tiles
-#define SMOOTH_BORDERS (1<<6)
+/// Bitmask but we look at basic cardinals only
+#define SMOOTH_BITMASK_SIMPLE (1<<2)
 /// Atom has diagonal corners, with underlays under them.
-#define SMOOTH_DIAGONAL_CORNERS	(1<<2)
+#define SMOOTH_DIAGONAL_CORNERS	(1<<3)
 /// Atom will smooth with the borders of the map.
-#define SMOOTH_BORDER	(1<<3)
+#define SMOOTH_BORDER	(1<<4)
 /// Atom is currently queued to smooth.
-#define SMOOTH_QUEUED	(1<<4)
-#define SMOOTH_B_QUEUED (1<<7)
+#define SMOOTH_QUEUED	(1<<5)
+#define SMOOTH_B_QUEUED (1<<6)
 /// Smooths with objects, and will thus need to scan turfs for contents.
-#define SMOOTH_OBJ		(1<<5)
+#define SMOOTH_OBJ		(1<<7)
+/// Smoothing borders between tufs
+#define SMOOTH_BORDERS (1<<8)
 
 DEFINE_BITFIELD(smoothing_flags, list(
 	"SMOOTH_CORNERS" = SMOOTH_CORNERS,
 	"SMOOTH_BITMASK" = SMOOTH_BITMASK,
+	"SMOOTH_BITMASK_SIMPLE" = SMOOTH_BITMASK_SIMPLE,
 	"SMOOTH_DIAGONAL_CORNERS" = SMOOTH_DIAGONAL_CORNERS,
 	"SMOOTH_BORDER" = SMOOTH_BORDER,
 	"SMOOTH_QUEUED" = SMOOTH_QUEUED,
@@ -29,7 +32,7 @@ DEFINE_BITFIELD(smoothing_flags, list(
 
 /*smoothing macros*/
 
-#define QUEUE_SMOOTH(thing_to_queue) if(thing_to_queue.smoothing_flags & (SMOOTH_CORNERS|SMOOTH_BITMASK)) {SSicon_smooth.add_to_queue(thing_to_queue)}
+#define QUEUE_SMOOTH(thing_to_queue) if(thing_to_queue.smoothing_flags & (SMOOTH_CORNERS|SMOOTH_BITMASK|SMOOTH_BITMASK_SIMPLE)) {SSicon_smooth.add_to_queue(thing_to_queue)}
 
 #define QUEUE_SMOOTH_NEIGHBORS(thing_to_queue) for(var/neighbor in orange(1, thing_to_queue)) {var/atom/atom_neighbor = neighbor; QUEUE_SMOOTH(atom_neighbor)}
 
@@ -110,6 +113,9 @@ DEFINE_BITFIELD(smoothing_flags, list(
 #define SMOOTH_GROUP_AIRLOCK S_OBJ(40)					///obj/machinery/door/airlock
 
 #define SMOOTH_GROUP_TABLES S_OBJ(50)					///obj/structure/table
+
+/// /obj/structure/fence
+#define SMOOTH_GROUP_FENCE S_OBJ(51)
 
 #define SMOOTH_GROUP_ALIEN_NEST S_OBJ(59)				///obj/structure/bed/nest
 #define SMOOTH_GROUP_ALIEN_RESIN S_OBJ(60)				///obj/structure/alien/resin
