@@ -92,6 +92,9 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	if(SSicon_smooth.border_smooth)
 		borders = list()
 
+	if(materials && init_materials)
+		apply_material(materials)
+
 	assemble_baseturfs()
 
 	levelupdate()
