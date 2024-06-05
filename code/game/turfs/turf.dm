@@ -95,6 +95,11 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	if(materials && init_materials)
 		apply_material(materials)
 
+	// by default, vis_contents is inherited from the turf that was here before
+	// don't cut it on first init
+	if(!mapload)
+		vis_contents.Cut()
+
 	assemble_baseturfs()
 
 	levelupdate()

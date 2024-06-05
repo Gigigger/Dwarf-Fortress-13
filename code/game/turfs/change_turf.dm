@@ -97,10 +97,6 @@ GLOBAL_LIST_INIT(blacklisted_automated_baseturfs, typecacheof(list(
 	for(var/datum/callback/callback as anything in post_change_callbacks)
 		callback.InvokeAsync(W)
 
-	// by default, vis_contents is inherited from the turf that was here before
-	// moved here from /turf/Initialize()
-	W.vis_contents.Cut()
-
 	if(new_baseturfs)
 		W.baseturfs = new_baseturfs
 	if(new_baseturf_materials)
