@@ -1,6 +1,6 @@
 #define DO_FLOATING_ANIM(target) \
-	animate(target, pixel_y = 2, time = 1 SECONDS, loop = -1, flags = ANIMATION_RELATIVE);\
-	animate(pixel_y = -2, time = 1 SECONDS, flags = ANIMATION_RELATIVE)
+	animate(target, pixel_z = 2, time = 1 SECONDS, loop = -1, flags = ANIMATION_RELATIVE);\
+	animate(pixel_z = -2, time = 1 SECONDS, flags = ANIMATION_RELATIVE)
 
 /**
  * An element that enables and disables movetype bitflags whenever the relative traits are added or removed.
@@ -108,6 +108,6 @@
 	if(isliving(target)) //Living mobs also have a 'body_position_pixel_y_offset' variable that has to be taken into account here.
 		var/mob/living/living_target = target
 		final_pixel_y += living_target.body_position_pixel_y_offset
-	animate(target, pixel_y = final_pixel_y, time = 1 SECONDS)
+	animate(target, pixel_z = final_pixel_y, time = 1 SECONDS)
 
 #undef DO_FLOATING_ANIM
