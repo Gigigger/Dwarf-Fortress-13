@@ -410,8 +410,13 @@
 /turf/open/floor/dirt/grass
 	name = "grass"
 	desc = "Touch it."
-	icon_state = "grass"
+	icon = 'dwarfs/icons/turf/grass.dmi'
+	icon_state = "grass-0"
 	slowdown = 0.5
+	base_icon_state = "grass"
+	smoothing_flags = SMOOTH_BITMASK
+	smoothing_groups = list(SMOOTH_GROUP_FLOOR_GRASS)
+	canSmoothWith = list(SMOOTH_GROUP_FLOOR_GRASS)
 
 /turf/open/floor/dirt/grass/Initialize(mapload)
 	. = ..()
