@@ -89,3 +89,15 @@
 			I.update_appearance()
 			to_chat(user, span_notice("You grab \the [src] with \the [I]."))
 			return
+
+/obj/item/ingot/attack_hand(mob/user)
+	if(heattemp && isliving(user))
+		user.changeNext_move(CLICK_CD_MELEE)
+		var/mob/living/L = user
+		to_chat(user, span_warning("You try to pick up [src], but you burn your hand on it!"))
+		var/obj/item/bodypart/affected = L.get_bodypart(user.active_hand_index == 1 ? BODY_ZONE_L_ARM : BODY_ZONE_R_ARM)
+		affected.receive_damage(0, rand(4, 10))
+		L.update_damage_overlays()
+		return TRUE
+	else
+		. = ..()
