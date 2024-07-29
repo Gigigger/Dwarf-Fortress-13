@@ -6,6 +6,7 @@
 	layer = TURF_LAYER
 	invisibility = INVISIBILITY_ABSTRACT
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
+	flags_cavein = CAVEIN_IGNORE
 
 INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 
