@@ -56,14 +56,16 @@
 			"Down": -1,
 			"Baseturf": "/turf/open/openspace",
 			"Generator": "/datum/map_generator/surface",
-			"Surface": true
+			"Surface": true,
+			"Real Surface": true
 		},
 		{
 			"Mining": true,
 			"Gravity": true,
 			"Linkage": null,
 			"Down": -1,
-			"Baseturf": "/turf/open/openspace"
+			"Baseturf": "/turf/open/openspace",
+			"Surface": true
 		}
 	]
 }

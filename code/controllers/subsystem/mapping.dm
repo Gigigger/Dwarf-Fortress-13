@@ -392,12 +392,12 @@ GLOBAL_LIST_EMPTY(the_station_areas)
 		A.reg_in_areas_in_z()
 
 /datum/controller/subsystem/mapping/proc/find_surface_z()
-	var/list/zlevels = levels_by_trait(ZTRAIT_SURFACE)
+	var/list/zlevels = levels_by_trait(ZTRAIT_SURFACE_REAL)
 	if(LAZYLEN(zlevels) > 1)
 		GLOB.surface_z = zlevels[1]
-		log_world("Found multiple z-levels with ZTRAIT_SURFACE!")
+		log_world("Found multiple z-levels with ZTRAIT_SURFACE_REAL!")
 		return
 	if(LAZYLEN(zlevels) < 1)
-		log_world("Found no z-level with ZTRAIT_SURFACE!")
+		log_world("Found no z-level with ZTRAIT_SURFACE_REAL!")
 		return
 	GLOB.surface_z = zlevels[1]
