@@ -26,14 +26,6 @@
 "G" = (
 /turf/open/floor/dirt/grass,
 /area/fortress/surface)
-"J" = (
-/obj/effect/landmark/fort/center,
-/turf/open/floor/dirt/grass,
-/area/fortress/surface)
-"K" = (
-/obj/effect/landmark/start/new_player,
-/turf/open/floor/dirt/grass,
-/area/fortress/surface)
 "V" = (
 /turf/open/floor/sand,
 /area/fortress/surface)
@@ -9177,7 +9169,7 @@ G
 G
 G
 G
-K
+G
 G
 G
 G
@@ -9219,7 +9211,7 @@ G
 G
 G
 p
-J
+G
 g
 G
 G
