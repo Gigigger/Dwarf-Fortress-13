@@ -43,6 +43,9 @@
 	icon_state = "log_large"
 	density = 1
 	w_class = WEIGHT_CLASS_GIGANTIC
+	obj_flags = parent_type::obj_flags | CAN_BE_HIT
+	hit_sound = 'dwarfs/sounds/structures/generic_hit.ogg'
+	max_integrity = 50
 	var/small_log_type = /obj/item/log
 
 /obj/item/log/large/get_fuel()
