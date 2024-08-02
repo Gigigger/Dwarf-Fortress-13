@@ -58,6 +58,9 @@
 /obj/item/restraints/handcuffs/build_material_icon(_file, state)
 	return apply_palettes(..(), materials)
 
+/obj/item/restraints/handcuffs/get_smelted_amount()
+	return 0.34
+
 /obj/item/restraints/handcuffs/attack(mob/living/carbon/C, mob/living/user)
 	if(!istype(C))
 		return

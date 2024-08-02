@@ -9,6 +9,7 @@
 	inhand_x_dimension = -32
 	force = 30
 	throwforce = 15
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 	slot_flags = ITEM_SLOT_SUITSTORE
 	w_class = WEIGHT_CLASS_BULKY
 	hitsound = 'sound/weapons/bladeslice.ogg'
@@ -42,6 +43,7 @@
 	throwforce = 25
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_BACK | ITEM_SLOT_SUITSTORE
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 	attack_verb_simple = list("hit")
 	attack_verb_continuous = list("hits")
 	block_chance = 0
@@ -64,6 +66,7 @@
 	inhand_icon_state = "dagger"
 	force = 8
 	throwforce = 5
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 	w_class = WEIGHT_CLASS_SMALL
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	block_chance = 0
@@ -97,6 +100,7 @@
 	lefthand_file = 'dwarfs/icons/mob/inhand/lefthand.dmi'
 	inhand_icon_state = "sword"
 	slot_flags = ITEM_SLOT_BACK | ITEM_SLOT_BELT | ITEM_SLOT_SUITSTORE
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 	force = 30
 	throwforce = 20
 	w_class = WEIGHT_CLASS_BULKY
@@ -121,6 +125,7 @@
 	lefthand_file = 'dwarfs/icons/mob/inhand/lefthand.dmi'
 	inhand_icon_state = "spear"
 	slot_flags = ITEM_SLOT_BACK | ITEM_SLOT_SUITSTORE
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 	force = 20
 	throwforce = 30
 	w_class = WEIGHT_CLASS_BULKY
@@ -149,6 +154,7 @@
 	icon_state = "warhammer"
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_SUITSTORE
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 	atck_type = BLUNT
 	force = 20
 	reach = 2
@@ -192,6 +198,7 @@
 	lefthand_file = 'dwarfs/icons/mob/inhand/lefthand.dmi'
 	inhand_icon_state = "halberd"
 	slot_flags = ITEM_SLOT_BACK | ITEM_SLOT_SUITSTORE
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 	force = 20
 	throwforce = 5
 	reach = 2
@@ -263,6 +270,9 @@
 /obj/item/club/build_material_icon(_file, state)
 	return apply_palettes(..(), list(materials))
 
+/obj/item/club/get_fuel()
+	return 10
+
 /obj/item/shield
 	name = "shield"
 	icon = 'dwarfs/icons/items/weapons.dmi'
@@ -270,6 +280,7 @@
 	righthand_file = 'dwarfs/icons/mob/inhand/righthand.dmi'
 	icon_state = "small_shield"
 	slot_flags = ITEM_SLOT_BACK
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 	block_chance = 30
 	force = 5
 	parry_cooldown = 0.3 SECONDS
@@ -301,6 +312,7 @@
 	lefthand_file = 'dwarfs/icons/mob/inhand/lefthand.dmi'
 	icon_state = "battleaxe"
 	w_class = WEIGHT_CLASS_BULKY
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 	slot_flags = ITEM_SLOT_SUITSTORE
 	atck_type = SHARP
 	hitsound = 'sound/weapons/bladeslice.ogg'

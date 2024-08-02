@@ -23,6 +23,7 @@
 	bare_wound_bonus = 10
 	tool_behaviour = TOOL_KNIFE
 	materials = list(PART_HANDLE=/datum/material/wood/pine/treated, PART_HEAD=/datum/material/copper)
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 
 /obj/item/kitchen/knife/build_material_icon(_file, state)
 	return apply_palettes(..(), list(materials[PART_HANDLE], materials[PART_HEAD]))

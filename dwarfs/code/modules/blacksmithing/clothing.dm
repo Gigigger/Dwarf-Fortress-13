@@ -4,6 +4,7 @@
 	worn_icon = 'dwarfs/icons/mob/clothing/suit.dmi'
 	worn_icon_state = "chestplate_light"
 	body_parts_covered = CHEST|GROIN
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 	icon = 'dwarfs/icons/items/clothing/suit.dmi'
 	icon_state = "light_plate"
 	inhand_icon_state = "light_plate"
@@ -19,6 +20,7 @@
 	worn_icon = 'dwarfs/icons/mob/clothing/suit.dmi'
 	worn_icon_state = "chestplate_heavy"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 	w_class = WEIGHT_CLASS_GIGANTIC
 	slowdown = 1
 	allowed = TRUE
@@ -81,6 +83,7 @@
 	icon_state = "chainmail"
 	inhand_icon_state = "chainmail"
 	materials = /datum/material/iron
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 
 /obj/item/clothing/under/chainmail/build_material_icon(_file, state)
 	return apply_palettes(..(), materials)
@@ -95,9 +98,13 @@
 	flags_inv = HIDEMASK|HIDEEARS|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 	materials = /datum/material/iron
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 
 /obj/item/clothing/head/heavy_plate/build_material_icon(_file, state)
 	return apply_palettes(..(), materials)
+
+/obj/item/clothing/head/heavy_plate/get_smelted_amount()
+	return 0.5
 
 /obj/item/clothing/head/light_plate
 	name = "light plate helmet"
@@ -107,9 +114,13 @@
 	dynamic_hair_suffix = ""
 	flags_inv = HIDEHAIR
 	materials = /datum/material/iron
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 
 /obj/item/clothing/head/light_plate/build_material_icon(_file, state)
 	return apply_palettes(..(), materials)
+
+/obj/item/clothing/head/light_plate/get_smelted_amount()
+	return 0.5
 
 /obj/item/clothing/gloves/plate_gloves
 	name = "plate gloves"
@@ -119,9 +130,13 @@
 	icon = 'dwarfs/icons/items/clothing/gloves.dmi'
 	icon_state = "plate_gloves"
 	materials = /datum/material/iron
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 
 /obj/item/clothing/gloves/plate_gloves/build_material_icon(_file, state)
 	return apply_palettes(..(), materials)
+
+/obj/item/clothing/gloves/plate_gloves/get_smelted_amount()
+	return 0.34
 
 /obj/item/clothing/shoes/plate_boots
 	name = "plate boots"
@@ -131,9 +146,13 @@
 	icon = 'dwarfs/icons/items/clothing/feet.dmi'
 	icon_state = "plate_boots"
 	materials = /datum/material/iron
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 
 /obj/item/clothing/shoes/plate_boots/build_material_icon(_file, state)
 	return apply_palettes(..(), materials)
+
+/obj/item/clothing/shoes/plate_boots/get_smelted_amount()
+	return 0.34
 
 /obj/item/clothing/shoes/boots
 	name = "boots"
@@ -144,6 +163,9 @@
 	worn_icon = 'dwarfs/icons/mob/clothing/feet.dmi'
 	worn_icon_state = "boots"
 
+/obj/item/clothing/shoes/boots/get_fuel()
+	return 15
+
 /obj/item/clothing/under/tunic
 	name = "tunic"
 	desc = "Typical tunic. Smells of alcohol."
@@ -151,6 +173,9 @@
 	worn_icon_state = "tunic_brown"
 	icon = 'dwarfs/icons/items/clothing/under.dmi'
 	icon_state = "tunic_brown"
+
+/obj/item/clothing/under/tunic/get_fuel()
+	return 30
 
 /obj/item/clothing/under/tunic/Initialize(mycolor=null)
 	. = ..()
@@ -175,6 +200,9 @@
 	icon = 'dwarfs/icons/items/clothing/under.dmi'
 	icon_state = "loincloth"
 	body_parts_covered = GROIN|LEGS
+
+/obj/item/clothing/under/loincloth/get_fuel()
+	return 10
 
 /obj/item/clothing/shoes/leather_boots
 	name = "leather boots"

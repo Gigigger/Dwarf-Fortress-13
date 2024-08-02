@@ -8,6 +8,7 @@ GLOBAL_VAR_INIT(king, null)
 	icon = 'dwarfs/icons/items/clothing.dmi'
 	icon_state = "king_crown"
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 	var/king_actions = list()
 	var/tracking = FALSE
 

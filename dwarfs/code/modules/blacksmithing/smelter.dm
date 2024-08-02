@@ -9,6 +9,8 @@
 	light_color = "#BB661E"
 	materials = /datum/material/stone
 	particles = new/particles/smoke/smelter
+	/// alist of smelted item type containing a list of materials and amount of smelted ingots
+	var/list/smelting_buffer = list()
 	var/working = FALSE
 	var/fuel = 0
 	var/fuel_consumption = 0.5
@@ -49,31 +51,47 @@
 	var/obj/item/I = contents[1]
 	I.forceMove(get_turf(src))
 	if(contents.len)
-		start_smelting()
+		start_timer()
 
-/obj/structure/smelter/proc/start_smelting()
+/obj/structure/smelter/proc/start_timer()
 	timerid = addtimer(CALLBACK(src, PROC_REF(smelted_thing)), smelting_time, TIMER_STOPPABLE)
 
 /obj/structure/smelter/proc/remove_timer()
 	if(active_timers)
 		deltimer(timerid)
+		timerid = null
+
+/obj/structure/smelter/proc/add_smeted_amount(smelted_type, smelted_material, smelted_amount)
+	if(!(smelted_type in smelting_buffer))
+		smelting_buffer[smelted_type] = list()
+	smelting_buffer[smelted_type][smelted_material] += smelted_amount
+
+/obj/structure/smelter/proc/check_smelting_buffer()
+	for(var/smelted_type in smelting_buffer)
+		for(var/smelted_material in smelting_buffer[smelted_type])
+			var/smelted_amount = &smelting_buffer[smelted_type][smelted_material]
+			while((*smelted_amount) >= 1)
+				var/obj/O = new smelted_type(src)
+				O.apply_material(smelted_material)
+				O.update_stats()
+				(*smelted_amount)--
 
 /obj/structure/smelter/attackby(obj/item/I, mob/living/user, params)
-	if(istype(I, /obj/item/stack/ore/smeltable))
-		var/obj/item/stack/ore/smeltable/S = I
+	if(user.a_intent == INTENT_HARM)
+		return ..()
+	if(I.is_smeltable())
 		if(contents.len == max_items)
 			to_chat(user, span_warning("[src] is full!"))
 			return
-		if(!S.use(5))
-			to_chat(user, span_warning("You need at least 5 pieces."))
+		if(!I.can_smelt())
+			to_chat(user, span_warning("Cannot smelt [I]."))
 			return
-		to_chat(user, span_notice("You place [S] into [src]."))
-		if(working && !contents.len)
-			start_smelting()
-		var/obj/O = new S.refined_type(src)
-		if(S.materials)
-			O.apply_material(S.materials)
-		O.update_stats()
+		to_chat(user, span_notice("You place [I] into [src]."))
+		add_smeted_amount(I.get_smelted_type(), I.get_smelted_materials(), I.get_smelted_amount())
+		check_smelting_buffer()
+		I.smelt()
+		if(working && contents.len)
+			start_timer()
 	else if(I.get_temperature())
 		if(!fuel)
 			to_chat(user, span_warning("[src] has no fuel."))
@@ -88,7 +106,7 @@
 		working = TRUE
 		particles.spawning = 0.3
 		if(contents.len)
-			start_smelting()
+			start_timer()
 		update_appearance()
 	else if(I.get_fuel())
 		fuel += I.get_fuel()

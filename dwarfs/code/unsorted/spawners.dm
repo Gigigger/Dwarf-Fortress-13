@@ -6,6 +6,7 @@
 	var/turf/left = locate(center.x-1, center.y, center.z)
 	var/turf/right = locate(center.x+1, center.y, center.z)
 	var/turf/down = locate(center.x, center.y-1, center.z)
+	var/turf/lleft = RELATIVE_TURF(left, -1,0,0)
 	var/obj/O
 	O = new /obj/structure/anvil(center)
 	O.apply_material(/datum/material/adamantine)
@@ -27,6 +28,10 @@
 	O.update_stats()
 	O.reagents.add_reagent(/datum/reagent/water, 300)
 	O.update_appearance()
+	O = new/obj/structure/smelter(lleft)
+	O:fuel = 500
+	O.apply_material(O.materials)
+	O.update_stats(6)
 	return INITIALIZE_HINT_QDEL
 
 /obj/effect/spawner/metal_showcase/Initialize(mapload)

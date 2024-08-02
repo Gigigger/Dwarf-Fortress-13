@@ -28,6 +28,7 @@
 	amount_per_transfer_from_this = 10
 	volume = 100
 	materials = /datum/material/iron
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 	var/open = TRUE
 
 /obj/item/reagent_containers/glass/cooking_pot/build_material_icon(_file, state)
@@ -207,6 +208,7 @@
 	icon_state = "skillet"
 	volume = 30
 	materials = list(PART_HANDLE=/datum/material/wood/pine/treated, PART_HEAD=/datum/material/iron)
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 
 /obj/item/reagent_containers/glass/pan/build_material_icon(_file, state)
 	return apply_palettes(..(), list(materials[PART_HANDLE], materials[PART_HEAD]))
@@ -263,6 +265,10 @@
 	name = "metal cup"
 	icon_state = "metal_cup"
 	materials = /datum/material/iron
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
+
+/obj/item/reagent_containers/glass/cup/metal/get_smelted_amount()
+	return 0.34
 
 /obj/item/reagent_containers/glass/cup/metal/build_material_icon(_file, state)
 	return apply_palettes(..(), materials)
@@ -277,6 +283,7 @@
 	amount_per_transfer_from_this = 10
 	volume = 100
 	materials = /datum/material/iron
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 
 /obj/item/reagent_containers/glass/cake_pan/build_material_icon(_file, state)
 	return apply_palettes(..(), materials)
@@ -321,6 +328,7 @@
 	amount_per_transfer_from_this = 10
 	volume = 100
 	materials = /datum/material/iron
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 
 /obj/item/reagent_containers/glass/baking_sheet/build_material_icon(_file, state)
 	return apply_palettes(..(), materials)
@@ -364,6 +372,10 @@
 	materials = /datum/material/iron
 	volume = 50
 	w_class = WEIGHT_CLASS_SMALL
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
+
+/obj/item/reagent_containers/glass/flask/get_smelted_amount()
+	return 0.25
 
 /obj/item/reagent_containers/glass/flask/build_material_icon(_file, state)
 	return apply_palettes(..(), materials)

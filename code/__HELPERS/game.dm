@@ -8,6 +8,8 @@
 	CENTER.x+(H_RADIUS), CENTER.y+(V_RADIUS), CENTER.z \
 	)
 
+#define RELATIVE_TURF(T, dx, dy, dz) (locate(T.x+dx, T.y+dy, T.z+dz))
+
 #define Z_TURFS(ZLEVEL) block(1, 1, ZLEVEL, world.maxx, world.maxy, ZLEVEL)
 #define CULT_POLL_WAIT 2400
 

@@ -1123,3 +1123,30 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 			return "terrifying"
 		else
 			return "strange"
+
+/// Whether this item is smeltable. By default controlled by ITEM_SMELTABLE item flag.
+/obj/item/proc/is_smeltable()
+	return (item_flags & ITEM_SMELTABLE)
+
+/// Returns TRUE if we are allowed to smelt this item
+/obj/item/proc/can_smelt()
+	return TRUE
+
+/obj/item/proc/smelt()
+	qdel(src)
+
+/// Returns a type path as a result of smelting
+/obj/item/proc/get_smelted_type()
+	return /obj/item/ingot
+
+/// Returns amount of ingots from smelting src. 1 ingot = 1
+/obj/item/proc/get_smelted_amount()
+	return 1
+
+/// Returns material type for the smelted item
+/obj/item/proc/get_smelted_materials()
+	if(PART_HEAD in materials)
+		return materials[PART_HEAD]
+	else if(!islist(materials))
+		return materials
+	return null

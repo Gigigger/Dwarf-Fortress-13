@@ -55,7 +55,11 @@ returns TRUE if its locked(this is because if comp doesnt exist it will return f
 	righthand_file = 'dwarfs/icons/mob/inhand/righthand.dmi'
 	icon_state = "lock"
 	materials = /datum/material/iron
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 	var/lock_id
+
+/obj/item/lock/get_smelted_amount()
+	return 0.25
 
 /obj/item/lock/Initialize()
 	. = ..()
@@ -93,8 +97,12 @@ returns TRUE if its locked(this is because if comp doesnt exist it will return f
 	slot_flags = ITEM_SLOT_BELT | ITEM_SLOT_POCKETS
 	materials = /datum/material/iron
 	w_class = WEIGHT_CLASS_SMALL
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 	var/prefix = ""
 	var/key_id
+
+/obj/item/key/get_smelted_amount()
+	return 0.25
 
 /obj/item/key/Initialize()
 	. = ..()

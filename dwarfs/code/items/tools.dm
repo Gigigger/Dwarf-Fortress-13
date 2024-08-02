@@ -4,6 +4,7 @@
 	desc = "Strike the earth!"
 	icon = 'dwarfs/icons/items/tools.dmi'
 	icon_state = "pickaxe"
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 	slot_flags = ITEM_SLOT_BACK | ITEM_SLOT_SUITSTORE
 	force = 15
 	atck_type = PIERCE
@@ -36,6 +37,7 @@
 	lefthand_file = 'dwarfs/icons/mob/inhand/lefthand.dmi'
 	righthand_file = 'dwarfs/icons/mob/inhand/righthand.dmi'
 	slot_flags = ITEM_SLOT_BACK | ITEM_SLOT_SUITSTORE
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 	force = 8
 	tool_behaviour = TOOL_SHOVEL
 	toolspeed = 1
@@ -70,6 +72,7 @@
 	righthand_file = 'dwarfs/icons/mob/inhand/righthand.dmi'
 	icon_state = "axe"
 	tool_behaviour = TOOL_AXE
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 	force = 10
 	throwforce = 5
 	atck_type = SHARP
@@ -90,6 +93,7 @@
 	righthand_file = 'dwarfs/icons/mob/inhand/righthand.dmi'
 	icon_state = "smithing_hammer"
 	tool_behaviour = TOOL_SMITHING_HAMMER
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 	w_class = WEIGHT_CLASS_NORMAL
 	slot_flags = ITEM_SLOT_BELT
 	force = 20
@@ -111,6 +115,7 @@
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	usesound = 'dwarfs/sounds/tools/chisel/chisel_hit.ogg'
 	tool_behaviour = TOOL_CHISEL
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 	atck_type = PIERCE
 	w_class = WEIGHT_CLASS_SMALL
 	force = 10
@@ -141,6 +146,7 @@
 	worn_icon_state = "tongs"
 	icon_state = "tongs_open"
 	w_class = WEIGHT_CLASS_SMALL
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 	slot_flags = ITEM_SLOT_BELT
 	force = 4
 	atck_type = BLUNT
@@ -229,6 +235,7 @@
 	lefthand_file = 'dwarfs/icons/mob/inhand/lefthand.dmi'
 	righthand_file = 'dwarfs/icons/mob/inhand/righthand.dmi'
 	slot_flags = ITEM_SLOT_BACK | ITEM_SLOT_SUITSTORE
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 	w_class = WEIGHT_CLASS_BULKY
 	atck_type = PIERCE
 	force = 7

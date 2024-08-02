@@ -3,6 +3,7 @@
 	icon = 'dwarfs/icons/items/components.dmi'
 	force = 1
 	init_materials = FALSE
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 
 /obj/item/partial/build_material_icon(_file, state)
 	return apply_palettes(..(), list(materials))

@@ -12,6 +12,7 @@
 	dry_fire_sound = null
 	fire_sound = 'dwarfs/sounds/tools/crossbow/shot.wav'
 	ranged_skill = /datum/skill/ranged/crossbow
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 
 /obj/item/gun/crossbow/Initialize()
 	. = ..()
@@ -98,6 +99,7 @@
 	projectile_type = /obj/projectile/bullet/reusable/crossbow_arrow
 	materials = list(PART_HANDLE=/datum/material/wood/treated, PART_HEAD=/datum/material/iron)
 	caliber = CALIBER_CROSSBOW
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 
 /obj/item/ammo_casing/caseless/crossbow_arrow/build_material_icon(_file, state)
 	return apply_palettes(..(), list(materials[PART_HANDLE], materials[PART_HEAD]))
@@ -216,6 +218,7 @@
 	projectile_type = /obj/projectile/bullet/reusable/bow_arrow
 	materials = list(PART_HANDLE=/datum/material/wood/treated, PART_HEAD=/datum/material/iron)
 	caliber = CALIBER_ARROW
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 
 /obj/item/ammo_casing/caseless/bow_arrow/build_material_icon(_file, state)
 	return apply_palettes(..(), list(materials[PART_HANDLE], materials[PART_HEAD]))

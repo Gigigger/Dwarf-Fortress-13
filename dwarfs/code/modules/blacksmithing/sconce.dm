@@ -8,6 +8,10 @@
 	w_class = WEIGHT_CLASS_SMALL
 	var/result_path = /obj/structure/sconce
 	materials = /datum/material/iron
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
+
+/obj/item/sconce/get_smelted_amount()
+	return 0.145
 
 /obj/item/sconce/build_material_icon(_file, state)
 	. = apply_palettes(..(), materials)

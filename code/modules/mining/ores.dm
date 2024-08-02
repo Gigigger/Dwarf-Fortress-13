@@ -39,6 +39,16 @@
 
 /obj/item/stack/ore/smeltable
 	var/refined_type
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
+
+/obj/item/stack/ore/smeltable/can_smelt()
+	return (amount >= 5)
+
+/obj/item/stack/ore/smeltable/smelt()
+	use(5)
+
+/obj/item/stack/ore/smeltable/get_smelted_type()
+	return refined_type
 
 /obj/item/stack/ore/smeltable/iron
 	name = "iron ore"
