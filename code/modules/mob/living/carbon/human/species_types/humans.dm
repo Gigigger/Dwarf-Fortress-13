@@ -2,6 +2,7 @@
 	name = "Human"
 	id = "human"
 	default_color = "FFFFFF"
+	offset_features = list(OFFSET_HAIR = list(0,3))
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,HAS_FLESH,HAS_BONE)
 	inherent_traits = list(
 		TRAIT_ADVANCEDTOOLUSER,

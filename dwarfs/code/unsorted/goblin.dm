@@ -9,6 +9,7 @@
 	mutantlungs = /obj/item/organ/lungs/goblin
 	mutanttongue = /obj/item/organ/tongue/goblin
 	mutantliver = /obj/item/organ/liver/goblin
+	mutanteyes = /obj/item/organ/eyes/goblin
 	species_language_holder = /datum/language_holder/goblin
 	exotic_bloodtype = "G"
 	exotic_blood = /datum/reagent/goblin_blood
@@ -61,6 +62,9 @@
 	desc = "Looks like something rotten"
 	alcohol_tolerance = 50
 	color = "#99e65f"
+
+/obj/item/organ/eyes/goblin
+	eye_icon_state = "eyes_goblin"
 
 /obj/item/bodypart/l_arm/goblin
 

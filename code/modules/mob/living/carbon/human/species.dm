@@ -23,7 +23,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/sexes = TRUE
 
 	///Clothing offsets. If a species has a different body than other species, you can offset clothing so they look less weird.
-	var/list/offset_features = list(OFFSET_UNIFORM = list(0,0), OFFSET_ID = list(0,0), OFFSET_GLOVES = list(0,0), OFFSET_GLASSES = list(0,0), OFFSET_EARS = list(0,0), OFFSET_SHOES = list(0,0), OFFSET_S_STORE = list(0,0), OFFSET_FACEMASK = list(0,0), OFFSET_HEAD = list(0,0), OFFSET_FACE = list(0,0), OFFSET_BELT = list(0,0), OFFSET_BACK = list(0,0), OFFSET_SUIT = list(0,0), OFFSET_NECK = list(0,0), OFFSET_HANDS = list(0,0))
+	var/list/offset_features = list(OFFSET_UNIFORM = list(0,0), OFFSET_ID = list(0,0), OFFSET_GLOVES = list(0,0), OFFSET_GLASSES = list(0,0), OFFSET_EARS = list(0,0), OFFSET_SHOES = list(0,0), OFFSET_S_STORE = list(0,0), OFFSET_FACEMASK = list(0,0), OFFSET_HEAD = list(0,0), OFFSET_FACE = list(0,0), OFFSET_BELT = list(0,0), OFFSET_BACK = list(0,0), OFFSET_SUIT = list(0,0), OFFSET_NECK = list(0,0), OFFSET_HANDS = list(0,0), OFFSET_HAIR = list(0,0))
 
 	/// Default worn files for this species. Used in code\modules\mob\living\carbon\human\human_update_icons.dm
 
@@ -544,12 +544,12 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 			facial_overlay.alpha = hair_alpha
 
-			if(OFFSET_FACE in H.dna.species.offset_features)
-				facial_overlay.pixel_x += H.dna.species.offset_features[OFFSET_FACE][1]
-				facial_overlay.pixel_y += H.dna.species.offset_features[OFFSET_FACE][2]
+			if(OFFSET_HAIR in H.dna.species.offset_features)
+				facial_overlay.pixel_x += H.dna.species.offset_features[OFFSET_HAIR][1]
+				facial_overlay.pixel_y += H.dna.species.offset_features[OFFSET_HAIR][2]
 				if(gradient_overlay)
-					gradient_overlay.pixel_x += H.dna.species.offset_features[OFFSET_FACE][1]
-					gradient_overlay.pixel_y += H.dna.species.offset_features[OFFSET_FACE][2]
+					gradient_overlay.pixel_x += H.dna.species.offset_features[OFFSET_HAIR][1]
+					gradient_overlay.pixel_y += H.dna.species.offset_features[OFFSET_HAIR][2]
 
 			standing += facial_overlay
 			if(gradient_overlay)
@@ -628,12 +628,12 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				else
 					hair_overlay.color = forced_colour
 				hair_overlay.alpha = hair_alpha
-				if(OFFSET_FACE in H.dna.species.offset_features)
-					hair_overlay.pixel_x += H.dna.species.offset_features[OFFSET_FACE][1]
-					hair_overlay.pixel_y += H.dna.species.offset_features[OFFSET_FACE][2]
+				if(OFFSET_HAIR in H.dna.species.offset_features)
+					hair_overlay.pixel_x += H.dna.species.offset_features[OFFSET_HAIR][1]
+					hair_overlay.pixel_y += H.dna.species.offset_features[OFFSET_HAIR][2]
 					if(gradient_overlay)
-						gradient_overlay.pixel_x += H.dna.species.offset_features[OFFSET_FACE][1]
-						gradient_overlay.pixel_y += H.dna.species.offset_features[OFFSET_FACE][2]
+						gradient_overlay.pixel_x += H.dna.species.offset_features[OFFSET_HAIR][1]
+						gradient_overlay.pixel_y += H.dna.species.offset_features[OFFSET_HAIR][2]
 		if(hair_overlay.icon)
 			standing += hair_overlay
 			if(gradient_overlay)

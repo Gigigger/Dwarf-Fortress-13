@@ -322,6 +322,7 @@
 #define OFFSET_FACEMASK "mask"
 #define OFFSET_HEAD "head"
 #define OFFSET_FACE "face"
+#define OFFSET_HAIR "hair"
 #define OFFSET_BELT "belt"
 #define OFFSET_BACK "back"
 #define OFFSET_SUIT "suit"

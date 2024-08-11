@@ -9,6 +9,7 @@
 	mutantlungs = /obj/item/organ/lungs/dwarven
 	mutanttongue = /obj/item/organ/tongue/dwarven
 	mutantliver = /obj/item/organ/liver/dwarven
+	mutanteyes = /obj/item/organ/eyes/dwarf
 	species_language_holder = /datum/language_holder/dwarf
 
 /datum/species/dwarf/check_roundstart_eligible()
@@ -38,6 +39,9 @@
 		SEND_SIGNAL(C, COMSIG_ADD_MOOD_EVENT, "drank_booze", /datum/mood_event/drank_booze)
 	else if(ispath(reagent_type, /datum/reagent/water)) //should be done somehow else
 		SEND_SIGNAL(C, COMSIG_ADD_MOOD_EVENT, "drank_no_booze", /datum/mood_event/drank_no_booze)
+
+/obj/item/organ/eyes/dwarf
+	eye_icon_state = "eyes_dwarf"
 
 // Dwarven tongue, they only know their language.
 /obj/item/organ/tongue/dwarven
