@@ -5,7 +5,6 @@
 	icon_state = "forge"
 	light_range = 6
 	light_color = "#BB661E"
-	layer = ABOVE_MOB_LAYER
 	density = TRUE
 	anchored = TRUE
 	materials = /datum/material/stone

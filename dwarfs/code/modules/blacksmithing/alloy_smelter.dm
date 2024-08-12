@@ -9,6 +9,7 @@
 	light_range = 2
 	light_color = "#BB661E"
 	materials = list(PART_INGOT=/datum/material/iron, PART_STONE=/datum/material/stone)
+	particles = new/particles/smoke/alloy_smelter
 	/// How much 'fuel' is inside
 	var/fuel = 0
 	/// How much fuel we consume per second
@@ -19,34 +20,20 @@
 	var/working = FALSE
 	/// Whether the fuel opening is open. Closed by default
 	var/open = FALSE
-	/// Particle source since we use two layers for the structure
-	var/obj/particle_source
 	/// Current smelting timer id
 	var/timerid
 
 /obj/structure/alloy_smelter/Initialize()
 	. = ..()
-	particle_source = new/obj()
-	particle_source.icon = icon
-	particle_source.icon_state = "bf_upper"
-	particle_source.vis_flags = VIS_INHERIT_ID
-	particle_source.layer = ABOVE_MOB_LAYER
-	particle_source.particles = new/particles/smoke/alloy_smelter
-	vis_contents += particle_source
 	set_light_on(working)
 	update_light()
 	update_appearance()
 
 /obj/structure/alloy_smelter/Destroy()
-	QDEL_NULL(particle_source)
 	. = ..()
 
 /obj/structure/alloy_smelter/build_material_icon(_file, state)
 	return apply_palettes(..(), list(materials[PART_INGOT], materials[PART_STONE]))
-
-/obj/structure/alloy_smelter/apply_material(list/_materials)
-	. = ..()
-	particle_source.icon = icon
 
 /obj/structure/alloy_smelter/examine(mob/user)
 	. = ..()
@@ -141,7 +128,7 @@
 		to_chat(user, span_notice("You light up [src]."))
 		playsound(src, 'dwarfs/sounds/effects/ignite.ogg', 50, TRUE)
 		working = TRUE
-		particle_source.particles.spawning = 0.5
+		particles.spawning = 0.5
 		START_PROCESSING(SSprocessing, src)
 		set_light_on(working)
 		update_light()
@@ -201,7 +188,7 @@
 	flux = FALSE
 	working = FALSE
 	contents.Cut()
-	particle_source.particles.spawning = 0
+	particles.spawning = 0
 	set_light_on(working)
 	update_light()
 	update_appearance()

@@ -5,7 +5,6 @@
 	icon_state = "press_open"
 	density = 1
 	anchored = 1
-	layer = ABOVE_MOB_LAYER
 	materials = list(PART_PLANKS=/datum/material/wood/pine/treated, PART_INGOT=/datum/material/iron)
 	var/max_items = 10 // how much fruits it can hold
 	var/max_volume = 500 // sus

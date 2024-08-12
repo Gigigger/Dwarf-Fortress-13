@@ -4,7 +4,6 @@
 	icon = 'dwarfs/icons/farming/growing_tree_96x96.dmi'
 	density = TRUE
 	lifespan = INFINITY
-	layer = ABOVE_MOB_LAYER
 	base_pixel_x = -32
 	spread_x = 4
 	spread_y = 3

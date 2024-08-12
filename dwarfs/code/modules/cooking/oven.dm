@@ -5,7 +5,6 @@
 	icon_state = "oven_empty"
 	anchored = TRUE
 	density = TRUE
-	layer = BELOW_OBJ_LAYER
 	light_range = 2
 	light_color = "#BB661E"
 	materials = list(PART_STONE=/datum/material/stone, PART_INGOT=/datum/material/pig_iron)
@@ -14,17 +13,10 @@
 	var/working = FALSE
 	var/cooking_time = 10 SECONDS
 	var/timerid
-	var/obj/particle_source
+	particles = new/particles/smoke/oven
 
 /obj/structure/oven/Initialize()
 	. = ..()
-	particle_source = new/obj(null)
-	particle_source.icon = src.icon
-	particle_source.icon_state = "oven_upper"
-	particle_source.vis_flags |= VIS_INHERIT_ID
-	particle_source.layer = ABOVE_MOB_LAYER
-	particle_source.particles = new/particles/smoke/oven
-	vis_contents += particle_source
 	START_PROCESSING(SSprocessing, src)
 	update_appearance()
 	set_light_on(working)
@@ -32,24 +24,19 @@
 
 /obj/structure/oven/Destroy()
 	. = ..()
-	QDEL_NULL(particle_source)
 	STOP_PROCESSING(SSprocessing, src)
 
 /obj/structure/oven/build_material_icon(_file, state)
 	return apply_palettes(..(), list(materials[PART_INGOT], materials[PART_STONE]))
 
-/obj/structure/oven/apply_material(list/_materials)
-	. = ..()
-	particle_source.icon = icon
-
 /obj/structure/oven/update_icon_state()
 	. = ..()
 	if(working)
-		icon_state = "oven_on_lower"
+		icon_state = "oven_on"
 	else if(fuel)
-		icon_state = "oven_fueled_lower"
+		icon_state = "oven_fueled"
 	else
-		icon_state = "oven_empty_lower"
+		icon_state = "oven_empty"
 
 /obj/structure/oven/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/reagent_containers/glass/baking_sheet) || istype(I, /obj/item/reagent_containers/glass/cake_pan))
@@ -70,7 +57,7 @@
 		to_chat(user, span_notice("You light up [src]."))
 		playsound(src, 'dwarfs/sounds/effects/ignite.ogg', 50, TRUE)
 		working = TRUE
-		particle_source.particles.spawning = 0.3
+		particles.spawning = 0.3
 		set_light_on(TRUE)
 		update_light()
 		if(contents.len)
@@ -107,7 +94,7 @@
 		playsound(src, 'dwarfs/sounds/effects/fire_cracking_short.ogg', 100, TRUE)
 	if(fuel<1)
 		working = FALSE
-		particle_source.particles.spawning = 0
+		particles.spawning = 0
 		set_light_on(FALSE)
 		update_light()
 		update_appearance()
