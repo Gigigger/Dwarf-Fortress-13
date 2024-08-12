@@ -37,6 +37,17 @@
 /obj/structure/plant/tree/growthcycle()
 	. = ..()
 	impact_damage = src::impact_damage * growthstage
+	if(growthstage > 3)
+		density = TRUE
+	else
+		density = FALSE
+
+/obj/structure/plant/tree/set_growthstage(new_growthstage)
+	. = ..()
+	if(growthstage > 3)
+		density = TRUE
+	else
+		density = FALSE
 
 /obj/structure/plant/tree/update_overlays()
 	. = ..()

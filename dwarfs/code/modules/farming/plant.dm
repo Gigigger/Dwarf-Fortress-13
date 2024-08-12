@@ -241,3 +241,6 @@
 		else
 			to_chat(user, span_notice("You remove the dead plant."))
 			qdel(src)
+
+/obj/structure/plant/proc/set_growthstage(new_growthstage)
+	growthstage = new_growthstage
