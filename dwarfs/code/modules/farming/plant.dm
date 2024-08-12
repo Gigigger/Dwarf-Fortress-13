@@ -82,8 +82,8 @@
 
 /obj/structure/plant/Initialize()
 	. = ..()
-	pixel_x = base_pixel_x + rand(-spread_x, spread_x)
-	pixel_y = base_pixel_y + rand(0, spread_y)
+	pixel_w = base_pixel_x + rand(-spread_x, spread_x)
+	pixel_z = base_pixel_y + rand(0, spread_y)
 	if(!dummy)
 		START_PROCESSING(SSplants, src)
 	if(!icon_ripe)
