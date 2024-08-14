@@ -1337,7 +1337,10 @@ GLOBAL_LIST_INIT(combat_loadout_choices, list(
 						choices += GLOB.combat_loadout_choices
 					var/chosen = input(user,"What will be your loadout?") as null | anything in choices
 					if(chosen)
-						loadout = choices[chosen]
+						var/new_loadout = choices[chosen]
+						SSloadouts.update_counter(loadout, new_loadout)
+						SSloadouts.update_panel()
+						loadout = new_loadout
 						to_chat(user, span_notice("You have selected the [chosen]"))
 					return
 

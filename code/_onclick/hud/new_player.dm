@@ -1,4 +1,5 @@
 /datum/hud/new_player
+	var/atom/movable/screen/loadout_screen
 
 /datum/hud/new_player/New(mob/owner)
 	..()
@@ -7,8 +8,8 @@
 	var/list/buttons = subtypesof(/atom/movable/screen/lobby)
 	for(var/button_type in buttons)
 		var/atom/movable/screen/lobby/lobbyscreen = new button_type()
-		lobbyscreen.SlowInit()
 		lobbyscreen.hud = src
+		lobbyscreen.SlowInit()
 		static_inventory += lobbyscreen
 		if(istype(lobbyscreen, /atom/movable/screen/lobby/button))
 			var/atom/movable/screen/lobby/button/lobby_button = lobbyscreen
@@ -218,3 +219,26 @@
 	icon = 'dwarfs/icons/ui/lobbyv3/chains.dmi'
 	icon_state = "chains2"
 	screen_loc = "EAST-4:-4,TOP"//has to be 4 pixels to the left compared to the rest of the buttons
+
+/atom/movable/screen/lobby/loadouts
+	icon = 'dwarfs/icons/ui/lobbyv3/loadoutscreen.dmi'
+	icon_state = "bg"
+	screen_loc = "WEST+1,TOP-2:-6"
+	// maptext = "<font face='lilgard' size=3>Miner: 1\nLogger: 55</font>"
+	// maptext = "<span style='font-family:\"Lunchtime Doubly So\", Arial'>Miner: 3\nLogger: 56</span>"
+	maptext_x = 6
+	maptext_y = 4
+	maptext_width = 120
+	maptext_height = 300
+	var/font = 'html/fontloader/fonts/lilgard.ttf'
+
+/atom/movable/screen/lobby/loadouts/SlowInit()
+	hud:loadout_screen = src
+
+/atom/movable/screen/lobby/loadouts_chains
+	icon = 'dwarfs/icons/ui/lobbyv3/chains.dmi'
+	icon_state = "loadouts"
+	screen_loc = "WEST+1:-4,TOP"
+
+/datum/hud/new_player/proc/set_loadout_info(text)
+	loadout_screen.maptext = text

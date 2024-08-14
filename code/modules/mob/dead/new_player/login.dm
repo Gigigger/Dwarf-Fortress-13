@@ -21,6 +21,9 @@
 	if(spc && living_player_count() >= spc)
 		to_chat(src, span_notice("<b>Server says:</b>\n \t [CONFIG_GET(string/soft_popcap_message)]"))
 
+	SSloadouts.update_counter(null, client.prefs.loadout)
+	SSloadouts.update_new_player(src)
+
 	sight |= SEE_TURFS
 
 	client.playtitlemusic()
