@@ -146,6 +146,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	amount_per_transfer_from_this = 20
 	possible_transfer_amounts = list(5,10,15,20,25,30,50,100)
+	fill_icon_thresholds = list(0)
 	volume = 100
 	flags_inv = HIDEHAIR
 	slot_flags = ITEM_SLOT_HEAD
@@ -215,10 +216,3 @@
 		slot_equipment_priority.Insert(index, ITEM_SLOT_HEAD)
 		return
 	return ..()
-
-/obj/item/reagent_containers/glass/bucket/update_overlays()
-	. = ..()
-	if(reagents && reagents.total_volume)
-		var/mutable_appearance/M = mutable_appearance(icon, "bucket_overlay")
-		M.color = mix_color_from_reagents(reagents.reagent_list)
-		.+=M

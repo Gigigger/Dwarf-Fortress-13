@@ -5,8 +5,6 @@
 	icon_state = "bag"
 	volume = 80
 	allowed_reagents = list(/datum/reagent/grain, /datum/reagent/flour)
-	amount_per_transfer_from_this = 10
-	possible_transfer_amounts = list()
 
 /obj/item/reagent_containers/glass/sack/update_icon(updates)
 	. = ..()
@@ -25,7 +23,8 @@
 	righthand_file = 'dwarfs/icons/mob/inhand/righthand.dmi'
 	inhand_icon_state = "cooking_pot"
 	icon_state = "cooking_pot_open"
-	amount_per_transfer_from_this = 10
+	fill_icon_state = "cooking_pot"
+	fill_icon_thresholds = list(0)
 	volume = 100
 	materials = /datum/material/iron
 	item_flags = parent_type::item_flags | ITEM_SMELTABLE
@@ -46,12 +45,10 @@
 		icon_state = "cooking_pot_closed"
 
 /obj/item/reagent_containers/glass/cooking_pot/update_overlays()
+	if(!open)
+		return list()
 	. = ..()
-	if(open && reagents.total_volume)
-		var/mutable_appearance/M = mutable_appearance("dwarfs/icons/items/kitchen.dmi", "cooking_pot_overlay")
-		M.color = mix_color_from_reagents(reagents.reagent_list)
-		. += M
-	if(!contents.len || !open)
+	if(!contents.len)
 		return
 	for(var/i=1;i<=min(contents.len,4);i++)
 		var/obj/item/I = contents[i]
@@ -77,7 +74,7 @@
 
 /obj/item/reagent_containers/glass/cooking_pot/attack_self_secondary(mob/user, modifiers)
 	open = !open
-	update_appearance()
+	update_appearance(UPDATE_ICON)
 	to_chat(user, span_notice("You [open?"open":"close"] [src]."))
 	amount_per_transfer_from_this = open ? initial(amount_per_transfer_from_this) : 0 // cannot transfer reagents when closed
 
@@ -245,17 +242,12 @@
 	desc = "A trusty companion for a thirst-quenching break."
 	icon = 'dwarfs/icons/items/containers.dmi'
 	volume = 20
-
-/obj/item/reagent_containers/glass/cup/update_overlays()
-	. = ..()
-	if(reagents.total_volume)
-		var/mutable_appearance/M = mutable_appearance(icon, "cup_overlay")
-		M.color = mix_color_from_reagents(reagents.reagent_list)
-		. += M
+	fill_icon_thresholds = list(0)
 
 /obj/item/reagent_containers/glass/cup/wooden
 	name = "wooden cup"
 	icon_state = "wooden_cup"
+	fill_icon_state = "wooden_cup"
 	materials = list(PART_PLANKS=/datum/material/wood/pine/treated, PART_INGOT=/datum/material/iron)
 
 /obj/item/reagent_containers/glass/cup/wooden/build_material_icon(_file, state)
@@ -264,6 +256,7 @@
 /obj/item/reagent_containers/glass/cup/metal
 	name = "metal cup"
 	icon_state = "metal_cup"
+	fill_icon_state = "metal_cup"
 	materials = /datum/material/iron
 	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 
