@@ -153,6 +153,8 @@
 	heat = 1000
 	light_color = LIGHT_COLOR_ORANGE
 	light_system = MOVABLE_LIGHT
+	sound_on = 'dwarfs/sounds/effects/ignite3.ogg'
+	sound_off = 'dwarfs/sounds/effects/extinguish2.ogg'
 	/// How many seconds of fuel we have left
 	var/fuel = 0
 	var/icon_state_burned
