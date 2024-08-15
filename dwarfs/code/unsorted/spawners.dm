@@ -32,6 +32,12 @@
 	O:fuel = 500
 	O.apply_material(O.materials)
 	O.update_stats(6)
+	O.update_appearance()
+	O = new/obj/structure/forge(RELATIVE_TURF(lleft, -1,0,0))
+	O:fuel = 500
+	O.apply_material(O.materials)
+	O.update_stats(6)
+	O.update_appearance()
 	return INITIALIZE_HINT_QDEL
 
 /obj/effect/spawner/metal_showcase/Initialize(mapload)
