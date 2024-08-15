@@ -91,6 +91,16 @@
 		update_appearance()
 		to_chat(user, span_notice("You light up [src]."))
 		playsound(src, 'dwarfs/sounds/effects/ignite.ogg', 50, TRUE)
+	else if(working && I.is_drainable())
+		if(!I.reagents.remove_reagent(/datum/reagent/water, rand(8, 15)))
+			to_chat(user, span_warning("\The [I] does not contain enough water to extinguish [src]."))
+			return
+		to_chat(user, span_notice("You extinguish \the [src]."))
+		playsound(src, 'dwarfs/sounds/effects/extinguish.ogg', 60, TRUE)
+		working = FALSE
+		set_light_on(FALSE)
+		update_light()
+		update_appearance()
 	else
 		return ..()
 

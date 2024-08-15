@@ -113,6 +113,18 @@
 		qdel(I)
 		user.visible_message(span_notice("[user] throws [I] into [src]."), span_notice("You throw [I] into [src]."))
 		update_appearance()
+	else if(working && I.is_drainable())
+		if(!I.reagents.remove_reagent(/datum/reagent/water, rand(8, 15)))
+			to_chat(user, span_warning("\The [I] does not contain enough water to extinguish [src]."))
+			return
+		to_chat(user, span_notice("You extinguish \the [src]."))
+		playsound(src, 'dwarfs/sounds/effects/extinguish.ogg', 60, TRUE)
+		working = FALSE
+		particles.spawning = 0
+		set_light_on(FALSE)
+		update_light()
+		update_appearance()
+		remove_timer()
 	else
 		. = ..()
 

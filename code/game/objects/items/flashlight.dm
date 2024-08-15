@@ -12,8 +12,10 @@
 	light_range = 4
 	light_power = 1
 	light_on = FALSE
-	var/on = FALSE
 	light_color = "#ffeac1"
+	var/on = FALSE
+	var/sound_on = 'sound/weapons/magin.ogg'
+	var/sound_off = 'sound/weapons/magout.ogg'
 
 
 /obj/item/flashlight/Initialize()
@@ -33,13 +35,16 @@
 
 
 /obj/item/flashlight/attack_self(mob/user)
-	on = !on
-	playsound(user, on ? 'sound/weapons/magin.ogg' : 'sound/weapons/magout.ogg', 40, TRUE)
+	toggle_on(user)
+	return TRUE
+
+/obj/item/flashlight/proc/toggle_on(mob/user, enable=null)
+	on = isnull(enable) ? !on : enable
+	playsound(src, on ? sound_on : sound_off, 40, TRUE)
 	update_brightness(user)
 	for(var/X in actions)
 		var/datum/action/A = X
 		A.UpdateButtonIcon()
-	return 1
 
 /obj/item/flashlight/suicide_act(mob/living/carbon/human/user)
 	if (user.is_blind())
@@ -145,12 +150,13 @@
 	inhand_icon_state = "flare"
 	worn_icon_state = "flare"
 	actions_types = list()
-	/// How many seconds of fuel we have left
-	var/fuel = 0
-	var/icon_state_burned
 	heat = 1000
 	light_color = LIGHT_COLOR_ORANGE
 	light_system = MOVABLE_LIGHT
+	/// How many seconds of fuel we have left
+	var/fuel = 0
+	var/icon_state_burned
+	var/can_disable = FALSE
 
 /obj/item/flashlight/fueled/Initialize()
 	. = ..()
@@ -160,11 +166,19 @@
 	. = ..()
 	STOP_PROCESSING(SSobj, src)
 
+/obj/item/flashlight/fueled/toggle_on(mob/user, enable)
+	. = ..()
+	if(on)
+		damtype = BURN
+		START_PROCESSING(SSobj, src)
+	else
+		turned_off()
+
 /obj/item/flashlight/fueled/process(delta_time)
 	open_flame(heat)
 	fuel = max(fuel -= delta_time, 0)
 	if(fuel <= 0 || !on)
-		turn_off()
+		toggle_on(null, FALSE)
 		if(!fuel)
 			if(icon_state_burned)
 				icon_state = "[initial(icon_state)]_burned"
@@ -175,7 +189,7 @@
 /obj/item/flashlight/fueled/ignition_effect(atom/A, mob/user)
 	. = fuel && on ? span_notice("[user] ignites [A.name] with [src.name].")  : ""
 
-/obj/item/flashlight/fueled/proc/turn_off()
+/obj/item/flashlight/fueled/proc/turned_off()
 	on = FALSE
 	damtype = initial(src.damtype)
 	if(ismob(loc))
@@ -198,16 +212,13 @@
 	if(fuel <= 0)
 		to_chat(user, span_warning("[src] doesn't have any fuel!"))
 		return
-	if(on)
+	if(on && !can_disable)
 		to_chat(user, span_warning("[src] is already burning!"))
 		return
 
 	. = ..()
-	// All good, turn it on.
 	if(.)
-		user.visible_message(span_notice("[user] ignites [src].") , span_notice("You ignite [src]!"))
-		damtype = BURN
-		START_PROCESSING(SSobj, src)
+		user.visible_message(span_notice("[user] [on ? "ignites" : "extinguishes"] [src].") , span_notice("You [on ? "ignite" : "extinguish"] [src]."))
 
 /obj/item/flashlight/fueled/get_temperature()
 	return on * heat
@@ -229,7 +240,7 @@
 	. = ..()
 	fuel = rand(8000, 9000)
 
-/obj/item/flashlight/fueled/torch/turn_off()
+/obj/item/flashlight/fueled/torch/turned_off()
 	. = ..()
 	if(istype(loc, /obj/structure/sconce))
 		loc.update_appearance()
@@ -261,9 +272,11 @@
 	righthand_file = 'dwarfs/icons/mob/inhand/righthand.dmi'
 	light_color = LIGHT_COLOR_YELLOW
 	light_system = MOVABLE_LIGHT
+	can_disable = TRUE
 
-/obj/item/flashlight/fueled/candle/turn_off()
-	qdel(src) // candle disappears once it's burned out
+/obj/item/flashlight/fueled/candle/turned_off()
+	if(fuel <= 0)
+		qdel(src) // candle disappears once it's burned out
 
 /obj/item/flashlight/fueled/lantern
 	name = "lantern"
@@ -277,6 +290,7 @@
 	light_color = "#e7c16d"
 	slot_flags = ITEM_SLOT_BELT
 	materials = /datum/material/iron
+	can_disable = TRUE
 
 /obj/item/flashlight/fueled/lantern/build_material_icon(_file, state)
 	return apply_palettes(..(), materials)
@@ -302,7 +316,7 @@
 	. = ..()
 	. += fuel ? "\nIt has a candle inside." : "\n\The [src] is empty."
 
-/obj/item/flashlight/fueled/lantern/turn_off()
+/obj/item/flashlight/fueled/lantern/turned_off()
 	worn_icon_state = "lantern"
 	. = ..()
 

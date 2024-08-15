@@ -1,5 +1,3 @@
-// TODO: add particle effects when working; add sounds; add light changes when lighting up
-
 /obj/structure/stove
 	name = "stove"
 	desc = "Slowfire stove. Great for cooking and boiling stuff."
@@ -115,6 +113,17 @@
 		user.visible_message(span_notice("[user] throws [I] into [src]."), span_notice("You throw [I] into [src]."))
 		qdel(I)
 		update_appearance()
+	else if(working && I.is_drainable())
+		if(!I.reagents.remove_reagent(/datum/reagent/water, rand(8, 15)))
+			to_chat(user, span_warning("\The [I] does not contain enough water to extinguish [src]."))
+			return
+		to_chat(user, span_notice("You extinguish \the [src]."))
+		playsound(src, 'dwarfs/sounds/effects/extinguish.ogg', 60, TRUE)
+		working = FALSE
+		set_light_on(FALSE)
+		update_light()
+		update_appearance()
+		remove_timer(3)
 	else
 		. = ..()
 
@@ -175,6 +184,7 @@
 		update_light()
 		visible_message(span_notice("[src]'s flames die out."))
 		update_appearance()
+		remove_timer(3)
 		return
 	fuel = max(fuel-fuel_consumption, 0)
 

@@ -58,6 +58,9 @@
 		qdel(I)
 		update_appearance()
 	else if(I.get_temperature())
+		if(working)
+			to_chat(user, span_warning("[src] is already lit."))
+			return
 		if(!fuel)
 			to_chat(user, span_warning("[src] has no fuel."))
 			return
@@ -81,5 +84,16 @@
 					to_chat(user, span_notice("You heat up [N]."))
 		else
 			to_chat(user, span_warning("[I] has nothing to heat up."))
+	else if(working && I.is_drainable())
+		if(!I.reagents.remove_reagent(/datum/reagent/water, rand(8, 15)))
+			to_chat(user, span_warning("\The [I] does not contain enough water to extinguish [src]."))
+			return
+		to_chat(user, span_notice("You extinguish \the [src]."))
+		playsound(src, 'dwarfs/sounds/effects/extinguish.ogg', 60, TRUE)
+		working = FALSE
+		particles.spawning = 0
+		set_light_on(FALSE)
+		update_light()
+		update_appearance()
 	else
 		return ..()
