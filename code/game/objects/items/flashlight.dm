@@ -198,6 +198,10 @@
 		var/mob/U = loc
 		update_brightness(U)
 		U.regenerate_icons() // because we don't know where the worn item is
+	else if(isobj(loc)) // lanterns can be on fences and need to be updated when they run out
+		update_brightness(null)
+		var/obj/O = loc
+		O.update_appearance()
 	else
 		update_brightness(null)
 

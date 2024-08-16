@@ -650,3 +650,31 @@
 	reqs = list(PART_PLANKS=8, PART_INGOT=1)
 	cat = BLUEPRINT_CAT_CRAFTSMANSHIP
 	build_exp = 100
+
+/obj/structure/blueprint/stone_fence
+	name = "stone fence"
+	target_structure = /obj/structure/fence/stone
+	reqs = list(PART_STONE=3)
+	cat = BLUEPRINT_CAT_CONSTRUCTION
+	build_exp = 13
+
+/obj/structure/blueprint/wood_fence
+	name = "wooden fence"
+	target_structure = /obj/structure/fence/wooden
+	reqs = list(PART_PLANKS=3)
+	cat = BLUEPRINT_CAT_CONSTRUCTION
+	build_exp = 13
+
+/obj/structure/blueprint/wood_gate
+	name = "wooden gate"
+	target_structure = /obj/structure/gate/wooden
+	reqs = list(PART_PLANKS=5)
+	cat = BLUEPRINT_CAT_CONSTRUCTION
+	build_exp = 21
+
+/obj/structure/blueprint/stone_gate
+	name = "stone gate"
+	target_structure = /obj/structure/gate/stone
+	reqs = list(PART_STONE=5, PART_INGOT=1)
+	cat = BLUEPRINT_CAT_CONSTRUCTION
+	build_exp = 30
