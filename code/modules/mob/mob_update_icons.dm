@@ -66,3 +66,11 @@
 
 /mob/proc/update_inv_ears()
 	return
+
+// helpers to decide what icon & icon_state to used based on species
+
+/mob/proc/get_used_icon(default_icon, prioritized_icon, spec_icon, icon_state)
+	return prioritized_icon || default_icon
+
+/mob/proc/get_used_icon_state(default_icon, prioritized_icon, spec_icon, icon_state)
+	return icon_state

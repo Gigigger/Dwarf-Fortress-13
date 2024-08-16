@@ -122,12 +122,15 @@ There are several things that need to be remembered:
 
 		var/mutable_appearance/uniform_overlay
 
+		var/used_icon = get_used_icon(/datum/species::uniform_icon, w_uniform.worn_icon, dna.species.uniform_icon, target_overlay)
+		target_overlay = get_used_icon_state(/datum/species::uniform_icon, w_uniform.worn_icon, dna.species.uniform_icon, target_overlay)
+
 		if(dna?.species.sexes)
 			if(body_type == FEMALE && U.fitted != NO_FEMALE_UNIFORM)
-				uniform_overlay = U.build_worn_icon(default_layer = UNIFORM_LAYER, default_icon_file = 'icons/mob/clothing/under/default.dmi', isinhands = FALSE, femaleuniform = U.fitted, override_state = target_overlay)
+				uniform_overlay = U.build_worn_icon(default_layer = UNIFORM_LAYER, default_icon_file = used_icon, isinhands = FALSE, femaleuniform = U.fitted, override_state = target_overlay)
 
 		if(!uniform_overlay)
-			uniform_overlay = U.build_worn_icon(default_layer = UNIFORM_LAYER, default_icon_file = 'icons/mob/clothing/under/default.dmi', isinhands = FALSE, override_state = target_overlay)
+			uniform_overlay = U.build_worn_icon(default_layer = UNIFORM_LAYER, default_icon_file = used_icon, isinhands = FALSE, override_state = target_overlay)
 
 		if(OFFSET_UNIFORM in dna.species.offset_features)
 			uniform_overlay.pixel_x += dna.species.offset_features[OFFSET_UNIFORM][1]
@@ -162,10 +165,10 @@ There are several things that need to be remembered:
 			if(hud_used.inventory_shown)
 				client.screen += gloves
 		update_observer_view(gloves,1)
-		var/used_icon = /datum/species::gloves_icon
-		if(icon_exists(dna.species.gloves_icon, gloves.worn_icon_state || gloves.icon_state))
-			used_icon = dna.species.gloves_icon
-		overlays_standing[GLOVES_LAYER] = gloves.build_worn_icon(default_layer = GLOVES_LAYER, default_icon_file = used_icon)
+		var/used_icon_state = gloves.worn_icon_state || gloves.icon_state
+		var/used_icon = get_used_icon(/datum/species::gloves_icon, gloves.worn_icon, dna.species.gloves_icon, used_icon_state)
+		used_icon_state = get_used_icon_state(/datum/species::gloves_icon, gloves.worn_icon, dna.species.gloves_icon, used_icon_state)
+		overlays_standing[GLOVES_LAYER] = gloves.build_worn_icon(default_layer = GLOVES_LAYER, default_icon_file = used_icon, override_state=used_icon_state)
 		gloves_overlay = overlays_standing[GLOVES_LAYER]
 		if(OFFSET_GLOVES in dna.species.offset_features)
 			gloves_overlay.pixel_x += dna.species.offset_features[OFFSET_GLOVES][1]
@@ -191,10 +194,10 @@ There are several things that need to be remembered:
 				client.screen += glasses				//Either way, add the item to the HUD
 		update_observer_view(glasses,1)
 		if(!(head && (head.flags_inv & HIDEEYES)) && !(wear_mask && (wear_mask.flags_inv & HIDEEYES)))
-			var/used_icon = /datum/species::eyes_icon
-			if(icon_exists(dna.species.eyes_icon, glasses.worn_icon_state || glasses.icon_state))
-				used_icon = dna.species.eyes_icon
-			overlays_standing[GLASSES_LAYER] = glasses.build_worn_icon(default_layer = GLASSES_LAYER, default_icon_file = used_icon)
+			var/used_icon_state = glasses.worn_icon_state || glasses.icon_state
+			var/used_icon = get_used_icon(/datum/species::eyes_icon, glasses.worn_icon, dna.species.eyes_icon, used_icon_state)
+			used_icon_state = get_used_icon_state(/datum/species::eyes_icon, glasses.worn_icon, dna.species.eyes_icon, used_icon_state)
+			overlays_standing[GLASSES_LAYER] = glasses.build_worn_icon(default_layer = GLASSES_LAYER, default_icon_file = used_icon, override_state=used_icon_state)
 
 		var/mutable_appearance/glasses_overlay = overlays_standing[GLASSES_LAYER]
 		if(glasses_overlay)
@@ -221,10 +224,10 @@ There are several things that need to be remembered:
 			if(hud_used.inventory_shown)			//if the inventory is open
 				client.screen += ears					//add it to the client's screen
 		update_observer_view(ears,1)
-		var/used_icon = /datum/species::ears_icon
-		if(icon_exists(dna.species.ears_icon, ears.worn_icon_state || ears.icon_state))
-			used_icon = dna.species.ears_icon
-		overlays_standing[EARS_LAYER] = ears.build_worn_icon(default_layer = EARS_LAYER, default_icon_file = used_icon)
+		var/used_icon_state = ears.worn_icon_state || ears.icon_state
+		var/used_icon = get_used_icon(/datum/species::ears_icon, ears.worn_icon, dna.species.ears_icon, used_icon_state)
+		used_icon_state = get_used_icon_state(/datum/species::ears_icon, ears.worn_icon, dna.species.ears_icon, used_icon_state)
+		overlays_standing[EARS_LAYER] = ears.build_worn_icon(default_layer = EARS_LAYER, default_icon_file = used_icon, override_state=used_icon_state)
 		var/mutable_appearance/ears_overlay = overlays_standing[EARS_LAYER]
 		if(OFFSET_EARS in dna.species.offset_features)
 			ears_overlay.pixel_x += dna.species.offset_features[OFFSET_EARS][1]
@@ -249,10 +252,10 @@ There are several things that need to be remembered:
 			if(hud_used.inventory_shown)			//if the inventory is open
 				client.screen += shoes					//add it to client's screen
 		update_observer_view(shoes,1)
-		var/used_icon = /datum/species::shoes_icon
-		if(icon_exists(dna.species.shoes_icon, shoes.worn_icon_state || shoes.icon_state))
-			used_icon = dna.species.shoes_icon
-		overlays_standing[SHOES_LAYER] = shoes.build_worn_icon(default_layer = SHOES_LAYER, default_icon_file = used_icon)
+		var/used_icon_state = shoes.worn_icon_state || shoes.icon_state
+		var/used_icon = get_used_icon(/datum/species::shoes_icon, shoes.worn_icon, dna.species.shoes_icon, used_icon_state)
+		used_icon_state = get_used_icon_state(/datum/species::shoes_icon, shoes.worn_icon, dna.species.shoes_icon, used_icon_state)
+		overlays_standing[SHOES_LAYER] = shoes.build_worn_icon(default_layer = SHOES_LAYER, default_icon_file = used_icon, override_state=used_icon_state)
 		var/mutable_appearance/shoes_overlay = overlays_standing[SHOES_LAYER]
 		if(OFFSET_SHOES in dna.species.offset_features)
 			shoes_overlay.pixel_x += dna.species.offset_features[OFFSET_SHOES][1]
@@ -274,10 +277,10 @@ There are several things that need to be remembered:
 		if(client && hud_used?.hud_shown)
 			client.screen += s_store
 		update_observer_view(s_store)
-		var/used_icon = /datum/species::s_store_icon
-		if(icon_exists(dna.species.s_store_icon, s_store.worn_icon_state || s_store.icon_state))
-			used_icon = dna.species.s_store_icon
-		overlays_standing[SUIT_STORE_LAYER]	= s_store.build_worn_icon(default_layer = SUIT_STORE_LAYER, default_icon_file=used_icon)
+		var/used_icon_state = s_store.worn_icon_state || s_store.icon_state
+		var/used_icon = get_used_icon(/datum/species::s_store_icon, s_store.worn_icon, dna.species.s_store_icon, used_icon_state)
+		used_icon_state = get_used_icon_state(/datum/species::s_store_icon, s_store.worn_icon, dna.species.s_store_icon, used_icon_state)
+		overlays_standing[SUIT_STORE_LAYER]	= s_store.build_worn_icon(default_layer = SUIT_STORE_LAYER, default_icon_file=used_icon, override_state=used_icon_state)
 		var/mutable_appearance/s_store_overlay = overlays_standing[SUIT_STORE_LAYER]
 		if(OFFSET_S_STORE in dna.species.offset_features)
 			s_store_overlay.pixel_x += dna.species.offset_features[OFFSET_S_STORE][1]
@@ -310,10 +313,10 @@ There are several things that need to be remembered:
 		if(client && hud_used?.hud_shown)
 			client.screen += belt
 		update_observer_view(belt)
-		var/used_icon = /datum/species::belt_icon
-		if(icon_exists(dna.species.belt_icon, belt.worn_icon_state || belt.icon_state))
-			used_icon = dna.species.belt_icon
-		overlays_standing[BELT_LAYER] = belt.build_worn_icon(default_layer = BELT_LAYER, default_icon_file = used_icon)
+		var/used_icon_state = belt.worn_icon_state || belt.icon_state
+		var/used_icon = get_used_icon(/datum/species::belt_icon, belt.worn_icon, dna.species.belt_icon, used_icon_state)
+		used_icon_state = get_used_icon_state(/datum/species::belt_icon, belt.worn_icon, dna.species.belt_icon, used_icon_state)
+		overlays_standing[BELT_LAYER] = belt.build_worn_icon(default_layer = BELT_LAYER, default_icon_file = used_icon, override_state=used_icon_state)
 		var/mutable_appearance/belt_overlay = overlays_standing[BELT_LAYER]
 		if(OFFSET_BELT in dna.species.offset_features)
 			belt_overlay.pixel_x += dna.species.offset_features[OFFSET_BELT][1]
@@ -337,10 +340,10 @@ There are several things that need to be remembered:
 			if(hud_used.inventory_shown)
 				client.screen += wear_suit
 		update_observer_view(wear_suit,1)
-		var/used_icon = /datum/species::suit_icon
-		if(icon_exists(dna.species.suit_icon, wear_suit.worn_icon_state || wear_suit.icon_state))
-			used_icon = dna.species.suit_icon
-		overlays_standing[SUIT_LAYER] = wear_suit.build_worn_icon(default_layer = SUIT_LAYER, default_icon_file = used_icon)
+		var/used_icon_state = wear_suit.worn_icon_state || wear_suit.icon_state
+		var/used_icon = get_used_icon(/datum/species::suit_icon, wear_suit.worn_icon, dna.species.suit_icon, used_icon_state)
+		used_icon_state = get_used_icon_state(/datum/species::suit_icon, wear_suit.worn_icon, dna.species.suit_icon, used_icon_state)
+		overlays_standing[SUIT_LAYER] = wear_suit.build_worn_icon(default_layer = SUIT_LAYER, default_icon_file = used_icon, override_state=used_icon_state)
 		var/mutable_appearance/suit_overlay = overlays_standing[SUIT_LAYER]
 		if(OFFSET_SUIT in dna.species.offset_features)
 			suit_overlay.pixel_x += dna.species.offset_features[OFFSET_SUIT][1]

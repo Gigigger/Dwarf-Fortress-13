@@ -123,10 +123,10 @@
 
 	if(wear_mask)
 		if(!(check_obscured_slots() & ITEM_SLOT_MASK))
-			var/used_icon = /datum/species::mask_icon
-			if(icon_exists(dna.species.mask_icon, wear_mask.worn_icon_state || wear_mask.icon_state))
-				used_icon = dna.species.mask_icon
-			overlays_standing[FACEMASK_LAYER] = wear_mask.build_worn_icon(default_layer = FACEMASK_LAYER, default_icon_file = used_icon)
+			var/used_icon_state = wear_mask.worn_icon_state || wear_mask.icon_state
+			var/used_icon = get_used_icon(/datum/species::mask_icon, wear_mask.worn_icon, dna.species.mask_icon, used_icon_state)
+			used_icon_state = get_used_icon_state(/datum/species::mask_icon, wear_mask.worn_icon, dna.species.mask_icon, used_icon_state)
+			overlays_standing[FACEMASK_LAYER] = wear_mask.build_worn_icon(default_layer = FACEMASK_LAYER, default_icon_file = used_icon, override_state=used_icon_state)
 		update_hud_wear_mask(wear_mask)
 
 	apply_overlay(FACEMASK_LAYER)
@@ -140,10 +140,10 @@
 
 	if(wear_neck)
 		if(!(check_obscured_slots() & ITEM_SLOT_NECK))
-			var/used_icon = /datum/species::neck_icon
-			if(icon_exists(dna.species.neck_icon, wear_neck.worn_icon_state || wear_neck.icon_state))
-				used_icon = dna.species.neck_icon
-			overlays_standing[NECK_LAYER] = wear_neck.build_worn_icon(default_layer = NECK_LAYER, default_icon_file = used_icon)
+			var/used_icon_state = wear_neck.worn_icon_state || wear_neck.icon_state
+			var/used_icon = get_used_icon(/datum/species::neck_icon, wear_neck.worn_icon, dna.species.neck_icon, used_icon_state)
+			used_icon_state = get_used_icon_state(/datum/species::neck_icon, wear_neck.worn_icon, dna.species.neck_icon, used_icon_state)
+			overlays_standing[NECK_LAYER] = wear_neck.build_worn_icon(default_layer = NECK_LAYER, default_icon_file = used_icon, override_state=used_icon_state)
 		update_hud_neck(wear_neck)
 
 	apply_overlay(NECK_LAYER)
@@ -156,10 +156,10 @@
 		inv.update_icon()
 
 	if(back)
-		var/used_icon = /datum/species::back_icon
-		if(icon_exists(dna.species.back_icon, back.worn_icon_state || back.icon_state))
-			used_icon = dna.species.back_icon
-		overlays_standing[BACK_LAYER] = back.build_worn_icon(default_layer = BACK_LAYER, default_icon_file = used_icon)
+		var/used_icon_state = back.worn_icon_state || back.icon_state
+		var/used_icon = get_used_icon(/datum/species::back_icon, back.worn_icon, dna.species.back_icon, used_icon_state)
+		used_icon_state = get_used_icon_state(/datum/species::back_icon, back.worn_icon, dna.species.back_icon, used_icon_state)
+		overlays_standing[BACK_LAYER] = back.build_worn_icon(default_layer = BACK_LAYER, default_icon_file = used_icon, override_state=used_icon_state)
 		update_hud_back(back)
 
 	apply_overlay(BACK_LAYER)
@@ -175,10 +175,10 @@
 		inv.update_icon()
 
 	if(head)
-		var/used_icon = /datum/species::head_icon
-		if(icon_exists(dna.species.head_icon, head.worn_icon_state || head.icon_state))
-			used_icon = dna.species.head_icon
-		overlays_standing[HEAD_LAYER] = head.build_worn_icon(default_layer = HEAD_LAYER, default_icon_file = used_icon)
+		var/used_icon_state = head.worn_icon_state || head.icon_state
+		var/used_icon = get_used_icon(/datum/species::head_icon, head.worn_icon, dna.species.head_icon, used_icon_state)
+		used_icon_state = get_used_icon_state(/datum/species::head_icon, head.worn_icon, dna.species.head_icon, used_icon_state)
+		overlays_standing[HEAD_LAYER] = head.build_worn_icon(default_layer = HEAD_LAYER, default_icon_file = used_icon, override_state=used_icon_state)
 		update_hud_head(head)
 
 	apply_overlay(HEAD_LAYER)
@@ -309,3 +309,21 @@
 		overlays_standing[BODYPARTS_LAYER] = limb_icon_cache[icon_render_key]
 		apply_overlay(BODYPARTS_LAYER)
 	update_damage_overlays()
+
+/mob/living/carbon/get_used_icon(default_icon, prioritized_icon, spec_icon, icon_state)
+	if(icon_exists(prioritized_icon, "[icon_state]_[dna.species.id]"))
+		return prioritized_icon
+	else if(icon_exists(spec_icon, icon_state))
+		return spec_icon
+	else
+		return default_icon
+
+/mob/living/carbon/get_used_icon_state(default_icon, prioritized_icon, spec_icon, icon_state)
+	if(icon_exists(prioritized_icon, "[icon_state]_[dna.species.id]"))
+		return "[icon_state]_[dna.species.id]"
+	else if(icon_exists(spec_icon, icon_state))
+		return icon_state
+	else if(icon_exists(default_icon, "[icon_state]_[dna.species.id]"))
+		return "[icon_state]_[dna.species.id]"
+	else
+		return icon_state
