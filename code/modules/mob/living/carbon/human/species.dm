@@ -364,6 +364,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		var/obj/item/thing = C.get_item_by_slot(slot_id)
 		if(thing && (!thing.species_exception || !is_type_in_list(src,thing.species_exception)))
 			C.dropItemToGround(thing)
+	for(var/obj/item/item in C.get_equipped_items(FALSE))
+		if(item.blacklisted_species && !is_type_in_list(src, item.blacklisted_species))
+			C.dropItemToGround(item)
 	if(C.hud_used)
 		C.hud_used.update_locked_slots()
 
@@ -969,6 +972,9 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	if(slot in no_equip)
 		if(!I.species_exception || !is_type_in_list(src, I.species_exception))
 			return FALSE
+
+	if(I.blacklisted_species && is_type_in_list(src, I.blacklisted_species))
+		return FALSE
 
 	// if there's an item in the slot we want, fail
 	if(H.get_item_by_slot(slot))

@@ -148,6 +148,8 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 	var/list/attack_verb_simple
 	///list() of species types, if a species cannot put items in a certain slot, but species type is in list, it will be able to wear that item
 	var/list/species_exception = null
+	///list() of species types that are not allowed to wear this item
+	var/list/blacklisted_species = null
 
 	///A weakref to the mob who threw the item
 	var/datum/weakref/thrownby = null //I cannot verbally describe how much I hate this var
@@ -208,6 +210,8 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 		attack_verb_simple = string_list(attack_verb_simple)
 	if(species_exception)
 		species_exception = string_list(species_exception)
+	if(blacklisted_species)
+		blacklisted_species = string_list(blacklisted_species)
 
 	. = ..()
 	for(var/path in actions_types)
