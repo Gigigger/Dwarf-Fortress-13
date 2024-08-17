@@ -99,6 +99,7 @@
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 	materials = /datum/material/iron
 	item_flags = parent_type::item_flags | ITEM_SMELTABLE
+	blacklisted_species = list(/datum/species/goblin)
 
 /obj/item/clothing/head/heavy_plate/build_material_icon(_file, state)
 	return apply_palettes(..(), materials)
