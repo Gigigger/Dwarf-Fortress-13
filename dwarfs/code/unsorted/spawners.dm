@@ -60,6 +60,7 @@
 			for(var/item_path in armor)
 				var/obj/O = new item_path(T)
 				O.apply_material(material_type)
+				O.update_stats(6)
 				dwarf.equip_to_appropriate_slot(O)
 			var/obj/I = new/obj/item/ingot(T)
 			I.apply_material(material_type)
