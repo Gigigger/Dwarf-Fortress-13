@@ -81,6 +81,10 @@ GLOBAL_VAR(surface_z)
 	log_runtime("[type].generate_rest() at z[z]: [time]s")
 	#endif
 
+/datum/map_generator/caves/bottom/generate_rest()
+	spawn_rivers(z, 6)
+	. = ..()
+
 /datum/map_generator/caves/upper
 	hardness_level = 1
 	troll_amount = 4
