@@ -30,6 +30,9 @@ SUBSYSTEM_DEF(loadouts)
 	. = ..()
 
 /datum/controller/subsystem/loadouts/proc/update_panel()
+	if(!initialized)
+		return
+
 	update_maptext_string()
 	for(var/mob/M in GLOB.new_player_list)
 		update_new_player(M)

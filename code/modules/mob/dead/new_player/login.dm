@@ -22,7 +22,7 @@
 		to_chat(src, span_notice("<b>Server says:</b>\n \t [CONFIG_GET(string/soft_popcap_message)]"))
 
 	SSloadouts.update_counter(null, client.prefs.loadout)
-	SSloadouts.update_new_player(src)
+	SSloadouts.update_panel()
 
 	sight |= SEE_TURFS
 
