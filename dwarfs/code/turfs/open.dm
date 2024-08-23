@@ -34,12 +34,6 @@
 /turf/open/floor/rock/build_material_icon(_file, state)
 	return apply_palettes(..(), materials)
 
-/turf/open/floor/rock/Initialize(mapload)
-	. = ..()
-	if(z > 0 && z <= SSmapping.map_generators.len)
-		var/datum/map_generator/generator = SSmapping.map_generators["[z]"]
-		hardness = generator?.hardness_level ? generator?.hardness_level : src::hardness
-
 /turf/open/floor/rock/crowbar_act(mob/living/user, obj/item/I)
 	return FALSE
 
@@ -92,12 +86,6 @@
 	materials = /datum/material/sandstone
 	debris_type = /obj/structure/debris/rock
 	var/digged_up = FALSE
-
-/turf/open/floor/sand/Initialize(mapload)
-	. = ..()
-	if(z > 0 && z <= SSmapping.map_generators.len)
-		var/datum/map_generator/generator = SSmapping.map_generators["[z]"]
-		hardness = generator?.hardness_level ? generator?.hardness_level : src::hardness
 
 /turf/open/floor/sand/try_digdown(obj/item/I, mob/user)
 	to_chat(user, span_notice("You start digging [src]..."))

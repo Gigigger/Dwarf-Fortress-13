@@ -20,13 +20,6 @@
 	var/last_act = 0
 	var/defer_change = 0
 
-/turf/closed/mineral/Initialize()
-	. = ..()
-	icon = smooth_icon
-	if(z > 0 && z <= SSmapping.map_generators.len)
-		var/datum/map_generator/generator = SSmapping.map_generators["[z]"]
-		hardness = generator?.hardness_level ? generator?.hardness_level : src::hardness
-
 /turf/closed/mineral/set_smoothed_icon_state(new_junction)
 	. = ..()
 	update_appearance()

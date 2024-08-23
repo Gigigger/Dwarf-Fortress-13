@@ -12,9 +12,13 @@ GLOBAL_VAR(surface_z)
 		/obj/item/stack/ore/coal=40,
 		/obj/item/stack/ore/smeltable/copper=30)
 
-	var/troll_chance = 0
+	/// Amount of troll spawn attempts per chunk in generate_rest()
+	var/troll_amount = 0
 
 /datum/map_generator/caves/generate_turfs()
+	#ifdef TESTING
+	var/start_timeofday = REALTIMEOFDAY
+	#endif
 	if(!GLOB.temperature_seed)
 		GLOB.temperature_seed = rand(1, 2000)
 	var/list/height_values = fbm(world.maxx, world.maxy)
@@ -26,57 +30,60 @@ GLOBAL_VAR(surface_z)
 				continue
 			var/height = text2num(height_values[world.maxx * (y-1) + x])
 			var/temp = text2num(temp_values[world.maxx * (y-1) + x])
-			var/turf/turf_type
-			var/list/materials
 			switch(height)
 				if(-INFINITY to -0.7)
-					turf_type = /turf/open/water
+					T.ChangeTurfQuick(/turf/open/water, flags=CHANGETURF_DEFER_CHANGE)
 				if(-0.7 to -0.45)
-					turf_type = /turf/open/floor/dirt
-					prob_queue(1, "mobs", x, y, T.z)
-					prob_queue(2, "plants", x, y, T.z)
-					prob_queue(0.5, "forest", x, y, T.z)
+					T.ChangeTurfQuick(/turf/open/floor/dirt, flags=CHANGETURF_DEFER_CHANGE)
 				if(-0.45 to -0.3)
-					prob_queue(0.7, "mobs", x, y, T.z)
 					if(temp > 0)
-						turf_type = /turf/open/floor/rock
-						materials = /datum/material/sandstone
+						T = T.ChangeTurfQuick(/turf/open/floor/rock, /datum/material/sandstone, flags=CHANGETURF_DEFER_CHANGE)
+						T.set_hardness(hardness_level)
 					else
-						turf_type = /turf/open/floor/rock
-						materials = /datum/material/stone
+						T = T.ChangeTurfQuick(/turf/open/floor/rock, /datum/material/stone, flags=CHANGETURF_DEFER_CHANGE)
+						T.set_hardness(hardness_level)
 				if(-0.3 to INFINITY)
-					prob_queue(1, "ore", x, y, T.z)
 					if(temp > 0)
-						turf_type = /turf/closed/mineral/sand
+						T = T.ChangeTurfQuick(/turf/closed/mineral/sand, flags=CHANGETURF_DEFER_CHANGE)
+						T.set_hardness(hardness_level)
 					else
-						turf_type = /turf/closed/mineral/stone
-						prob_queue(troll_chance, "troll_rock", x, y, T.z)
-			T.ChangeTurfQuick(turf_type, materials)
+						T = T.ChangeTurfQuick(/turf/closed/mineral/stone, flags=CHANGETURF_DEFER_CHANGE)
+						T.set_hardness(hardness_level)
+	#ifdef TESTING
+	var/time = (REALTIMEOFDAY - start_timeofday) / 10
+	to_chat(world, span_warn("[type].generate_turfs() at z[z]: [time]s"))
+	log_runtime("[type].generate_turfs() at z[z]: [time]s")
+	#endif
 
 /datum/map_generator/caves/generate_rest()
-	for(var/list/data in post_queue["forest"])
-		var/turf/T = locate(data[1], data[2], data[3])
+	#ifdef TESTING
+	var/start_timeofday = REALTIMEOFDAY
+	#endif
+
+	for(var/turf/T in grid_turfs(z, 30, 1))
 		generate_forest(T)
 
-	for(var/list/data in post_queue["plants"])
-		var/turf/T = locate(data[1], data[2], data[3])
+	for(var/turf/T in grid_turfs(z, 30, 4))
 		generate_wild_plants(T, SSplants.cave_plants, 3, 7)
 
-	for(var/list/data in post_queue["mobs"])
-		var/turf/T = locate(data[1], data[2], data[3])
+	for(var/turf/T in grid_turfs(z, 30, 2))
 		generate_turf_fauna(T)
 
-	for(var/list/data in post_queue["ore"])
-		var/turf/T = locate(data[1], data[2], data[3])
+	for(var/turf/T in grid_turfs(z, 30, 2))
 		generate_ore(T)
 
-	for(var/list/data in post_queue["troll_rock"])
-		var/turf/closed/mineral/stone/T = locate(data[1], data[2], data[3])
+	for(var/turf/closed/mineral/stone/T in grid_turfs(z, 30, troll_amount))
 		T.has_troll = TRUE
+
+	#ifdef TESTING
+	var/time = (REALTIMEOFDAY - start_timeofday) / 10
+	to_chat(world, span_warn("[type].generate_rest() at z[z]: [time]s"))
+	log_runtime("[type].generate_rest() at z[z]: [time]s")
+	#endif
 
 /datum/map_generator/caves/upper
 	hardness_level = 1
-	troll_chance = 0.1
+	troll_amount = 4
 	ores = list(
 		/obj/item/stack/ore/smeltable/cassiterite = 30,
 		/obj/item/stack/ore/coal=40,
@@ -85,7 +92,7 @@ GLOBAL_VAR(surface_z)
 
 /datum/map_generator/caves/middle_upper
 	hardness_level = 2
-	troll_chance = 0.3
+	troll_amount = 8
 	ores = list(
 		/obj/item/stack/ore/smeltable/cassiterite = 30,
 		/obj/item/stack/ore/coal=20,
@@ -95,7 +102,7 @@ GLOBAL_VAR(surface_z)
 
 /datum/map_generator/caves/middle
 	hardness_level = 3
-	troll_chance = 0.5
+	troll_amount = 12
 	ores = list(
 		/obj/item/stack/ore/smeltable/aluminum=30,
 		/obj/item/stack/ore/coal=10,
@@ -107,7 +114,7 @@ GLOBAL_VAR(surface_z)
 
 /datum/map_generator/caves/middle_bottom
 	hardness_level = 4
-	troll_chance = 1
+	troll_amount = 18
 	ores = list(
 		/obj/item/stack/ore/smeltable/gold = 30,
 		/obj/item/stack/ore/smeltable/silver=30,
@@ -120,7 +127,7 @@ GLOBAL_VAR(surface_z)
 
 /datum/map_generator/caves/bottom
 	hardness_level = 5
-	troll_chance = 1.5
+	troll_amount = 25
 	ores = list(
 		/obj/item/stack/ore/smeltable/iron=5,
 		/obj/item/stack/ore/smeltable/silver=5,
@@ -135,6 +142,10 @@ GLOBAL_VAR(surface_z)
 	keys = list("plants", "mobs", "forest")
 
 /datum/map_generator/surface/generate_turfs()
+	#ifdef TESTING
+	var/start_timeofday = REALTIMEOFDAY
+	#endif
+
 	var/list/some_values = fbm(world.maxx, world.maxy)
 	for(var/y in 1 to world.maxy)
 		for(var/x in 1 to world.maxx)
@@ -142,37 +153,48 @@ GLOBAL_VAR(surface_z)
 			if(!(T.loc.type in allowed_areas))
 				continue
 			var/value = text2num(some_values[world.maxx * (y-1) + x])
-			var/turf/turf_type
 			switch(value)
 				if(-INFINITY to -0.6)
-					turf_type = /turf/open/water
+					T.ChangeTurfQuick(/turf/open/water, flags=CHANGETURF_DEFER_CHANGE)
 				if(-0.6 to -0.45)
-					turf_type = /turf/open/floor/sand
+					T.ChangeTurfQuick(/turf/open/floor/sand, flags=CHANGETURF_DEFER_CHANGE)
 				if(-0.45 to -0.3)
-					turf_type = /turf/open/floor/dirt
-					prob_queue(0.1, "mobs", x, y, T.z)
-					prob_queue(0.3, "plants", x, y, T.z)
+					T.ChangeTurfQuick(/turf/open/floor/dirt, flags=CHANGETURF_DEFER_CHANGE)
 				if(-0.3 to 0.4)
-					turf_type = /turf/open/floor/dirt/grass
-					prob_queue(0.1, "mobs", x, y, T.z)
-					prob_queue(0.5, "plants", x, y, T.z)
-					prob_queue(0.5, "forest", x, y, T.z)
+					continue
 				if(0.4 to INFINITY)
-					turf_type = /turf/closed/mineral/stone
-			T.ChangeTurfQuick(turf_type)
+					T.ChangeTurfQuick(/turf/closed/mineral/stone)
+
+	#ifdef TESTING
+	var/time = (REALTIMEOFDAY - start_timeofday) / 10
+	to_chat(world, span_warn("[type].generate_turfs() at z[z]: [time]s"))
+	log_runtime("[type].generate_turfs() at z[z]: [time]s")
+	#endif
 
 /datum/map_generator/surface/generate_rest()
-	for(var/list/data in post_queue["forest"])
-		var/turf/T = locate(data[1], data[2], data[3])
+	#ifdef TESTING
+	var/start_timeofday = REALTIMEOFDAY
+	#endif
+	// for(var/list/data in post_queue["forest"])
+	// 	var/turf/T = data[1]
+	for(var/turf/T in grid_turfs(z, 30, 1))
 		generate_forest(T)
 
-	for(var/list/data in post_queue["plants"])
-		var/turf/T = locate(data[1], data[2], data[3])
+	// for(var/list/data in post_queue["plants"])
+	// 	var/turf/T = data[1]
+	for(var/turf/T in grid_turfs(z, 30, 4))
 		generate_wild_plants(T, SSplants.surface_plants, 3, 7)
 
-	for(var/list/data in post_queue["mobs"])
-		var/turf/T = locate(data[1], data[2], data[3])
+	// for(var/list/data in post_queue["mobs"])
+	// 	var/turf/T = data[1]
+	for(var/turf/T in grid_turfs(z, 30, 2))
 		generate_turf_fauna(T)
+
+	#ifdef TESTING
+	var/time = (REALTIMEOFDAY - start_timeofday) / 10
+	to_chat(world, span_warn("[type].generate_rest() at z[z]: [time]s"))
+	log_runtime("[type].generate_rest() at z[z]: [time]s")
+	#endif
 
 /datum/map_generator/proc/generate_wild_plants(turf/center, list/plant_types, min_plants=1, max_plants=5)
 	var/plant_type = pick(plant_types)

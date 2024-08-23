@@ -748,7 +748,6 @@
 #include "code\game\turfs\open\lava.dm"
 #include "code\game\turfs\open\openspace.dm"
 #include "code\game\turfs\open\river.dm"
-#include "code\game\turfs\open\floor\mineral_floor.dm"
 #include "code\modules\actionspeed\_actionspeed_modifier.dm"
 #include "code\modules\actionspeed\modifiers\addiction.dm"
 #include "code\modules\actionspeed\modifiers\base.dm"

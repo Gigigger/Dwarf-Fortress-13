@@ -13,6 +13,60 @@
 #define Z_TURFS(ZLEVEL) block(1, 1, ZLEVEL, world.maxx, world.maxy, ZLEVEL)
 #define CULT_POLL_WAIT 2400
 
+/proc/distributed_turfs_z(z, min_distance, max_attempts=5)
+	var/chunk_size = min_distance > 20 ? min_distance : 20
+	var/turf/start = locate(world.maxx/2, world.maxy/2, z)
+	var/list/grid[round(world.maxx/chunk_size, 1)+1][round(world.maxy/chunk_size, 1)+1][new/list]
+	var/list/res = list(start)
+	var/list/active_points = list(start)
+
+	while(active_points.len)
+		var/turf/active_point = pick(active_points)
+
+		for(var/i in 1 to max_attempts)
+			var/newx = active_point.x+rand(-2*min_distance, 2*min_distance)
+			var/newy = active_point.y+rand(-2*min_distance, 2*min_distance)
+
+			if((newx <= 0 || newx > world.maxx) || (newy <= 0 || newy > world.maxy))
+				continue
+
+			var/turf/new_point = locate(newx, newy, z)
+
+			var/npgx = round(new_point.x/chunk_size, 1)+1
+			var/npgy = round(new_point.y/chunk_size, 1)+1
+
+			var/valid_point = TRUE
+
+			for(var/turf/point in grid[npgx][npgy])
+				if(get_dist(point, new_point) < min_distance)
+					valid_point = FALSE
+					break
+
+			if(valid_point)
+				grid[npgx][npgy] += new_point
+				res += new_point
+				active_points += new_point
+
+		active_points -= active_point
+
+	return res
+
+/proc/grid_turfs(z, grid_size, attempts)
+	var/list/res = list()
+
+	var/cx = round(world.maxx/grid_size, 1) + 1
+	var/cy = round(world.maxy/grid_size, 1) + 1
+
+	for(var/x in 0 to cx)
+		var/bx = x * grid_size
+		for(var/y in 0 to cy)
+			var/by = y * grid_size
+			for(var/t in 1 to attempts)
+				var/turf/T = locate(bx+rand(0, grid_size), by+rand(0, grid_size), z)
+				if(T)
+					res += T
+	return res
+
 /proc/get_area_name(atom/X, format_text = FALSE)
 	var/area/A = isarea(X) ? X : get_area(X)
 	if(!A)

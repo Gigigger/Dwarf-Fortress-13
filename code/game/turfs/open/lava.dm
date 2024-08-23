@@ -30,45 +30,6 @@
 	/// How much temperature we expose objects with
 	var/temperature_damage = 10000
 
-	var/spread = FALSE
-
-	var/turf/open/lava/magmus_top
-
-/turf/open/lava/Initialize(mapload)
-	. = ..()
-	if(!spread)
-		return
-	update_lava_effect()
-
-/turf/open/lava/proc/update_lava_effect()
-	if(!spread)
-		return
-
-	LAZYADD(SSliquids.liquid_turfs_list, src)
-
-	var/turf/top_turf = SSmapping.get_turf_above(src)
-	if(isopenspace(top_turf))
-		magmus_top = top_turf.ChangeTurf(/turf/open/lava)
-
-/turf/open/lava/spread_liquid()
-	var/list/temp_turf_list = list()
-	for(var/direction in GLOB.cardinals)
-		temp_turf_list += get_step(src, direction)
-
-	for(var/turf/T as() in temp_turf_list)
-
-		if(!T || isclosedturf(T) || islava(T))
-			continue
-
-		T.ChangeTurf(/turf/open/lava)
-
-	return TRUE
-
-/turf/open/lava/Destroy(force)
-	if(magmus_top)
-		magmus_top.ChangeTurf(/turf/open/openspace)
-	. = ..()
-
 /turf/open/lava/ex_act(severity, target)
 	contents_explosion(severity, target)
 

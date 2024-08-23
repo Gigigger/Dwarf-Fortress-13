@@ -133,9 +133,6 @@ GLOBAL_LIST_INIT(blacklisted_automated_baseturfs, typecacheof(list(
 		if(lighting_object && !lighting_object.needs_update)
 			lighting_object.update()
 
-	for(var/turf/open/lava/lava_tile in RANGE_TURFS(1, src))
-		lava_tile.update_lava_effect()
-
 	var/area/thisarea = get_area(W)
 	if(thisarea.lighting_effect)
 		W.vis_contents += thisarea.lighting_effect
@@ -167,13 +164,16 @@ GLOBAL_LIST_INIT(blacklisted_automated_baseturfs, typecacheof(list(
 /// Quicker ChangeTurf used by mapgen.
 /// Since we don't really need all that functionality just to place turfs.
 /// Speeds up the turfgen part by ~2x compared to regular ChangeTurf.
-/turf/proc/ChangeTurfQuick(path, list/materials)
+/turf/proc/ChangeTurfQuick(path, list/materials, flags = NONE)
 	changing_turf = TRUE
+	var/old_type = type
 	qdel(src)
 	var/turf/W = new path(src)
 	if(materials)
-		W.apply_material(materials)
-	W.AfterChange(NONE, path)
+		W.materials = materials
+		W.init_materials = TRUE
+	if(!(flags & CHANGETURF_DEFER_CHANGE))
+		W.AfterChange(flags, old_type)
 	return W
 
 /// Take off the top layer turf and replace it with the next baseturf down

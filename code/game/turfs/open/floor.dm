@@ -24,35 +24,12 @@
 
 	var/broken = FALSE
 	var/burnt = FALSE
-	var/list/broken_states
-	var/list/burnt_states
 
+/turf/open/floor/proc/get_broken_states()
+	return list()
 
-/turf/open/floor/Initialize(mapload)
-	. = ..()
-	if (broken_states)
-		stack_trace("broken_states defined at the object level for [type], move it to setup_broken_states()")
-	else
-		var/list/new_broken_states = setup_broken_states()
-		if(new_broken_states)
-			broken_states = new_broken_states
-	if (burnt_states)
-		stack_trace("burnt_states defined at the object level for [type], move it to setup_burnt_states()")
-	else
-		var/list/new_burnt_states = setup_burnt_states()
-		if(new_burnt_states)
-			burnt_states = string_list(new_burnt_states)
-	if(!broken && broken_states && (icon_state in broken_states))
-		broken = TRUE
-	if(!burnt && burnt_states && (icon_state in burnt_states))
-		burnt = TRUE
-
-
-/turf/open/floor/proc/setup_broken_states()
-	return
-
-/turf/open/floor/proc/setup_burnt_states()
-	return
+/turf/open/floor/proc/get_burnt_states()
+	return list()
 
 /turf/open/floor/proc/try_digdown(obj/item/I, mob/user)
 	var/dig_time = digging_tools[I.tool_behaviour]
@@ -125,17 +102,17 @@
 /turf/open/floor/proc/break_tile()
 	if(broken)
 		return
-	if(broken_states)
-		icon_state = pick(broken_states)
+	if(get_broken_states())
+		icon_state = pick(get_broken_states())
 	broken = 1
 
 /turf/open/floor/burn_tile()
 	if(broken || burnt)
 		return
-	if(LAZYLEN(burnt_states))
-		icon_state = pick(burnt_states)
+	if(LAZYLEN(get_burnt_states()))
+		icon_state = pick(get_burnt_states())
 	else
-		icon_state = pick(broken_states)
+		icon_state = pick(get_broken_states())
 	burnt = 1
 
 /turf/open/floor/proc/make_plating(force = FALSE)
