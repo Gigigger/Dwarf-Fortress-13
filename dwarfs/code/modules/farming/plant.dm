@@ -20,7 +20,7 @@
 	/// Last time it took damage
 	var/lastcycle_health
 	/// Path type list of items and their max quantity that can be produced at the last growth stage
-	var/list/produced = list()
+	var/list/produced = null
 	/// Last time it tried to grow something
 	var/lastcycle_produce
 	/// Amount of time between each try to grow new stuff
@@ -36,7 +36,7 @@
 	/// How long between two growth stages
 	var/growthdelta = 5 SECONDS
 	/// Growth modifiers that affect our plant e.g. fertilizer, soil quality, etc. This is a dictianory list for easy overwrites
-	var/list/growth_modifiers = list()
+	var/list/growth_modifiers = null
 	/// Last time the plant did an 'eat' tick
 	var/lastcycle_eat
 	/// How long between eat ticks
@@ -84,7 +84,7 @@
 	. = ..()
 	pixel_w = base_pixel_x + rand(-spread_x, spread_x)
 	pixel_z = base_pixel_y + rand(0, spread_y)
-	if(!dummy)
+	if(!dummy && ((growthstage < growthstages) || produced))
 		START_PROCESSING(SSplants, src)
 	if(!icon_ripe)
 		icon_ripe = "[species]-ripe"
@@ -92,10 +92,12 @@
 		icon_dead = "[species]-dead"
 	if(health != maxhealth)
 		maxhealth = health
+	if(produced)
+		produced = string_list(produced)
 	lastcycle_produce = world.time
 	lastcycle_health = world.time
 	lastcycle_eat = world.time
-	update_appearance()
+	update_appearance(UPDATE_ICON)
 
 /obj/structure/plant/Destroy()
 	. = ..()
@@ -108,8 +110,9 @@
 	var/needs_update = 0 // Checks if the icon needs updating so we don't redraw empty trays every time
 	var/temp_growthdelta = growthdelta
 
-	for(var/modifier in growth_modifiers)
-		temp_growthdelta *= growth_modifiers[modifier]
+	if(growth_modifiers)
+		for(var/modifier in growth_modifiers)
+			temp_growthdelta *= growth_modifiers[modifier]
 
 	var/time_until_growth = lastcycle_growth+temp_growthdelta // time to advance age
 	if(world.time >= time_until_growth)
@@ -140,7 +143,7 @@
 		eatcycle()
 
 	if(needs_update)
-		update_appearance()
+		update_appearance(UPDATE_ICON)
 
 /obj/structure/plant/proc/plantdies()
 	SEND_SIGNAL(src, COSMIG_PLANT_DIES)
@@ -166,7 +169,7 @@
 		icon_state = "[species]-[growthstage]"
 
 /obj/structure/plant/proc/can_grow_harvestable()
-	if(!length(produced))
+	if(!produced)
 		return FALSE
 	if(growthstage != growthstages)
 		return FALSE
@@ -174,7 +177,7 @@
 
 /obj/structure/plant/proc/grown()
 	SEND_SIGNAL(src, COSMIG_PLANT_ON_GROWN)
-	if(!produced.len && lifespan == INFINITY)
+	if(!produced && lifespan == INFINITY)
 		STOP_PROCESSING(SSplants, src)
 
 /obj/structure/plant/proc/growthcycle()
@@ -216,7 +219,7 @@
 	for(var/_P in produced)
 		var/obj/item/growable/P = _P
 		var/harvested = rand(0+min_mod, produced[P]+max_mod)
-		if(growth_modifiers["fertilizer"] < 1 && growth_modifiers["fertilizer"] != 0) // it's fertilized
+		if(growth_modifiers && growth_modifiers["fertilizer"] < 1 && growth_modifiers["fertilizer"] != 0) // it's fertilized
 			harvested += 3
 		if(harvested)
 			for(var/i in 1 to harvested)

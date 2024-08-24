@@ -25,6 +25,11 @@
 	var/broken = FALSE
 	var/burnt = FALSE
 
+/turf/open/floor/Initialize(mapload)
+	. = ..()
+	if(digging_tools)
+		digging_tools = string_list(digging_tools)
+
 /turf/open/floor/proc/get_broken_states()
 	return list()
 

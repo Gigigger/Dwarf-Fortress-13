@@ -25,6 +25,17 @@
 	/// Time between each chop
 	var/cutting_time = 4 SECONDS
 
+/obj/structure/plant/tree/Initialize()
+	. = ..()
+	if(small_log_amount)
+		small_log_amount = string_list(small_log_amount)
+	if(large_log_amount)
+		large_log_amount = string_list(large_log_amount)
+	if(required_chops)
+		required_chops = string_list(required_chops)
+	if(chop_offsets)
+		chop_offsets = string_list(chop_offsets)
+
 /obj/structure/plant/tree/spawn_debris()
 	chop_tree(get_turf(src))
 	qdel(src)
@@ -148,7 +159,6 @@
 	desc = "Common tree found in a forest. Mostly used as lumber."
 	species = "pine"
 	seed_type = /obj/item/growable/seeds/tree/pine
-	produced = list()
 	growthdelta = 2 MINUTES
 	produce_delta = 1 MINUTES
 	materials = /datum/material/wood/pine

@@ -29,6 +29,8 @@
 
 /turf/closed/wall/Initialize(mapload)
 	. = ..()
+	if(digging_tools)
+		digging_tools = string_list(digging_tools)
 	if(smoothing_flags & SMOOTH_DIAGONAL_CORNERS && fixed_underlay) //Set underlays for the diagonal walls.
 		var/mutable_appearance/underlay_appearance = mutable_appearance(layer = TURF_LAYER, plane = FLOOR_PLANE)
 		underlay_appearance.icon = fixed_underlay["icon"]
