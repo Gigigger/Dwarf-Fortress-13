@@ -372,6 +372,9 @@ GLOBAL_LIST_EMPTY(station_turfs)
 
 		baseturfs = baseturf_to_use
 
+	baseturfs = baseturfs_string_list(baseturfs, src)
+	baseturf_materials = baseturfs_string_list(baseturf_materials, src)
+
 /turf/proc/levelupdate()
 	for(var/obj/O in src)
 		if(O.flags_1 & INITIALIZED_1)
