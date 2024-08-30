@@ -63,16 +63,11 @@
 /obj/structure/plant/tree/update_overlays()
 	. = ..()
 	if(chops)
-		var/icon/cut = icon(src::icon, "cut[chops]")
-		var/icon/mask = icon(src::icon, "cut[chops]")
-		mask.Shift(NORTH, chop_offsets[growthstage])
-		cut.Shift(NORTH, chop_offsets[growthstage])
-		var/icon/tree = icon(src::icon, icon_state)
-		cut = apply_palettes(cut, materials)
-		mask.Blend(tree, ICON_AND)
-		mask.MapColors(rgb(1,1,1), rgb(1,1,1), rgb(1,1,1), rgb(1,1,1))
-		cut.Blend(mask, BLEND_MULTIPLY)
-		. += cut
+		var/icon/cut = create_material_icon(type, src::icon, "cut[chops]", materials)
+		var/mutable_appearance/MA = mutable_appearance(cut)
+		MA.pixel_z = chop_offsets[growthstage]
+		MA.blend_mode = BLEND_INSET_OVERLAY
+		. += MA
 
 /obj/structure/plant/tree/proc/try_chop(obj/item/tool, mob/living/user)
 	to_chat(user, span_notice("You start chopping down [src]..."))
