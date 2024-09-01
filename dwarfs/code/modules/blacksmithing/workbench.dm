@@ -3,23 +3,12 @@
 	desc = "A place to assemble all your wonderful creations."
 	icon = 'dwarfs/icons/structures/64x32.dmi'
 	icon_state = "workshop"
+	bound_width = 64
 	density = TRUE
 	anchored = TRUE
 	materials = list(PART_PLANKS=/datum/material/wood/pine/treated, PART_INGOT=/datum/material/iron)
 	used_recipe_type = /datum/crafter_recipe/workbench_recipe
 	craft_sound = 'dwarfs/sounds/structures/crafters/workbench.ogg'
-
-/obj/structure/crafter/workbench/Initialize()
-	. = ..()
-	var/turf/T = locate(x+1,y,z)
-	if(T)
-		T.density = TRUE
-
-/obj/structure/crafter/workbench/Destroy()
-	var/turf/T = locate(x+1,y,z)
-	if(istype(T, /turf/open))
-		T.density = FALSE
-	. = ..()
 
 /obj/structure/crafter/workbench/build_material_icon(_file, state)
 	return apply_palettes(..(), list(materials[PART_PLANKS], materials[PART_INGOT]))
