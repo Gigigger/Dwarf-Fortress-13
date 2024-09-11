@@ -71,8 +71,14 @@
 	var/turf/T = loc
 	if(!istype(T))
 		return FALSE
-	if(T.Adjacent(neighbor,target = neighbor, mover = src))
-		return TRUE
+	if(ismovable(neighbor))
+		var/atom/movable/AM = neighbor
+		for(var/turf/to_check in AM.locs)
+			if(T.Adjacent(to_check,target = neighbor, mover = src))
+				return TRUE
+	else
+		if(T.Adjacent(neighbor,target = neighbor, mover = src))
+			return TRUE
 	return FALSE
 
 // This is necessary for storage items not on your person.
