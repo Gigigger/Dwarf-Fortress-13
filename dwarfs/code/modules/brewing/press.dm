@@ -80,12 +80,12 @@
 		var/obj/item/growable/G = contents[contents.len]
 		if(!SEND_SIGNAL(G, COMSIG_ITEM_CAN_SQUEEZE))
 			return
-		SEND_SIGNAL(G, COSMIG_ITEM_SQUEEZED, src, types_amount)
+		SEND_SIGNAL(G, COMSIG_ITEM_SQUEEZED, src, types_amount)
 	else
 		for(var/datum/reagent/R in reagents.reagent_list)
 			if(!SEND_SIGNAL(R, COMSIG_ITEM_CAN_SQUEEZE, R.volume))
 				return
-			SEND_SIGNAL(R, COSMIG_ITEM_SQUEEZED, src, 1)
+			SEND_SIGNAL(R, COMSIG_ITEM_SQUEEZED, src, 1)
 
 /obj/structure/press/update_overlays()
 	. = ..()

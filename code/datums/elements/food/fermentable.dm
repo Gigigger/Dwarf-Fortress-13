@@ -14,13 +14,13 @@
 	src.ferment_ratio = ferment_ratio
 	src.ferment_delta = ferment_delta
 
-	RegisterSignal(parent, COSMIG_REAGENT_START_FERMENTING, PROC_REF(start_fermenting))
-	RegisterSignal(parent, COSMIG_REAGENT_STOP_FERMENTING, PROC_REF(stop_fermenting))
+	RegisterSignal(parent, COMSIG_REAGENT_START_FERMENTING, PROC_REF(start_fermenting))
+	RegisterSignal(parent, COMSIG_REAGENT_STOP_FERMENTING, PROC_REF(stop_fermenting))
 
 /datum/component/fermentable/Destroy(force, silent)
 	. = ..()
 	remove_timer()
-	UnregisterSignal(parent, list(COSMIG_REAGENT_START_FERMENTING, COSMIG_REAGENT_STOP_FERMENTING))
+	UnregisterSignal(parent, list(COMSIG_REAGENT_START_FERMENTING, COMSIG_REAGENT_STOP_FERMENTING))
 
 /datum/component/fermentable/proc/start_fermenting(datum/reagent/source_reagent, obj/structure/demijohn/D)
 	SIGNAL_HANDLER
@@ -41,7 +41,7 @@
 	if(D.reagents.has_reagent(source_reagent.type))
 		start_fermenting(source_reagent, D)
 	else
-		SEND_SIGNAL(D, COSMIG_DEMIJOHN_STOP)
+		SEND_SIGNAL(D, COMSIG_DEMIJOHN_STOP)
 
 /datum/component/fermentable/proc/remove_timer()
 	if(active_timers)

@@ -87,10 +87,10 @@
 	if(do_after(user, work_time, src))
 		if(contents.len)
 			var/obj/item/growable/G = contents[1]
-			SEND_SIGNAL(G, COSMIG_ITEM_GRINDED, src)
+			SEND_SIGNAL(G, COMSIG_ITEM_GRINDED, src)
 		else // has grain reagents
 			var/datum/reagent/grain/G =  reagents.has_reagent_subtype(/datum/reagent/grain)
-			SEND_SIGNAL(G, COSMIG_REAGENT_GRINDED, src)
+			SEND_SIGNAL(G, COMSIG_REAGENT_GRINDED, src)
 	else
 		stop_sound_channel_nearby(src, channel)
 	busy_operating = FALSE

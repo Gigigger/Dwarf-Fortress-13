@@ -41,7 +41,7 @@
 /obj/structure/sapling_pot/proc/on_death(obj/structure/plant/source)
 	SIGNAL_HANDLER
 	visible_message(span_warning("[myplant] withers away!"))
-	UnregisterSignal(myplant, list(COSMIG_PLANT_DAMAGE_TICK, COSMIG_PLANT_ON_GROW, COSMIG_PLANT_DIES))
+	UnregisterSignal(myplant, list(COMSIG_PLANT_DAMAGE_TICK, COMSIG_PLANT_ON_GROW, COMSIG_PLANT_DIES))
 	QDEL_NULL(myplant)
 	update_appearance()
 
@@ -92,9 +92,9 @@
 			myplant = P
 			P.plot = src
 			myplant.update_appearance()
-			RegisterSignal(P, COSMIG_PLANT_DAMAGE_TICK, PROC_REF(on_damage))
-			RegisterSignal(P, COSMIG_PLANT_ON_GROW, PROC_REF(on_grow))
-			RegisterSignal(P, COSMIG_PLANT_DIES, PROC_REF(on_death))
+			RegisterSignal(P, COMSIG_PLANT_DAMAGE_TICK, PROC_REF(on_damage))
+			RegisterSignal(P, COMSIG_PLANT_ON_GROW, PROC_REF(on_grow))
+			RegisterSignal(P, COMSIG_PLANT_DIES, PROC_REF(on_death))
 			update_appearance()
 			return
 		else
@@ -156,7 +156,7 @@
 			S.growthstage = myplant.growthstage
 			S.icon_state = "[myplant.species]_sapling"
 			START_PROCESSING(SSprocessing, S)
-			UnregisterSignal(myplant, list(COSMIG_PLANT_DAMAGE_TICK, COSMIG_PLANT_ON_GROW, COSMIG_PLANT_DIES))
+			UnregisterSignal(myplant, list(COMSIG_PLANT_DAMAGE_TICK, COMSIG_PLANT_ON_GROW, COMSIG_PLANT_DIES))
 			QDEL_NULL(myplant)
 			H.put_in_active_hand(S)
 			to_chat(user, span_notice("You remove [S] from [src]."))

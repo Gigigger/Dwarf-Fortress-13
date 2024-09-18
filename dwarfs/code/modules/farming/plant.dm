@@ -146,7 +146,7 @@
 		update_appearance(UPDATE_ICON)
 
 /obj/structure/plant/proc/plantdies()
-	SEND_SIGNAL(src, COSMIG_PLANT_DIES)
+	SEND_SIGNAL(src, COMSIG_PLANT_DIES)
 	if(dead)
 		return
 	STOP_PROCESSING(SSplants, src)
@@ -156,7 +156,7 @@
 	qdel(src)
 
 /obj/structure/plant/proc/eatcycle()
-	SEND_SIGNAL(src, COSMIG_PLANT_EAT_TICK)
+	SEND_SIGNAL(src, COMSIG_PLANT_EAT_TICK)
 	return
 
 /obj/structure/plant/update_icon_state()
@@ -176,19 +176,19 @@
 	return TRUE
 
 /obj/structure/plant/proc/grown()
-	SEND_SIGNAL(src, COSMIG_PLANT_ON_GROWN)
+	SEND_SIGNAL(src, COMSIG_PLANT_ON_GROWN)
 	if(!produced && lifespan == INFINITY)
 		STOP_PROCESSING(SSplants, src)
 
 /obj/structure/plant/proc/growthcycle()
-	var/res = SEND_SIGNAL(src, COSMIG_PLANT_ON_GROW)
+	var/res = SEND_SIGNAL(src, COMSIG_PLANT_ON_GROW)
 	if(res & COMPONENT_CANCEL_PLANT_GROW)
 		return
 	age++
 	growthstage = clamp(growthstage+1, 1, growthstages)
 
 /obj/structure/plant/proc/producecycle()
-	SEND_SIGNAL(src, COSMIG_PLANT_PRODUCE_TICK)
+	SEND_SIGNAL(src, COMSIG_PLANT_PRODUCE_TICK)
 	if(harvestable)
 		return
 	if(can_grow_harvestable())
@@ -197,7 +197,7 @@
 			STOP_PROCESSING(SSplants, src)
 
 /obj/structure/plant/proc/damagecycle(delta_time)
-	SEND_SIGNAL(src, COSMIG_PLANT_DAMAGE_TICK, )
+	SEND_SIGNAL(src, COMSIG_PLANT_DAMAGE_TICK, )
 	if(age > lifespan)
 		health -= rand(1,3) * delta_time
 

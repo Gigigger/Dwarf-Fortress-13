@@ -15,7 +15,7 @@
 	. = ..()
 	AddComponent(/datum/component/liftable, slowdown = 5, worn_icon='dwarfs/icons/mob/inhand/righthand.dmi', inhand_icon_state="demijohn")
 	create_reagents(max_volume, OPENCONTAINER)
-	RegisterSignal(src, COSMIG_DEMIJOHN_STOP, PROC_REF(restart_fermentation))
+	RegisterSignal(src, COMSIG_DEMIJOHN_STOP, PROC_REF(restart_fermentation))
 	RegisterSignal(reagents, COMSIG_REAGENTS_TRANS_REAGENTS_TO, PROC_REF(handle_reagent_transfer))
 	RegisterSignal(reagents, COMSIG_REAGENTS_TRANS_REAGENTS_FROM, PROC_REF(handle_reagent_transfer))
 
@@ -24,7 +24,7 @@
 
 /obj/structure/demijohn/Destroy()
 	remove_timer()
-	UnregisterSignal(src, COSMIG_DEMIJOHN_STOP)
+	UnregisterSignal(src, COMSIG_DEMIJOHN_STOP)
 	. = ..()
 
 /obj/structure/demijohn/proc/remove_timer()
@@ -40,13 +40,13 @@
 
 /obj/structure/demijohn/proc/start_fermentation()
 	for(var/datum/reagent/R in reagents.reagent_list)
-		SEND_SIGNAL(R, COSMIG_REAGENT_START_FERMENTING, src)
+		SEND_SIGNAL(R, COMSIG_REAGENT_START_FERMENTING, src)
 
 /obj/structure/demijohn/proc/stop_fermentation()
 	SIGNAL_HANDLER
 	remove_timer() //in case there is a timer running
 	for(var/datum/reagent/R in reagents.reagent_list)
-		SEND_SIGNAL(R, COSMIG_REAGENT_STOP_FERMENTING, src)
+		SEND_SIGNAL(R, COMSIG_REAGENT_STOP_FERMENTING, src)
 
 /obj/structure/demijohn/proc/restart_fermentation()
 	SIGNAL_HANDLER

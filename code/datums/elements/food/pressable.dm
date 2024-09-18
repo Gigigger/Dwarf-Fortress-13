@@ -17,7 +17,7 @@
 	src.atom_result = atom_result
 	src.atom_amount = atom_amount
 
-	RegisterSignal(parent, COSMIG_ITEM_SQUEEZED, PROC_REF(squeeze))
+	RegisterSignal(parent, COMSIG_ITEM_SQUEEZED, PROC_REF(squeeze))
 	RegisterSignal(parent, COMSIG_ITEM_CAN_SQUEEZE, PROC_REF(can_press))
 
 /datum/component/pressable/proc/can_press(datum/target, amount=1)

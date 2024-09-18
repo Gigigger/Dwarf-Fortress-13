@@ -819,16 +819,16 @@
 ///Called when an object is turned into another item through grilling ontop of a griddle
 #define COMSIG_GRILL_COMPLETED "item_grill_completed"
 //Called when an item is squeezed in /obj/structure/press
-#define COSMIG_ITEM_SQUEEZED "item_squeezed"
+#define COMSIG_ITEM_SQUEEZED "item_squeezed"
 #define COMSIG_ITEM_CAN_SQUEEZE "item_can_squeeze"
 //Called when something is grinded in a quern
-#define COSMIG_ITEM_GRINDED "item_grinded"
-#define COSMIG_REAGENT_GRINDED "reagent_grinded"
+#define COMSIG_ITEM_GRINDED "item_grinded"
+#define COMSIG_REAGENT_GRINDED "reagent_grinded"
 //Called when a reagent is being fermented in a demijohn
-#define COSMIG_REAGENT_START_FERMENTING "reagent_start_fermenting"
-#define COSMIG_REAGENT_STOP_FERMENTING "reagent_stop_fermenting"
+#define COMSIG_REAGENT_START_FERMENTING "reagent_start_fermenting"
+#define COMSIG_REAGENT_STOP_FERMENTING "reagent_stop_fermenting"
 //Called for demijohn to stop fermentation
-#define COSMIG_DEMIJOHN_STOP "demijohn_stop"
+#define COMSIG_DEMIJOHN_STOP "demijohn_stop"
 //Called when an object is in an oven
 #define COMSIG_ITEM_BAKED "item_baked"
 	#define COMPONENT_HANDLED_BAKING (1<<0)
@@ -1070,13 +1070,13 @@
 
 //Plants / Plant Traits
 
-#define COSMIG_PLANT_ON_GROW "plant_on_grow"
+#define COMSIG_PLANT_ON_GROW "plant_on_grow"
 	#define COMPONENT_CANCEL_PLANT_GROW (1<<0)
-#define COSMIG_PLANT_ON_GROWN "plant_on_grown"
-#define COSMIG_PLANT_DAMAGE_TICK "plant_damage_tick"
-#define COSMIG_PLANT_EAT_TICK "plant_eat_tick"
-#define COSMIG_PLANT_PRODUCE_TICK "plant_produce_tick"
-#define COSMIG_PLANT_DIES "plant_dies"
+#define COMSIG_PLANT_ON_GROWN "plant_on_grown"
+#define COMSIG_PLANT_DAMAGE_TICK "plant_damage_tick"
+#define COMSIG_PLANT_EAT_TICK "plant_eat_tick"
+#define COMSIG_PLANT_PRODUCE_TICK "plant_produce_tick"
+#define COMSIG_PLANT_DIES "plant_dies"
 
 //Gibs
 

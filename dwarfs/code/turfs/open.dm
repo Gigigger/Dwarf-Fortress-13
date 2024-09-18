@@ -248,8 +248,8 @@
 			myplant = P
 			P.plot = src
 			myplant.update_appearance()
-			RegisterSignal(P, COSMIG_PLANT_DAMAGE_TICK, PROC_REF(on_damage))
-			RegisterSignal(P, COSMIG_PLANT_EAT_TICK, PROC_REF(on_eat))
+			RegisterSignal(P, COMSIG_PLANT_DAMAGE_TICK, PROC_REF(on_damage))
+			RegisterSignal(P, COMSIG_PLANT_EAT_TICK, PROC_REF(on_eat))
 			return
 		else
 			to_chat(user, span_warning("[capitalize(src.name)] already has seeds in it!"))

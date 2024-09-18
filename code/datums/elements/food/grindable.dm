@@ -21,8 +21,8 @@
 	src.item_type = item_type
 	src.item_amount = item_amount
 
-	RegisterSignal(parent, COSMIG_ITEM_GRINDED, PROC_REF(grind_item))
-	RegisterSignal(parent, COSMIG_REAGENT_GRINDED, PROC_REF(grind_reagent))
+	RegisterSignal(parent, COMSIG_ITEM_GRINDED, PROC_REF(grind_item))
+	RegisterSignal(parent, COMSIG_REAGENT_GRINDED, PROC_REF(grind_reagent))
 
 /datum/component/grindable/proc/grind_item(obj/item/growable/source, obj/structure/quern/Q)
 	SIGNAL_HANDLER
