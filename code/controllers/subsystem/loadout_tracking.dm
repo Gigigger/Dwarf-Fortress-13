@@ -25,12 +25,12 @@ SUBSYSTEM_DEF(loadouts)
 
 	update_maptext_string()
 
-	update_panel()
+	update_panel(TRUE)
 
 	. = ..()
 
-/datum/controller/subsystem/loadouts/proc/update_panel()
-	if(!initialized)
+/datum/controller/subsystem/loadouts/proc/update_panel(forced=FALSE)
+	if(!initialized && !forced)
 		return
 
 	update_maptext_string()
