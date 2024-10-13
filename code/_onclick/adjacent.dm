@@ -73,11 +73,11 @@
 		return FALSE
 	if(ismovable(neighbor))
 		var/atom/movable/AM = neighbor
-		for(var/turf/to_check in AM.locs)
-			if(T.Adjacent(to_check,target = neighbor, mover = src))
+		for(var/atom/to_check in AM.locs)
+			if(T.Adjacent(to_check, target = neighbor, mover = src))
 				return TRUE
 	else
-		if(T.Adjacent(neighbor,target = neighbor, mover = src))
+		if(T.Adjacent(neighbor, target = neighbor, mover = src))
 			return TRUE
 	return FALSE
 
