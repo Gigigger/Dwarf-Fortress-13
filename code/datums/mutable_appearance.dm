@@ -3,8 +3,8 @@
 // Unless you need the overlay/underlay to have a different direction than the base object. Then you have to use an image due to a bug.
 
 // Mutable appearances are children of images, just so you know
-// Build 1643 broke things and MA doesn't have a /New() proc anymore. Removing it doesn't seem to break anything
-#if DM_BUILD < 1643
+// Build 1643 broke MA/New(). 1644 fixed it
+#if DM_BUILD != 1643
 /mutable_appearance/New()
 	..()
 	plane = FLOAT_PLANE // No clue why this is 0 by default yet images are on FLOAT_PLANE
