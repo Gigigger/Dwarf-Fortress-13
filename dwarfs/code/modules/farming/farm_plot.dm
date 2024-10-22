@@ -90,11 +90,11 @@
 				desc = initial(desc)
 			update_appearance()
 			return
-	else if(istype(O, /obj/item/fertilizer))
+	else if(istype(O, /obj/item/stack/fertilizer))
 		user.visible_message(span_notice("[user] adds [O] to \the [src]."), span_notice("You add [O] to \the [src]."))
-		var/obj/item/fertilizer/F = O
+		var/obj/item/stack/fertilizer/F = O
 		fertlevel = clamp(fertlevel+F.fertilizer, 0, fertmax)
-		qdel(F)
+		F.use(1)
 	else
 		return ..()
 

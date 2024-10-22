@@ -42,6 +42,8 @@
 			foodtypes = RAW | MEAT | GROSS,\
 			volume = reagent_vol,\
 			after_eat = CALLBACK(src, PROC_REF(OnEatFrom)))
+	if(!(organ_flags & ORGAN_SYNTHETIC))
+		AddElement(/datum/element/compostable, rand(1, 3))
 
 /obj/item/organ/proc/Insert(mob/living/carbon/M, special = FALSE, drop_if_replaced = TRUE)
 	if(!iscarbon(M) || owner == M)

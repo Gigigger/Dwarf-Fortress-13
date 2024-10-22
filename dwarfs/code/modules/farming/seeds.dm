@@ -5,6 +5,7 @@
 	worn_icon_state = "seeds"
 	w_class = WEIGHT_CLASS_TINY
 	resistance_flags = FLAMMABLE
+	biomass = 1
 	var/obj/structure/plant/plant
 
 /obj/item/growable/seeds/Initialize(mapload)

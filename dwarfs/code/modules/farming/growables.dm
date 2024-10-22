@@ -3,18 +3,30 @@
 	desc = "Plant produce it."
 	icon = 'dwarfs/icons/farming/growable.dmi'
 	w_class = WEIGHT_CLASS_SMALL
-	var/edible = FALSE // some types are edible; some seeds are edible
+	/// Whether it's edible. Will add edible component if TRUE
+	var/edible = FALSE
+	/// Food reagents and their amount in case it is edible
 	var/list/food_reagents
+	/// Food flags for edible component
 	var/food_flags
+	/// Food types for edible component
 	var/foodtypes
+	/// Volume for edible component
 	var/max_volume
+	/// Eat time for edible component
 	var/eat_time
+	/// Tastes for edible component
 	var/list/tastes
-	// var/list/eatverbs
+	/// Bite consumption for edible component
 	var/bite_consumption
+	/// Mood event type when eaten
 	var/mood_event_type = /datum/mood_event/ate_raw_food
+	/// Mood gain when eaten
 	var/mood_gain = -2
+	/// Mood duration when eaten
 	var/mood_duration = 2 MINUTES
+	/// Amount of biomass we get from composting this
+	var/biomass = 0
 
 /obj/item/growable/proc/MakePressable()
 	return
@@ -49,6 +61,8 @@
 	MakeGrindable()
 	MakePressable()
 	MakeProcessable()
+	if(biomass)
+		AddElement(/datum/element/compostable, biomass)
 
 /obj/item/growable/pod
 	name = "pod"
@@ -77,6 +91,7 @@
 	foodtypes = FRUIT
 	food_reagents = list(/datum/reagent/consumable/nutriment = 4)
 	tastes = list("apple" = 1)
+	biomass = 3
 
 /obj/item/growable/apple/MakePressable()
 	AddComponent(/datum/component/pressable, /datum/reagent/consumable/juice/apple, 10)
@@ -88,6 +103,7 @@
 	mood_gain = -3
 	food_reagents = list(/datum/reagent/consumable/nutriment=2)
 	food_flags = GRAIN
+	biomass = 5
 
 /obj/item/growable/cave_wheat/MakeGrindable()
 	AddComponent(/datum/component/grindable, /datum/reagent/grain/cave_wheat, 10)
@@ -99,6 +115,7 @@
 	mood_gain = -3
 	food_reagents = list(/datum/reagent/consumable/nutriment=2)
 	food_flags = GRAIN
+	biomass = 6
 
 /obj/item/growable/barley/MakeGrindable()
 	AddComponent(/datum/component/grindable, /datum/reagent/grain/barley, 10)
@@ -111,6 +128,7 @@
 	mood_gain = -1
 	food_reagents = list(/datum/reagent/consumable/nutriment=4)
 	tastes = list("turnip" = 1)
+	biomass = 4
 
 /obj/item/growable/carrot
 	name = "carrot"
@@ -120,11 +138,13 @@
 	mood_gain = -1
 	food_reagents = list(/datum/reagent/consumable/nutriment=5)
 	tastes = list("carrot" = 1)
+	biomass = 2
 
 /obj/item/growable/cotton
 	name = "cotton"
 	desc = "No animal was harmed during picking these. Cannot say it about other humanoid species."
 	icon_state = "cotton"
+	biomass = 1
 
 /obj/item/growable/cotton/attack_self(mob/user, modifiers)
 	var/obj/item/stack/sheet/string/S = new(null, 2)
@@ -141,6 +161,7 @@
 	mood_gain = -1
 	food_reagents = list(/datum/reagent/consumable/nutriment=5)
 	tastes = list("sugar" = 1)
+	biomass = 3
 
 /obj/item/growable/sweet_pod/MakePressable()
 	AddComponent(/datum/component/pressable, /datum/reagent/consumable/juice/sweet_pod, 10)
@@ -149,6 +170,7 @@
 	name = "pig tail"
 	desc = "Despite of its name, it's fully vegan. Maybe except the worms."
 	icon_state = "pig_tail"
+	biomass = 1
 
 /obj/item/growable/pig_tail/attack_self(mob/user, modifiers)
 	var/obj/item/stack/sheet/string/S = new()
@@ -165,6 +187,7 @@
 	mood_gain = -2
 	food_reagents = list(/datum/reagent/consumable/nutriment=5)
 	tastes = list("mushroom" = 1)
+	biomass = 6
 
 /obj/item/growable/plump_helmet/MakePressable()
 	AddComponent(/datum/component/pressable, /datum/reagent/consumable/juice/plump, 10)
@@ -180,6 +203,7 @@
 	mood_gain = -2
 	food_reagents = list(/datum/reagent/consumable/nutriment=4)
 	tastes = list("potato" = 1)
+	biomass = 4
 
 /obj/item/growable/onion
 	name = "onion"
@@ -189,3 +213,4 @@
 	mood_gain = -3
 	food_reagents = list(/datum/reagent/consumable/nutriment=3)
 	tastes = list("onion" = 1)
+	biomass = 5

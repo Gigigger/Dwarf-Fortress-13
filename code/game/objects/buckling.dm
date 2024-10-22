@@ -38,9 +38,10 @@
 	carried_mob.forceMove(get_turf(src))
 	return mouse_buckle_handling(carried_mob, user)
 
-/atom/movable/MouseDrop_T(mob/living/M, mob/living/user)
+/atom/movable/MouseDrop_T(atom/dropping, mob/living/user)
 	. = ..()
-	return mouse_buckle_handling(M, user)
+	if(isliving(dropping))
+		return mouse_buckle_handling(dropping, user)
 
 /**
  * Does some typechecks and then calls user_buckle_mob

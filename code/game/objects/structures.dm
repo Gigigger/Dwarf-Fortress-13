@@ -14,7 +14,7 @@
 	var/del_on_zimpact = TRUE
 	hit_sound = 'dwarfs/sounds/structures/generic_hit.ogg'
 
-/obj/structure/Initialize()
+/obj/structure/Initialize(mapload)
 	if (!armor)
 		armor = list(SHARP = 0, PIERCE = 0, BLUNT = 0, FIRE = 50, ACID = 50)
 	. = ..()

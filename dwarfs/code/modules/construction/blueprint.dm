@@ -678,3 +678,10 @@
 	reqs = list(PART_STONE=5, PART_INGOT=1)
 	cat = BLUEPRINT_CAT_CONSTRUCTION
 	build_exp = 30
+
+/obj/structure/blueprint/composter
+	name = "compost bin"
+	target_structure = /obj/structure/composter
+	reqs = list(PART_PLANKS=5)
+	cat = BLUEPRINT_CAT_UTILS
+	build_exp = 46

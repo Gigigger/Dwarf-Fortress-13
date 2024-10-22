@@ -10,6 +10,7 @@
 	px_y = 0
 	stam_damage_coeff = 1
 	max_stamina_damage = 120
+	biomass = 8
 	var/obj/item/cavity_item
 
 /obj/item/bodypart/chest/can_dismember(obj/item/I)
@@ -78,6 +79,7 @@
 	px_y = 0
 	can_be_disabled = TRUE
 	disable_threshold = 1
+	biomass = 3
 
 
 /obj/item/bodypart/l_arm/set_owner(new_owner)
@@ -173,6 +175,7 @@
 	max_stamina_damage = 50
 	can_be_disabled = TRUE
 	disable_threshold = 1
+	biomass = 3
 
 
 /obj/item/bodypart/r_arm/set_owner(new_owner)
@@ -271,6 +274,7 @@
 	max_stamina_damage = 50
 	can_be_disabled = TRUE
 	disable_threshold = 1
+	biomass = 4
 
 
 /obj/item/bodypart/l_leg/set_owner(new_owner)
@@ -367,6 +371,7 @@
 	max_stamina_damage = 50
 	can_be_disabled = TRUE
 	disable_threshold = 1
+	biomass = 4
 
 
 /obj/item/bodypart/r_leg/set_owner(new_owner)

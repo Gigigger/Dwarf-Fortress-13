@@ -254,11 +254,12 @@
 		else
 			to_chat(user, span_warning("[capitalize(src.name)] already has seeds in it!"))
 			return
-	else if(istype(O, /obj/item/fertilizer))
+	else if(istype(O, /obj/item/stack/fertilizer))
 		user.visible_message(span_notice("[user] adds [O] to \the [src]."), span_notice("You add [O] to \the [src]."))
-		var/obj/item/fertilizer/F = O
+		var/obj/item/stack/fertilizer/F = O
 		fertlevel = clamp(fertlevel+F.fertilizer, 0, fertmax)
-		qdel(F)
+		F.use(1)
+		update_appearance(UPDATE_OVERLAYS)
 	else if(O.is_refillable())
 		var/datum/reagent/W = O.reagents.has_reagent(/datum/reagent/water)
 		if(!W)
@@ -273,6 +274,7 @@
 		to_chat(user, span_notice("You water [src]."))
 		waterlevel = clamp(waterlevel+to_remove, 0, watermax)
 		user.adjust_experience(/datum/skill/farming, rand(1,5))
+		playsound(src, 'sound/effects/slosh.ogg', 25, TRUE)
 		update_appearance()
 	else
 		return ..()
@@ -322,10 +324,28 @@
 	SIGNAL_HANDLER
 	if((locate(/turf/open/water) in range(1, src)))
 		waterlevel = watermax
+
+	var/needs_update = FALSE
+	var/water_old = waterlevel
+	var/fert_old = fertlevel
+
 	waterlevel = clamp(waterlevel-waterrate, 0, watermax)
-	update_appearance()
 	fertlevel = clamp(fertlevel-fertrate, 0, fertmax)
+
+	if((waterlevel == 0 && water_old > 0) || (fertlevel == 0 && fert_old > 0))
+		needs_update = TRUE
+
+	if(!source.growth_modifiers)
+		source.growth_modifiers = list()
 	source.growth_modifiers["fertilizer"] = fertlevel ? 0.8 : 1
+
+	if(needs_update)
+		update_appearance(UPDATE_ICON)
+
+/turf/open/floor/tilled/update_overlays()
+	. = ..()
+	if(fertlevel)
+		. += mutable_appearance(src::icon, "soil_tilled_fertilizer")
 
 /turf/open/floor/tilled/update_icon_state()
 	. = ..()

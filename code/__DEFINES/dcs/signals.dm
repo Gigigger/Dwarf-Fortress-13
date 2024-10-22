@@ -829,6 +829,9 @@
 #define COMSIG_REAGENT_STOP_FERMENTING "reagent_stop_fermenting"
 //Called for demijohn to stop fermentation
 #define COMSIG_DEMIJOHN_STOP "demijohn_stop"
+///Called when an atom is added to a compost bin
+#define COMSIG_ATOM_COMPOSTED "item_composted"
+	#define COMPONENT_BLOCK_COMPOSTING (1<<0)
 //Called when an object is in an oven
 #define COMSIG_ITEM_BAKED "item_baked"
 	#define COMPONENT_HANDLED_BAKING (1<<0)

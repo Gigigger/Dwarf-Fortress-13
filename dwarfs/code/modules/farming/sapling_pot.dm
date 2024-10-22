@@ -139,6 +139,7 @@
 		waterlevel += to_trans
 		to_chat(user, span_notice("You water [src]."))
 		user.adjust_experience(/datum/skill/farming, rand(1,5))
+		playsound(src, 'sound/effects/slosh.ogg', 25, TRUE)
 		update_appearance()
 	else
 		return ..()

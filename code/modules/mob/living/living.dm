@@ -9,6 +9,7 @@
 	GLOB.mob_living_list += src
 	SSpoints_of_interest.make_point_of_interest(src)
 	update_fov()
+	AddElement(/datum/element/compostable, 20) //bodies are good for fertilizer
 
 /mob/living/ComponentInitialize()
 	. = ..()
