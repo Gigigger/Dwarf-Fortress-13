@@ -9,13 +9,19 @@
 	light_color = "#BB661E"
 	materials = /datum/material/stone
 	particles = new/particles/smoke/smelter
-	/// alist of smelted item type containing a list of materials and amount of smelted ingots
+	/// Alist of smelted item type containing a list of materials and amount of smelted ingots
 	var/list/smelting_buffer = list()
+	/// Whether the smelter is turned on
 	var/working = FALSE
+	/// How much fuel do we have
 	var/fuel = 0
+	/// How much fuel do we consume per second
 	var/fuel_consumption = 0.5
+	/// How long does it take to smelt 1 ingot
 	var/smelting_time = 30 SECONDS
+	/// Max items you can put in queue
 	var/max_items = 5
+	/// Internal timerid for smelting
 	var/timerid
 
 /obj/structure/smelter/Initialize()
@@ -52,8 +58,13 @@
 	I.forceMove(get_turf(src))
 	if(contents.len)
 		start_timer()
+	else
+		timerid = null
 
 /obj/structure/smelter/proc/start_timer()
+	// Sanity check. We never should have more than one timer running
+	if(timerid)
+		return
 	timerid = addtimer(CALLBACK(src, PROC_REF(smelted_thing)), smelting_time, TIMER_STOPPABLE)
 
 /obj/structure/smelter/proc/remove_timer()
@@ -87,10 +98,12 @@
 			to_chat(user, span_warning("Cannot smelt [I]."))
 			return
 		to_chat(user, span_notice("You place [I] into [src]."))
+		var/is_smelting = contents.len // if there's an ingot inside, we already have a timer running
 		add_smeted_amount(I.get_smelted_type(), I.get_smelted_materials(), I.get_smelted_amount())
 		check_smelting_buffer()
 		I.smelt()
-		if(working && contents.len)
+		// if smelter is turned on and we didn't have an ingot inside but we do now, start a timer
+		if(working && contents.len && !is_smelting)
 			start_timer()
 	else if(I.get_temperature())
 		if(!fuel)
