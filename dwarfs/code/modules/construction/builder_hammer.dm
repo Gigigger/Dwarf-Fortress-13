@@ -8,6 +8,7 @@
 	usesound = 'dwarfs/sounds/tools/hammer/hammer_hit.ogg'
 	tool_behaviour = TOOL_BUILDER_HAMMER
 	atck_type = BLUNT
+	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 	slot_flags = ITEM_SLOT_BELT | ITEM_SLOT_POCKETS
 	materials = list(PART_HANDLE=/datum/material/wood/towercap/treated, PART_HEAD=/datum/material/copper)
 	//What do we want to build -> selected in gui
