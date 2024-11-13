@@ -4,6 +4,7 @@
 	report_type = "dwarf_fortress"
 	false_report_weight = 5
 	required_players = 0
+	round_ends_with_antag_death = FALSE
 
 	required_jobs = list()
 

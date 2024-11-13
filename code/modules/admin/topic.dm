@@ -92,18 +92,6 @@
 			return
 		SSticker.mode.admin_panel()
 
-	else if(href_list["toggle_continuous"])
-		if(!check_rights(R_ADMIN))
-			return
-		var/list/continuous = CONFIG_GET(keyed_list/continuous)
-		if(!continuous[SSticker.mode.config_tag])
-			continuous[SSticker.mode.config_tag] = TRUE
-		else
-			continuous[SSticker.mode.config_tag] = FALSE
-
-		message_admins(span_adminnotice("[key_name_admin(usr)] toggled the round to [continuous[SSticker.mode.config_tag] ? "continue if all antagonists die" : "end with the antagonists"]."))
-		check_antagonists()
-
 	else if(href_list["toggle_midround_antag"])
 		if(!check_rights(R_ADMIN))
 			return

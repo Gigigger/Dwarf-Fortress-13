@@ -35,7 +35,6 @@
 	var/datum/game_mode/replacementmode = null
 	var/round_converted = 0 //0: round not converted, 1: round going to convert, 2: round converted
 	var/reroll_friendly 	//During mode conversion only these are in the running
-	var/continuous_sanity_checked	//Catches some cases where config options could be used to suggest that modes without antagonists should end when all antagonists die
 	var/enemy_minimum_age = 7 //How many days must players have been playing before they can play this antagonist
 
 	var/announce_span = "warning" //The gamemode's name will be in this span during announcement.
@@ -201,41 +200,8 @@
 		return replacementmode.check_finished()
 	if(station_was_nuked)
 		return TRUE
-	var/list/continuous = CONFIG_GET(keyed_list/continuous)
-	var/list/midround_antag = CONFIG_GET(keyed_list/midround_antag)
-	if(!round_converted && (!continuous[config_tag] || (continuous[config_tag] && midround_antag[config_tag]))) //Non-continuous or continous with replacement antags
-		if(!continuous_sanity_checked) //make sure we have antags to be checking in the first place
-			for(var/mob/Player in GLOB.mob_list)
-				if(Player.mind)
-					if(Player.mind.special_role || LAZYLEN(Player.mind.antag_datums))
-						continuous_sanity_checked = 1
-						return FALSE
-
-		if(living_antag_player && living_antag_player.mind && isliving(living_antag_player) && living_antag_player.stat != DEAD && !isnewplayer(living_antag_player) &&!isbrain(living_antag_player) && (living_antag_player.mind.special_role || LAZYLEN(living_antag_player.mind.antag_datums)))
-			return FALSE //A resource saver: once we find someone who has to die for all antags to be dead, we can just keep checking them, cycling over everyone only when we lose our mark.
-
-		for(var/mob/Player in GLOB.alive_mob_list)
-			if(Player.mind && Player.stat != DEAD && !isnewplayer(Player) &&!isbrain(Player) && Player.client && (Player.mind.special_role || LAZYLEN(Player.mind.antag_datums))) //Someone's still antagging but is their antagonist datum important enough to skip mulligan?
-				for(var/datum/antagonist/antag_types in Player.mind.antag_datums)
-					if(antag_types.prevent_roundtype_conversion)
-						living_antag_player = Player //they were an important antag, they're our new mark
-						return FALSE
-
-		if(!are_special_antags_dead())
-			return FALSE
-
-		if(!continuous[config_tag] || force_ending)
-			return TRUE
-
-		else
-			round_converted = convert_roundtype()
-			if(!round_converted)
-				if(round_ends_with_antag_death)
-					return TRUE
-				else
-					midround_antag[config_tag] = 0
-					return FALSE
-
+	if(force_ending)
+		return TRUE
 	return FALSE
 
 // This is a frequency selection system. You may imagine it like a raffle where each player can have some number of tickets. The more tickets you have the more likely you are to

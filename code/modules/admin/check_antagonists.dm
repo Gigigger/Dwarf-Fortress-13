@@ -144,11 +144,7 @@
 		dat += "Current Game Mode: <B>[SSticker.mode.name]</B><BR>"
 	dat += "Round Duration: <B>[DisplayTimeText(world.time - SSticker.round_start_time)]</B><BR>"
 	dat += "<B>Continuous Round Status</B><BR>"
-	dat += "<a href='?_src_=holder;[HrefToken()];toggle_continuous=1'>[CONFIG_GET(keyed_list/continuous)[SSticker.mode.config_tag] ? "Continue if antagonists die" : "End on antagonist death"]</a>"
-	if(CONFIG_GET(keyed_list/continuous)[SSticker.mode.config_tag])
-		dat += ", <a href='?_src_=holder;[HrefToken()];toggle_midround_antag=1'>[CONFIG_GET(keyed_list/midround_antag)[SSticker.mode.config_tag] ? "creating replacement antagonists" : "not creating new antagonists"]</a><BR>"
-	else
-		dat += "<BR>"
+	dat += "<BR>"
 	if(CONFIG_GET(keyed_list/midround_antag)[SSticker.mode.config_tag])
 		dat += "Time limit: <a href='?_src_=holder;[HrefToken()];alter_midround_time_limit=1'>[CONFIG_GET(number/midround_antag_time_check)] minutes into round</a><BR>"
 		dat += "Living crew limit: <a href='?_src_=holder;[HrefToken()];alter_midround_life_limit=1'>[CONFIG_GET(number/midround_antag_life_check) * 100]% of crew alive</a><BR>"

@@ -21,13 +21,6 @@
 /datum/config_entry/keyed_list/min_pop/ValidateListEntry(key_name, key_value)
 	return key_name in config.modes
 
-/datum/config_entry/keyed_list/continuous	// which roundtypes continue if all antagonists die
-	key_mode = KEY_MODE_TEXT
-	value_mode = VALUE_MODE_FLAG
-
-/datum/config_entry/keyed_list/continuous/ValidateListEntry(key_name, key_value)
-	return key_name in config.modes
-
 /datum/config_entry/keyed_list/midround_antag	// which roundtypes use the midround antagonist system
 	key_mode = KEY_MODE_TEXT
 	value_mode = VALUE_MODE_FLAG
