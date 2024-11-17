@@ -13,9 +13,9 @@ fuck jannies
 #define ZTRAIT_RESERVED "Transit/Reserved"
 #define ZTRAIT_AWAY "Away Mission"
 /// Controls whether there's reverb on this zlevel, surface/cave plants behavior etc.
-#define ZTRAIT_SURFACE "Surface"
+#define ZTRAIT_ABOVE_GROUND "Above Ground"
 /// Sets the surface zlevel that is used for spawns etc. (GLOB.surface_z)
-#define ZTRAIT_SURFACE_REAL "Real Surface"
+#define ZTRAIT_SURFACE "Surface"
 
 // boolean - weather types that occur on the level
 #define ZTRAIT_SNOWSTORM "Weather_Snowstorm"
