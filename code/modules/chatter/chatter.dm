@@ -15,7 +15,9 @@
 	var/chatter_vol = D.client?.prefs.chatter_volume || 100
 
 	var/agender = D.gender == "female" ? "female" : "male" /// Default is Male
-	var/arace = D.dna.species.id || "elf" /// Default is elf, but its mostly for simplemobs or undetified carbons
+	var/arace = "elf" /// Default is elf, but its mostly for simplemobs or undetified carbons
+	if(iscarbon(A))
+		arace = D.dna.species.id
 
 	var/list/punctuation = list(",",":",";",".","?","!","\'","-")
 	var/regex/R = regex("(\[\\l\\d]*)(\[^\\l\\d\\s])?", "g")
