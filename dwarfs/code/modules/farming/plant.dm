@@ -61,6 +61,12 @@
 	var/spread_y = 12
 	/// Whether this plant is a surface plant
 	var/surface = TRUE
+	/// How much water it's consuming per second
+	var/water_rate = 1
+	/// How much fertilizer it's consuming per second
+	var/fertilizer_rate = 1
+	/// Whether the plant requires fertilizer to survive
+	var/is_fertilizer_needed = FALSE
 
 /obj/structure/plant/spawn_debris()
 	qdel(src)
@@ -72,13 +78,32 @@
 /obj/structure/plant/examine(mob/user)
 	. = ..()
 	var/healthtext = "<br>"
-	if(health >= maxhealth/2)
-		healthtext += "[src] looks healthy."
-	else if(health >= 1)
-		healthtext += "[src] looks unhealthy."
+	if(health >= maxhealth/1.5)
+		healthtext += "\The [src] looks <font color=green>healthy</font>."
+	else if(health >= maxhealth*0.2)
+		healthtext += "\The [src] is <font color=orange>withering away</font>."
+	else if(health > 0)
+		healthtext += "\The [src] is <font color=red>about to die</font>."
 	else
-		healthtext += "[src] is dead!"
+		healthtext += "\The [src] is <font color=red>dead</font>!"
 	. += healthtext
+
+/obj/structure/plant/examine_more(mob/user)
+	. = ..()
+	var/farming_level = user.get_skill_level(/datum/skill/farming)
+	if(farming_level >= 3)
+		. += "It [is_fertilizer_needed ? "requires" : "doesn't require"] fertilizer to grow."
+	if(farming_level >= 5)
+		. += "<br>It has [rate2adjective(fertilizer_rate)] fertilizer consumption."
+		. += "<br>It has [rate2adjective(water_rate)] water consumption."
+	if(farming_level >= 8)
+		var/growthtime = growthdelta * (growthstages-growthstage)
+		if(growthtime > 0)
+			. += "<br>It will take another [growthtime / 10] seconds to mature."
+		else
+			. += "<br>It has fully matured."
+		if(produced && !istype(src, /obj/structure/plant/garden/crop))
+			. += "<br>It will take another [(growthtime + produce_delta) / 10] seconds until ready to harvest"
 
 /obj/structure/plant/Initialize()
 	. = ..()
@@ -119,9 +144,6 @@
 		lastcycle_growth = world.time
 		growthcycle()
 		needs_update = 1
-		if(age == growthstages)
-			lastcycle_produce = world.time
-			grown()
 
 	if(world.time >= lastcycle_produce+produce_delta)
 		lastcycle_produce = world.time
@@ -129,34 +151,30 @@
 		if(harvestable)
 			needs_update = 1
 
-	if(health <= 0 && !dead)
-		plantdies()
-		dead = TRUE
-		needs_update = 1
-
 	if(world.time >= lastcycle_health+health_delta)
 		lastcycle_health = world.time
 		damagecycle(delta_time)
 
 	if(world.time > lastcycle_eat+eat_delta)
 		lastcycle_eat = world.time
-		eatcycle()
+		eatcycle(delta_time)
 
 	if(needs_update)
 		update_appearance(UPDATE_ICON)
 
 /obj/structure/plant/proc/plantdies()
-	SEND_SIGNAL(src, COMSIG_PLANT_DIES)
 	if(dead)
 		return
+	dead = TRUE
+	SEND_SIGNAL(src, COMSIG_PLANT_DIES)
 	STOP_PROCESSING(SSplants, src)
 	visible_message(span_warning("[src] withers away!"))
 	if(plot)
 		return
 	qdel(src)
 
-/obj/structure/plant/proc/eatcycle()
-	SEND_SIGNAL(src, COMSIG_PLANT_EAT_TICK)
+/obj/structure/plant/proc/eatcycle(delta_time)
+	SEND_SIGNAL(src, COMSIG_PLANT_EAT_TICK, delta_time)
 	return
 
 /obj/structure/plant/update_icon_state()
@@ -177,6 +195,7 @@
 
 /obj/structure/plant/proc/grown()
 	SEND_SIGNAL(src, COMSIG_PLANT_ON_GROWN)
+	lastcycle_produce = world.time
 	if(!produced && lifespan == INFINITY)
 		STOP_PROCESSING(SSplants, src)
 
@@ -186,6 +205,8 @@
 		return
 	age++
 	growthstage = clamp(growthstage+1, 1, growthstages)
+	if(age == growthstages)
+		grown()
 
 /obj/structure/plant/proc/producecycle()
 	SEND_SIGNAL(src, COMSIG_PLANT_PRODUCE_TICK)
@@ -197,9 +218,12 @@
 			STOP_PROCESSING(SSplants, src)
 
 /obj/structure/plant/proc/damagecycle(delta_time)
-	SEND_SIGNAL(src, COMSIG_PLANT_DAMAGE_TICK, )
+	SEND_SIGNAL(src, COMSIG_PLANT_DAMAGE_TICK, delta_time)
 	if(age > lifespan)
 		health -= rand(1,3) * delta_time
+	if(health <= 0 && !dead)
+		plantdies()
+		update_appearance(UPDATE_ICON)
 
 /obj/structure/plant/proc/harvest(mob/user)
 	. = TRUE
@@ -211,6 +235,7 @@
 	if(QDELETED(src) || !harvestable)
 		return
 	harvestable = FALSE
+	lastcycle_produce = world.time
 	// spawn seeds separately, we don't want those in produced list
 	if(seed_type)
 		for(var/i in 1 to rand(1+min_mod, 1+max_mod))
@@ -246,4 +271,30 @@
 			qdel(src)
 
 /obj/structure/plant/proc/set_growthstage(new_growthstage)
+	if(growthstage == new_growthstage)
+		return
 	growthstage = new_growthstage
+	update_appearance(UPDATE_ICON)
+
+/obj/structure/plant/proc/adjust_damage(damage)
+	if(dead)
+		return
+	health += damage
+	if(health <= 0)
+		plantdies()
+		update_appearance(UPDATE_ICON)
+
+/obj/structure/plant/proc/rate2adjective(rate)
+	switch(rate)
+		if(0)
+			return "nonexistent"
+		if(0 to 0.5)
+			return "minimal"
+		if(0.5 to 0.8)
+			return "low"
+		if(0.8 to 1.2)
+			return "moderate"
+		if(1.2 to INFINITY)
+			return "high"
+		else
+			return "unknown"

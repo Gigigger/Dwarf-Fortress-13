@@ -8,8 +8,10 @@
 	harvestable = TRUE
 
 /obj/structure/plant/garden/crop/Initialize()
-	. = ..()
 	icon_ripe = "[species]-[growthstages]"
+	if(growthstage == growthstages)
+		producecycle()
+	. = ..()
 
 /obj/structure/plant/garden/crop/harvest(mob/user)
 	. = ..()
@@ -28,6 +30,8 @@
 	produced = list(/obj/item/growable/plump_helmet=3)
 	seed_type = /obj/item/growable/seeds/plump_helmet
 	surface = FALSE
+	water_rate = 0.7
+	fertilizer_rate = 0.7
 
 /obj/structure/plant/garden/crop/pig_tail
 	name = "pig tail"
@@ -40,6 +44,8 @@
 	produced = list(/obj/item/growable/pig_tail=2)
 	seed_type = /obj/item/growable/seeds/pig_tail
 	surface = FALSE
+	water_rate = 1.6
+	fertilizer_rate = 1
 
 /obj/structure/plant/garden/crop/barley
 	name = "barley"
@@ -51,6 +57,8 @@
 	produce_delta = 60 SECONDS
 	produced = list(/obj/item/growable/barley=4)
 	seed_type = /obj/item/growable/seeds/barley
+	water_rate = 1
+	fertilizer_rate = 1
 
 /obj/structure/plant/garden/crop/cotton
 	name = "cotton"
@@ -62,6 +70,8 @@
 	produce_delta = 80 SECONDS
 	produced = list(/obj/item/growable/cotton=2)
 	seed_type = /obj/item/growable/seeds/cotton
+	water_rate = 1.3
+	fertilizer_rate = 1
 
 /obj/structure/plant/garden/crop/turnip
 	name = "turnip"
@@ -73,6 +83,8 @@
 	produce_delta = 45 SECONDS
 	produced = list(/obj/item/growable/turnip=2)
 	seed_type = /obj/item/growable/seeds/turnip
+	water_rate = 0.8
+	fertilizer_rate = 1
 
 /obj/structure/plant/garden/crop/carrot
 	name = "carrot"
@@ -84,6 +96,8 @@
 	produce_delta = 45 SECONDS
 	produced = list(/obj/item/growable/carrot=2)
 	seed_type = /obj/item/growable/seeds/carrot
+	water_rate = 1
+	fertilizer_rate = 1
 
 /obj/structure/plant/garden/crop/cave_wheat
 	name = "cave wheat"
@@ -96,6 +110,8 @@
 	produced = list(/obj/item/growable/cave_wheat=4)
 	seed_type = /obj/item/growable/seeds/cave_wheat
 	surface = FALSE
+	water_rate = 0.9
+	fertilizer_rate = 1
 
 /obj/structure/plant/garden/crop/potato
 	name = "potato"
@@ -107,6 +123,8 @@
 	produce_delta = 60 SECONDS
 	produced = list(/obj/item/growable/potato=3)
 	seed_type = /obj/item/growable/seeds/potato
+	water_rate = 0.6
+	fertilizer_rate = 0.8
 
 /obj/structure/plant/garden/crop/onion
 	name = "onion"
@@ -117,3 +135,5 @@
 	growthdelta = 1 MINUTES
 	produced = list(/obj/item/growable/onion=3)
 	seed_type = /obj/item/growable/seeds/onion
+	water_rate = 0.6
+	fertilizer_rate = 0.9

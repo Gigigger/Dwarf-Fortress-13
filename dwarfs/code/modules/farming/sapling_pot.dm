@@ -24,9 +24,12 @@
 /obj/structure/sapling_pot/proc/on_damage(obj/structure/plant/source, delta_time)
 	SIGNAL_HANDLER
 	if(!waterlevel)
-		source.health -= rand(1, 3) * delta_time
+		source.adjust_damage(-rand(1, 3) * delta_time)
 	if(source.age >= 2)
-		source.health -= rand(1, 3) * delta_time
+		source.adjust_damage(-rand(1, 3) * delta_time)
+	var/is_above_ground = SSmapping.level_trait(z, ZTRAIT_ABOVE_GROUND)
+	if((source.surface && !is_above_ground) || (!source.surface && is_above_ground))
+		source.adjust_damage(-rand(1,3) * delta_time)
 
 /obj/structure/sapling_pot/proc/on_grow(obj/structure/plant/source)
 	SIGNAL_HANDLER
@@ -86,6 +89,12 @@
 				to_chat(user, span_warning("[src] doens't have any soil inside!"))
 				return
 			var/obj/item/growable/seeds/S = O
+			var/obj/structure/plant/plant = S.plant
+			var/is_above_ground = SSmapping.level_trait(z, ZTRAIT_ABOVE_GROUND)
+			var/is_surface_plant = initial(plant.surface)
+			if((!is_surface_plant && is_above_ground) || (is_surface_plant && !is_above_ground))
+				to_chat(user, span_warning("This will not grow here!"))
+				return
 			to_chat(user, span_notice("You plant [S]."))
 			var/obj/structure/plant/P = new S.plant()
 			qdel(S)

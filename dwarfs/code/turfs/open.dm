@@ -189,10 +189,8 @@
 	liquid_border_material = /datum/material/dirt
 	var/waterlevel = 0
 	var/watermax = 100
-	var/waterrate = 1
 	var/fertlevel = 0
 	var/fertmax = 100
-	var/fertrate = 1
 	///The currently planted plant
 	var/obj/structure/plant/myplant = null
 
@@ -239,7 +237,9 @@
 				return
 			var/obj/item/growable/seeds/S = O
 			var/obj/structure/plant/plant = S.plant
-			if(!initial(plant.surface) && z == GLOB.surface_z)
+			var/is_above_ground = SSmapping.level_trait(z, ZTRAIT_ABOVE_GROUND)
+			var/is_surface_plant = initial(plant.surface)
+			if((!is_surface_plant && is_above_ground) || (is_surface_plant && !is_above_ground))
 				to_chat(user, span_warning("This will not grow here!"))
 				return
 			to_chat(user, span_notice("You plant [S]."))
@@ -316,11 +316,12 @@
 /turf/open/floor/tilled/proc/on_damage(obj/structure/plant/source, delta_time)
 	SIGNAL_HANDLER
 	if(!waterlevel)
-		source.health -= rand(1,3) * delta_time
-	if((source.surface && z != GLOB.surface_z) || (!source.surface && z == GLOB.surface_z))
-		source.health -= rand(1,3) * delta_time
+		source.adjust_damage(-rand(1,3) * delta_time)
+	var/is_above_ground = SSmapping.level_trait(z, ZTRAIT_ABOVE_GROUND)
+	if((source.surface && !is_above_ground) || (!source.surface && is_above_ground))
+		source.adjust_damage(-rand(1,3) * delta_time)
 
-/turf/open/floor/tilled/proc/on_eat(obj/structure/plant/source)
+/turf/open/floor/tilled/proc/on_eat(obj/structure/plant/source, delta_time)
 	SIGNAL_HANDLER
 	if((locate(/turf/open/water) in range(1, src)))
 		waterlevel = watermax
@@ -329,8 +330,8 @@
 	var/water_old = waterlevel
 	var/fert_old = fertlevel
 
-	waterlevel = clamp(waterlevel-waterrate, 0, watermax)
-	fertlevel = clamp(fertlevel-fertrate, 0, fertmax)
+	waterlevel = clamp(waterlevel - source.water_rate * delta_time, 0, watermax)
+	fertlevel = clamp(fertlevel - source.fertilizer_rate * delta_time, 0, fertmax)
 
 	if((waterlevel == 0 && water_old > 0) || (fertlevel == 0 && fert_old > 0))
 		needs_update = TRUE

@@ -23,6 +23,9 @@
 	lifespan = 9
 	produced = list(/obj/item/growable/sweet_pod=5)
 	seed_type = /obj/item/growable/seeds/sweet_pod
+	surface = TRUE
+	water_rate = 1.3
+	fertilizer_rate = 1.6
 /*
 /obj/structure/plant/garden/perennial/grape
 	name = "grape"

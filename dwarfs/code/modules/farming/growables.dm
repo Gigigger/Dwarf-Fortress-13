@@ -28,6 +28,7 @@
 	/// Amount of biomass we get from composting this
 	var/biomass = 0
 
+
 /obj/item/growable/proc/MakePressable()
 	return
 
@@ -63,25 +64,9 @@
 	MakeProcessable()
 	if(biomass)
 		AddElement(/datum/element/compostable, biomass)
-
-/obj/item/growable/pod
-	name = "pod"
-	desc = "Not edible structure containing seeds."
-
-/obj/item/growable/Initialize()
-	. = ..()
 	pixel_x = base_pixel_x + rand(-8, 8)
 	pixel_y = base_pixel_y + rand(-8, 8)
-	START_PROCESSING(SSplants, src)
-	// TODO: fruits rot when not in storage
 
-/obj/item/growable/fruit/Destroy()
-	. = ..()
-	STOP_PROCESSING(SSplants, src)
-
-/obj/item/growable/leaf
-	name = "leaf"
-	desc = "Green stuff that comes from plants."
 
 /obj/item/growable/apple
 	name = "apple"
@@ -106,7 +91,7 @@
 	biomass = 5
 
 /obj/item/growable/cave_wheat/MakeGrindable()
-	AddComponent(/datum/component/grindable, /datum/reagent/grain/cave_wheat, 10)
+	AddElement(/datum/element/grindable, /datum/reagent/grain/cave_wheat, 10)
 
 /obj/item/growable/barley
 	name = "barley"
@@ -118,7 +103,7 @@
 	biomass = 6
 
 /obj/item/growable/barley/MakeGrindable()
-	AddComponent(/datum/component/grindable, /datum/reagent/grain/barley, 10)
+	AddElement(/datum/element/grindable, /datum/reagent/grain/barley, 10)
 
 /obj/item/growable/turnip
 	name = "turnip"
@@ -142,7 +127,7 @@
 
 /obj/item/growable/cotton
 	name = "cotton"
-	desc = "No animal was harmed during picking these. Cannot say it about other humanoid species."
+	desc = "A produce picked from cotton plant. Used for making fabric."
 	icon_state = "cotton"
 	biomass = 1
 

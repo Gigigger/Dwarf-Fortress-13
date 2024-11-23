@@ -1,4 +1,4 @@
-/datum/component/grindable
+/datum/element/grindable
 	///What we get after grinding something in a quern
 	var/datum/reagent/grindable_liquid_type
 	///How much of this liquid do we get?
@@ -10,9 +10,10 @@
 	///What type of item we get
 	var/item_type
 
-/datum/component/grindable/Initialize(grindable_liquid_type=null, liquid_amount=10, liquid_ratio=1, item_type=null, item_amount=1)
+/datum/element/grindable/Attach(datum/target, grindable_liquid_type=null, liquid_amount=10, liquid_ratio=1, item_type=null, item_amount=1)
+	. = ..()
 	if(!grindable_liquid_type && !item_type)
-		stack_trace("Grindable component added without any resulting reagent or item.")
+		stack_trace("Grindable element added without any resulting reagent or item.")
 		return COMPONENT_INCOMPATIBLE
 
 	src.grindable_liquid_type = grindable_liquid_type
@@ -21,26 +22,35 @@
 	src.item_type = item_type
 	src.item_amount = item_amount
 
-	RegisterSignal(parent, COMSIG_ITEM_GRINDED, PROC_REF(grind_item))
-	RegisterSignal(parent, COMSIG_REAGENT_GRINDED, PROC_REF(grind_reagent))
+	RegisterSignal(target, COMSIG_ITEM_GRINDED, PROC_REF(grind_item))
+	RegisterSignal(target, COMSIG_REAGENT_GRINDED, PROC_REF(grind_reagent))
+	RegisterSignal(target, COMSIG_CAN_GRIND, PROC_REF(can_grind))
 
-/datum/component/grindable/proc/grind_item(obj/item/growable/source, obj/structure/quern/Q)
+/datum/element/grindable/Detach(datum/source, ...)
+	. = ..()
+	UnregisterSignal(source, list(COMSIG_ITEM_GRINDED, COMSIG_REAGENT_GRINDED, COMSIG_CAN_GRIND))
+
+/datum/element/grindable/proc/grind_item(obj/item/growable/target, obj/structure/quern/Q)
 	SIGNAL_HANDLER
 	if(grindable_liquid_type)
 		Q.reagents.add_reagent(grindable_liquid_type, liquid_amount)
 	if(item_type)
 		for(var/i in 1 to item_amount)
 			new item_type(get_turf(Q))
-	qdel(parent)
+	qdel(target)
 
-/datum/component/grindable/proc/grind_reagent(datum/reagent/source, obj/structure/quern/Q)
+/datum/element/grindable/proc/grind_reagent(datum/reagent/target, obj/structure/quern/Q)
 	SIGNAL_HANDLER
 	var/vol = liquid_amount
-	if(source.volume < liquid_amount)
-		vol = source.volume
-	Q.reagents.remove_reagent(source.type, vol)
+	if(target.volume < liquid_amount)
+		vol = target.volume
+	Q.reagents.remove_reagent(target.type, vol)
 	if(grindable_liquid_type)
 		Q.reagents.add_reagent(grindable_liquid_type, vol*liquid_ratio)
 	if(item_type)
 		for(var/i in 1 to item_amount)
 			new item_type(get_turf(Q))
+
+/datum/element/grindable/proc/can_grind(datum/target)
+	SIGNAL_HANDLER
+	return TRUE

@@ -6,7 +6,7 @@
 
 /datum/reagent/grain/New()
 	. = ..()
-	AddComponent(/datum/component/grindable, grindable_liquid_type=flour_type, liquid_ratio=flour_ratio)
+	AddElement(/datum/element/grindable, grindable_liquid_type=flour_type, liquid_ratio=flour_ratio)
 
 /datum/reagent/grain/barley
 	name = "barley grain"

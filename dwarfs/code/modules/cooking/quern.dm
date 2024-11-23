@@ -32,7 +32,7 @@
 		.+="<br>It's empty."
 
 /obj/structure/quern/attackby(obj/item/I, mob/user, params)
-	if(I.GetComponent(/datum/component/grindable))
+	if(SEND_SIGNAL(I, COMSIG_CAN_GRIND))
 		if(!open)
 			to_chat(user, span_warning("[src] has to be opened first."))
 			return TRUE

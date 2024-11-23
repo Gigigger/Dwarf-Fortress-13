@@ -824,6 +824,7 @@
 //Called when something is grinded in a quern
 #define COMSIG_ITEM_GRINDED "item_grinded"
 #define COMSIG_REAGENT_GRINDED "reagent_grinded"
+#define COMSIG_CAN_GRIND "can_grind"
 //Called when a reagent is being fermented in a demijohn
 #define COMSIG_REAGENT_START_FERMENTING "reagent_start_fermenting"
 #define COMSIG_REAGENT_STOP_FERMENTING "reagent_stop_fermenting"
