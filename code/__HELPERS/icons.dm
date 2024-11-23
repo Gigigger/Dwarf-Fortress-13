@@ -1356,6 +1356,11 @@ GLOBAL_LIST_EMPTY(transformation_animation_objects)
 	//else
 	//	filters = null
 
+GLOBAL_LIST_EMPTY(icon_states)
+
 /proc/icon_exists(file, state)
+	if(file in GLOB.icon_states)
+		return (state in GLOB.icon_states[file])
 	var/list/icon_states = icon_states(file)
+	GLOB.icon_states[file] = icon_states
 	return (state in icon_states)
