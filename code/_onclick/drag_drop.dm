@@ -37,9 +37,6 @@
 		while(selected_target[1])
 			Click(selected_target[1], location, control, selected_target[2])
 			sleep(delay)
-	active_mousedown_item = mob.canMobMousedown(object, location, params)
-	if(active_mousedown_item)
-		active_mousedown_item.onMouseDown(object, location, params, mob)
 
 /client/MouseUp(object, location, control, params)
 	if(SEND_SIGNAL(src, COMSIG_CLIENT_MOUSEUP, object, location, control, params) & COMPONENT_CLIENT_MOUSEUP_INTERCEPT)
@@ -47,9 +44,6 @@
 	if(mouse_up_icon)
 		mouse_pointer_icon = mouse_up_icon
 	selected_target[1] = null
-	if(active_mousedown_item)
-		active_mousedown_item.onMouseUp(object, location, params, mob)
-		active_mousedown_item = null
 
 /mob/proc/CanMobAutoclick(object, location, params)
 
@@ -72,12 +66,6 @@
 /obj/item/proc/canItemMouseDown(object, location, params)
 	if(canMouseDown)
 		return src
-
-/obj/item/proc/onMouseDown(object, location, params, mob)
-	return
-
-/obj/item/proc/onMouseUp(object, location, params, mob)
-	return
 
 /atom/proc/IsAutoclickable()
 	return TRUE
@@ -103,13 +91,8 @@
 	if(selected_target[1] && over_object?.IsAutoclickable())
 		selected_target[1] = over_object
 		selected_target[2] = params
-	if(active_mousedown_item)
-		active_mousedown_item.onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
 	SEND_SIGNAL(src, COMSIG_CLIENT_MOUSEDRAG, src_object, over_object, src_location, over_location, src_control, over_control, params)
-
-
-/obj/item/proc/onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
-	return
+	return ..()
 
 /client/MouseDrop(src_object, over_object, src_location, over_location, src_control, over_control, params)
 	if (middragatom == src_object)
