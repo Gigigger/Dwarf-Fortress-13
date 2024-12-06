@@ -57,9 +57,10 @@
 /turf/open/floor/rock/try_digdown(obj/item/I, mob/user)
 	var/obj/item/pickaxe/pick = I
 	var/hardness_mod = hardness / pick.hardness
-	// if(hardness_mod >= 2)
-	// 	to_chat(user, span_warning("\The [pick] is too soft to mine [src]."))
-	// 	return
+	if(hardness_mod >= MAX_HARDNESS_QUOTIENT)
+		playsound(src, pick('sound/effects/picaxe1.ogg', 'sound/effects/picaxe2.ogg', 'sound/effects/picaxe3.ogg'), 40, TRUE)
+		to_chat(user, span_warning("\The [pick] is too soft to mine [src]."))
+		return
 	var/time = 3 SECONDS * hardness_mod
 	to_chat(user, span_notice("You start digging [src]..."))
 	if(I.use_tool(src, user, time, volume=50, used_skill=/datum/skill/mining))

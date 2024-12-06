@@ -11,3 +11,6 @@
 
 /// Number of pixels in the width/height of a turf
 #define TURF_PIXEL_DIAMETER 32
+
+/// Maximum allowed hardness quotient between a tool and a turf
+#define MAX_HARDNESS_QUOTIENT 2
