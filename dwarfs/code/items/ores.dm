@@ -8,6 +8,8 @@
 
 /obj/item/stack/ore/stone/apply_material(list/_materials)
 	. = ..()
+	if(isstrictlytype(src, type))
+		return
 	if(ispath(materials, /datum/material/stone))
 		AddElement(/datum/element/grindable, item_type=/obj/item/stack/sheet/flux)
 	else
