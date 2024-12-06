@@ -32,12 +32,20 @@
 	var/composting_delay = 30 SECONDS
 	/// How much of stuff (fertilizer/soil) is needed per item
 	var/consumed_per_item = 10
+	/// Cached icons
+	var/static/icon/mask_icon
+	var/static/mutable_appearance/water_icon
 
 /obj/structure/composter/build_material_icon(_file, state)
 	return apply_palettes(..(), materials)
 
 /obj/structure/composter/Initialize(mapload)
 	. = ..()
+	if(!mask_icon)
+		mask_icon = icon(src::icon, "composter_mask")
+	if(!water_icon)
+		water_icon = mutable_appearance(src::icon, "composter_water")
+		water_icon.blend_mode = BLEND_MULTIPLY
 	front_overlay = new()
 	front_overlay.vis_flags = VIS_INHERIT_ICON | VIS_INHERIT_PLANE | VIS_INHERIT_ID
 	front_overlay.icon_state = "composter_front"
@@ -171,15 +179,10 @@
 	. = ..()
 	if(is_empty())
 		return
-	var/icon/mask_icon = icon(src::icon, "composter_mask")
-	var/mutable_appearance/water_overlay
-	if(has_water)
-		water_overlay = mutable_appearance(src::icon, "composter_water")
-		water_overlay.blend_mode = BLEND_MULTIPLY
 	if(soil)
 		var/mutable_appearance/SA = mutable_appearance(src::icon, "composter_soil", FLOAT_LAYER-2)
 		if(has_water)
-			SA.overlays += water_overlay
+			SA.overlays += water_icon
 		var/s_offset = -15 + 15 * (biomass+fertilizer+soil) / max_volume
 		SA.pixel_z = s_offset
 		SA.filters += filter(type="alpha", icon=mask_icon, y=-s_offset-30, flags=MASK_INVERSE)
@@ -187,7 +190,7 @@
 	if(fertilizer)
 		var/mutable_appearance/FA = mutable_appearance(src::icon, "composter_fertilizer", FLOAT_LAYER-1)
 		if(has_water)
-			FA.overlays += water_overlay
+			FA.overlays += water_icon
 		var/f_offset = -15 + 15 * (biomass+fertilizer) / max_volume
 		FA.pixel_z = f_offset
 		FA.filters += filter(type="alpha", icon=mask_icon, y=-f_offset-30, flags=MASK_INVERSE)
@@ -197,7 +200,7 @@
 	if(biomass)
 		var/mutable_appearance/BA = mutable_appearance(src::icon, "composter_biomass", FLOAT_LAYER)
 		if(has_water)
-			BA.overlays += water_overlay
+			BA.overlays += water_icon
 		var/b_offset = -15 + 15 * biomass / max_volume
 		BA.pixel_z = b_offset
 		BA.filters += filter(type="alpha", icon=mask_icon, y=-b_offset-30, flags=MASK_INVERSE)
