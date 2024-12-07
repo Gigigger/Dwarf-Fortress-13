@@ -4,15 +4,15 @@
 	icon_state = "rock"
 	singular_name = "Rock piece"
 	max_amount = 1
-	init_materials = TRUE
 
 /obj/item/stack/ore/stone/apply_material(list/_materials)
 	. = ..()
-	if(isstrictlytype(src, type))
-		return
+	RemoveElement(/datum/element/grindable)
 	if(ispath(materials, /datum/material/stone))
+		desc = "A rock. Can be chiseled into a brick or ground into flux."
 		AddElement(/datum/element/grindable, item_type=/obj/item/stack/sheet/flux)
 	else
+		desc = "A rock. Can be chiseled into a brick or ground into sand."
 		AddElement(/datum/element/grindable, item_type=/obj/item/stack/ore/smeltable/sand)
 
 /obj/item/stack/ore/stone/build_material_icon(_file, state)
@@ -23,17 +23,9 @@
 	desc = "A rock. Can be chiseled into a brick or ground into flux."
 	materials = /datum/material/stone
 
-/obj/item/stack/ore/stone/stone/Initialize(mapload, new_amount, merge, list/mat_override, mat_amt)
-	. = ..()
-	AddElement(/datum/element/grindable, item_type=/obj/item/stack/sheet/flux)
-
 /obj/item/stack/ore/stone/sand
 	desc = "A rock. Can be chiseled into a brick or ground into sand."
 	materials = /datum/material/sandstone
-
-/obj/item/stack/ore/stone/sand/Initialize(mapload, new_amount, merge, list/mat_override, mat_amt)
-	. = ..()
-	AddElement(/datum/element/grindable, item_type=/obj/item/stack/ore/smeltable/sand)
 
 /obj/item/stack/ore/stone/attackby(obj/item/I, mob/living/user, params)
 	if(I.tool_behaviour == TOOL_CHISEL)

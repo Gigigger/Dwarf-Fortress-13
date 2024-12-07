@@ -28,7 +28,8 @@
 
 /turf/closed/mineral/sand/gets_drilled(user, give_exp)
 	for(var/i in 1 to rand(1, 4))
-		new /obj/item/stack/ore/stone/sand(src)
+		var/obj/O = new /obj/item/stack/ore/stone/sand(src)
+		O.apply_material(materials)
 	. = ..()
 
 /turf/closed/wall/wooden
