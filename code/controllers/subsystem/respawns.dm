@@ -47,7 +47,7 @@ SUBSYSTEM_DEF(respawns)
 	for(var/turf/closed/C in range(10, center))
 		if(istype(C, /turf/closed/indestructible))
 			continue
-		C.ChangeTurf(/turf/open/floor/dirt/grass)
+		C.ChangeTurf(/turf/open/floor/dirt/grass, flags=CHANGETURF_CHECK_TURF_ABOVE)
 	for(var/obj/structure/plant/tree/tree in range(10, center))
 		qdel(tree)
 

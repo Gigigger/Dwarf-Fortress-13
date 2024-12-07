@@ -6,6 +6,8 @@
 #define CHANGETURF_RECALC_ADJACENT (1<<5) //Immediately recalc adjacent atmos turfs instead of queuing.
 /// This flag will cause ChangeTurf to clear vis_contents for the new turf
 #define CHANGETURF_CUT_VIS_CONTENTS (1<<6)
+/// Causes ChangeTurf to check for turf above and remove it of it's its floor_type
+#define CHANGETURF_CHECK_TURF_ABOVE (1<<7)
 
 #define IS_OPAQUE_TURF(turf) (turf.directional_opacity == ALL_CARDINALS)
 
