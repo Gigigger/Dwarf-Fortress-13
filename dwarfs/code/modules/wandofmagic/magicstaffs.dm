@@ -14,7 +14,7 @@
 	atck_type = BLUNT
 	max_integrity = 50
 	resistance_flags = FIRE_PROOF
-	melee_skill = /datum/skill/combat/spear
+	melee_skill = /datum/skill/melee/spear
 	melee_cd = 1 SECONDS
 	materials = list(PART_HANDLE=/datum/material/wood/towercap/treated, PART_HEAD=/datum/material/iron)
 	var/charged

@@ -1286,7 +1286,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		return FALSE
 
 	if(user!= target)
-		if(prob(user.get_skill_modifier(/datum/skill/combat/martial, SKILL_MISS_MODIFIER)))
+		if(prob(user.get_skill_modifier(/datum/skill/melee/martial, SKILL_MISS_MODIFIER)))
 			user.do_attack_animation(target, no_effect=TRUE)
 			user.visible_message(span_warning("[user]'s attack misses [target]!") , \
 								span_userdanger("Your attack misses [target]!") , span_hear("You hear a swoosh!") , COMBAT_MESSAGE_RANGE, user)
@@ -1316,7 +1316,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	user.do_attack_animation(target, atk_effect)
 	target.do_damaged_animation(user)
 
-	var/damage = rand(user.dna.species.punchdamagelow, user.dna.species.punchdamagehigh) + user.get_skill_modifier(/datum/skill/combat/martial, SKILL_DAMAGE_MODIFIER)
+	var/damage = rand(user.dna.species.punchdamagelow, user.dna.species.punchdamagehigh) + user.get_skill_modifier(/datum/skill/melee/martial, SKILL_DAMAGE_MODIFIER)
 
 	var/obj/item/bodypart/affecting = target.get_bodypart(ran_zone(user.zone_selected))
 
@@ -1355,7 +1355,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		log_combat(user, target, "punched")
 
 	if(target.stat != DEAD && target != user)
-		user.adjust_experience(/datum/skill/combat/martial, 4)
+		user.adjust_experience(/datum/skill/melee/martial, 4)
 
 	if((target.stat != DEAD) && damage >= user.dna.species.punchstunthreshold)
 		target.visible_message(span_danger("[user] knocks [target] down!") , \
@@ -1442,9 +1442,12 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	H.send_item_attack_message(I, user, hit_area, affecting)
 
 	var/attack_direction = get_dir(user, H)
-	apply_damage(I.force, I.damtype, def_zone, armor_block, H, wound_bonus = Iwound_bonus, bare_wound_bonus = I.bare_wound_bonus, attack_type = I.atck_type, attack_direction = attack_direction)
+	var/tempforce = I.force
+	if(I.melee_skill)
+		tempforce += user.get_skill_modifier(I.melee_skill, SKILL_DAMAGE_MODIFIER)
+	apply_damage(tempforce, I.damtype, def_zone, armor_block, H, wound_bonus = Iwound_bonus, bare_wound_bonus = I.bare_wound_bonus, attack_type = I.atck_type, attack_direction = attack_direction)
 
-	if(!I.force)
+	if(!tempforce)
 		return FALSE //item force is zero
 
 	var/bloody = FALSE

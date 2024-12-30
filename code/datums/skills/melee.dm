@@ -1,23 +1,23 @@
-/datum/skill/combat
-	name = "Generic combat"
-	title = "Combatant"
-	/*****************************************IMPORTANT*************************************************/
-	//EVERY SKILL UNDER combat/... HAS TO HAVE THE SAME MODIFIERS AS PARENT OTHERWISE SHIT WILL FUCK UP//
+// Most melee skills can be found here. the /melee subtype is not needed for new skills,
+// just make sure miss, parry and damage modifiers are defined if you want to use your skill as melee skill in item.melee_skill var
+/datum/skill/melee
+	name = "Melee combat"
+	title = "Melee combatant"
 	modifiers = list(
 		SKILL_MISS_MODIFIER=list(30, 26, 24, 22, 20, 18, 16, 14, 10, 5, 0),
 		SKILL_PARRY_MODIFIER=list(0, 2, 3, 4, 5, 7, 10, 13, 17, 20, 25),
 		SKILL_DAMAGE_MODIFIER=list(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 	)
-	var/exp_per_parry = 7
-	var/exp_per_attack = 7
-	var/weapon_parry_modifier = 1
-	var/weapon_parry_level = 1
-	var/hand_parry_modifier = 1
-	var/hand_parry_level = 1
-	var/projectile_parry_modifier = 1
-	var/projectile_parry_level = 1
+	exp_per_parry = 7
+	exp_per_attack = 7
+	weapon_parry_modifier = 1
+	weapon_parry_level = 1
+	hand_parry_modifier = 1
+	hand_parry_level = 1
+	projectile_parry_modifier = 1
+	projectile_parry_level = 1
 
-/datum/skill/combat/martial
+/datum/skill/melee/martial
 	name = "Martial Arts"
 	desc = "Wrestling and martial arts - are dwarven last resort, but those tho master it will never get down easily. Increases bare hand combat stats"
 	title = "Martial Artist"
@@ -33,7 +33,7 @@
 	projectile_parry_level = 9
 	projectile_parry_modifier = 0.25
 
-/datum/skill/combat/shield
+/datum/skill/melee/shield
 	name = "Shield Combat"
 	desc = "Wielding a shield and put it into a good use - may be much harder than you'd think. Increases shield related stats"
 	title = "Shield user"
@@ -46,7 +46,7 @@
 	projectile_parry_level = 1
 	projectile_parry_modifier = 1.2
 
-/datum/skill/combat/dagger
+/datum/skill/melee/dagger
 	name = "Dagger Combat"
 	desc = "Small arms as daggers - prefered by the nobles, one quick precise slash may end ones life. Increases dagger combat stats"
 	title = "Knife user"
@@ -59,7 +59,7 @@
 	projectile_parry_level = 7
 	projectile_parry_modifier = 0.5
 
-/datum/skill/combat/sword
+/datum/skill/melee/sword
 	name = "Sword Combat"
 	desc = "Mastering sword takes a long time, but there is always way higher. Increases sword combat stats."
 	title = "Swordsdwarf"
@@ -72,7 +72,7 @@
 	projectile_parry_level = 5
 	projectile_parry_modifier = 0.75
 
-/datum/skill/combat/longsword
+/datum/skill/melee/longsword
 	name = "Greatsword Combat"
 	desc = "Using one of those giant swords effectievely requires a lot of strenght and experience. Increases two-handed swords combat stats"
 	title = "Swordsmeister"
@@ -85,7 +85,7 @@
 	projectile_parry_level = 5
 	projectile_parry_modifier = 0.8
 
-/datum/skill/combat/hammer
+/datum/skill/melee/hammer
 	name = "Greathammer Combat"
 	desc = "Although dwarf knows the principes of using the hammer from the very young ages - to deal a devastating blows one requires knowledge and experience. Increases warhammers combat stats"
 	title = "Hammerdwarf"
@@ -98,7 +98,7 @@
 	projectile_parry_level = 8
 	projectile_parry_modifier = 0.4
 
-/datum/skill/combat/flail
+/datum/skill/melee/flail
 	name = "Mace Combat"
 	desc = "Using flail provides a great opportunity to make your oponent think twice their moves. Increases flails combat stats"
 	title = "Macedwarf"
@@ -111,7 +111,7 @@
 	projectile_parry_level = 8
 	projectile_parry_modifier = 0.3
 
-/datum/skill/combat/spear
+/datum/skill/melee/spear
 	name = "Spear Combat"
 	desc = "Spear - too long for a dwarf to use easily, provides a great piercing force at the great distance. Increases spears combat stats"
 	title = "Speardwarf"
@@ -124,7 +124,7 @@
 	projectile_parry_level = 10
 	projectile_parry_modifier = 0.4
 
-/datum/skill/combat/halberd
+/datum/skill/melee/halberd
 	name = "Halberd Combat"
 	desc = "The art of using long polearm-like weapons similar to a spear. Although the spear may be easier to use and learn this weapon has more potential."
 	title = "Guisarmier"
@@ -137,7 +137,7 @@
 	projectile_parry_level = 10
 	projectile_parry_modifier = 0.4
 
-/datum/skill/combat/axe
+/datum/skill/melee/axe
 	name = "Battleaxe Combat"
 	desc = "The art of wielding a battle axe."
 	title = "Axedwarf"

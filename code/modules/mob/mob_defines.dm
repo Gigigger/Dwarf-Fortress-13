@@ -232,7 +232,7 @@
 	/// A mock client, provided by tests and friends
 	var/datum/client_interface/mock_client
 
-	///List of skill datums
+	///Alist of skill datums
 	var/list/known_skills = list()
 	///Skill multiplier, adjusts how much xp you get/loose from adjust_xp. Dont override it directly, add your reason to experience_multiplier_reasons and use that as a key to put your value in there.
 	var/experience_multiplier = 1

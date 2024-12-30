@@ -228,7 +228,7 @@
 			if(G.ranged_skill)
 				var/mob/F = firer
 				if(L.stat == CONSCIOUS)
-					F.adjust_experience(G.ranged_skill, initial(G.ranged_skill.exp_per_hit) * ((blocked == 100) ? 0.3 : 1))
+					F.adjust_experience(G.ranged_skill, initial(G.ranged_skill.exp_per_ranged_hit) * ((blocked == 100) ? 0.3 : 1))
 	SEND_SIGNAL(src, COMSIG_PROJECTILE_SELF_ON_HIT, firer, target, Angle, hit_limb)
 
 	if(QDELETED(src)) // in case one of the above signals deleted the projectile for whatever reason

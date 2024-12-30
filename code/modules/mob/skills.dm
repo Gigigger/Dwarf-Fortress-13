@@ -1,5 +1,9 @@
 /mob/proc/get_skill(skill_type)
-	return type_from_list(skill_type, known_skills)
+	var/datum/skill/S = known_skills[skill_type]
+	if(!S)
+		S = new skill_type(src)
+		known_skills[skill_type] = S
+	return S
 
 ///Return the amount of EXP needed to go to the next level. Returns 0 if max level
 /mob/proc/exp_needed_to_level_up(skill)
@@ -12,9 +16,6 @@
 ///Adjust experience of a specific skill
 /mob/proc/adjust_experience(skill, amt, silent = FALSE, force_old_level = 0)
 	var/datum/skill/S = get_skill(skill)
-	if(!S)
-		S = new skill(src)
-		known_skills.Add(S)
 	var/old_level = force_old_level ? force_old_level : S.level //Get current level of the S skill
 	experience_multiplier = initial(experience_multiplier)
 	for(var/key in experience_multiplier_reasons)
@@ -32,9 +33,6 @@
 ///Set experience of a specific skill to a number
 /mob/proc/set_experience(skill, amt, silent = FALSE)
 	var/datum/skill/S = get_skill(skill)
-	if(!S)
-		S = new skill(src)
-		known_skills.Add(S)
 	var/old_level = S.experience
 	S.experience = amt
 	adjust_experience(skill, 0, silent, old_level) //Make a call to adjust_experience to handle updating level
@@ -59,11 +57,6 @@
 ///Gets the skill's singleton and returns the result of its get_skill_modifier
 /mob/proc/get_skill_modifier(skill, modifier)
 	var/datum/skill/S = get_skill(skill)
-	if(!S)
-		S = new skill(src)
-		var/skill_modifier = S.get_skill_modifier(modifier, S.level)
-		qdel(S)
-		return skill_modifier
 	return S.get_skill_modifier(modifier, S.level)
 
 ///Gets the player's current level number from the relevant skill
@@ -85,7 +78,8 @@
 		to_chat(user, span_notice("You don't have any skills."))
 		return
 	var/msg = span_info("<EM>My skills</EM>")
-	for(var/datum/skill/S in known_skills)
+	for(var/skill_type in known_skills)
+		var/datum/skill/S = known_skills[skill_type]
 		msg += span_notice("\n[S.name] - [get_skill_level_name(S.type)]")
 		if(S.level != 11)
 			var/exp_req = SKILL_EXP_LIST[S.level+1] - SKILL_EXP_LIST[S.level]

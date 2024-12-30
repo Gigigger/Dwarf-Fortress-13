@@ -18,6 +18,7 @@
 	attack_verb_continuous = list("hits", "pierces", "slashes", "attacks")
 	attack_verb_simple = list("hit", "pierce", "slash", "attacks")
 	materials = list(PART_HANDLE=/datum/material/wood/towercap/treated, PART_HEAD=/datum/material/copper)
+	melee_skill = /datum/skill/mining
 
 /obj/item/pickaxe/build_material_icon(_file, state)
 	return apply_palettes(..(), list(materials[PART_HANDLE], materials[PART_HEAD]))
@@ -81,6 +82,7 @@
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	usesound = 'dwarfs/sounds/tools/axe/axe_chop.ogg'
 	materials = list(PART_HANDLE=/datum/material/wood/towercap/treated, PART_HEAD=/datum/material/copper)
+	melee_skill = /datum/skill/logging
 
 /obj/item/axe/build_material_icon(_file, state)
 	return apply_palettes(..(), list(materials[PART_HANDLE], materials[PART_HEAD]))
@@ -101,6 +103,7 @@
 	throw_range = 4
 	atck_type = BLUNT
 	materials = list(PART_HANDLE=/datum/material/wood/towercap/treated, PART_HEAD=/datum/material/copper)
+	melee_skill = /datum/skill/smithing
 
 /obj/item/smithing_hammer/build_material_icon(_file, state)
 	return apply_palettes(..(), list(materials[PART_HANDLE], materials[PART_HEAD]))
@@ -122,6 +125,7 @@
 	throwforce = 12
 	throw_range = 7
 	materials = list(PART_HANDLE=/datum/material/wood/towercap/treated, PART_HEAD=/datum/material/copper)
+	melee_skill = /datum/skill/masonry
 	/// Flag that controls whether we chisel big tiles frol rock floor or regular tiles
 	var/chisel_bigtiles = FALSE
 
@@ -240,6 +244,7 @@
 	atck_type = PIERCE
 	force = 7
 	materials = list(PART_HANDLE=/datum/material/wood/towercap/treated, PART_HEAD=/datum/material/copper)
+	melee_skill = /datum/skill/farming
 
 /obj/item/hoe/build_material_icon(_file, state)
 	return apply_palettes(..(), list(materials[PART_HANDLE], materials[PART_HEAD]))

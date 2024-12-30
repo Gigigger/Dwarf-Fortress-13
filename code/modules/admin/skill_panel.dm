@@ -22,16 +22,17 @@
 
 /datum/skill_panel/ui_data(mob/user) //Sends info about the skills to UI
 	. = list()
-	for (var/datum/skill/S in target.known_skills)
+	for(var/skill_type in target.known_skills)
+		var/datum/skill/S = target.known_skills[skill_type]
 		var/lvl_num = S.level
 		var/lvl_name = uppertext(S.name)
 		var/exp = S.experience
-		var/xp_prog_to_level = target.exp_needed_to_level_up(S.type)
+		var/xp_prog_to_level = target.exp_needed_to_level_up(skill_type)
 		var/xp_req_to_level = 0
 		if (xp_prog_to_level)//is it even possible to level up?
 			xp_req_to_level = SKILL_EXP_LIST[lvl_num+1] - SKILL_EXP_LIST[lvl_num]
 		var/exp_percent = exp / SKILL_EXP_LIST[SKILL_LEVEL_LEGEND]
-		.["skills"] += list(list("playername" = target, "path" = S.type, "name" = S.name, "desc" = S.desc, "lvlnum" = lvl_num, "lvl" = lvl_name, "exp" = exp, "exp_prog" = xp_req_to_level - xp_prog_to_level, "exp_req" = xp_req_to_level, "exp_percent" = exp_percent, "max_exp" = SKILL_EXP_LIST[length(SKILL_EXP_LIST)]))
+		.["skills"] += list(list("playername" = target, "path" = skill_type, "name" = S.name, "desc" = S.desc, "lvlnum" = lvl_num, "lvl" = lvl_name, "exp" = exp, "exp_prog" = xp_req_to_level - xp_prog_to_level, "exp_req" = xp_req_to_level, "exp_percent" = exp_percent, "max_exp" = SKILL_EXP_LIST[length(SKILL_EXP_LIST)]))
 
 /datum/skill_panel/ui_act(action, params)
 	. = ..()

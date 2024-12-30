@@ -140,7 +140,7 @@ If you want them to actualy show up, go to code\modules\client\preferences.dm on
 
 /datum/outfit/dwarf_recruit
 	name = "Dwarf Recruit"
-	skills = list(/datum/skill/combat/spear=2)
+	skills = list(/datum/skill/melee/spear=2)
 	suit_store = /obj/item/spear
 	suit_store_grade = 1
 	suit_store_materials = list(PART_HANDLE=/datum/material/wood/treated, PART_HEAD=/datum/material/copper)
@@ -153,7 +153,7 @@ If you want them to actualy show up, go to code\modules\client\preferences.dm on
 
 /datum/outfit/dwarf_wrestler
 	name = "Dwarf Wrestler"
-	skills = list(/datum/skill/combat/martial=4)
+	skills = list(/datum/skill/melee/martial=4)
 	uniform = /obj/item/clothing/under/tunic/random
 	shoes = /obj/item/clothing/shoes/leather_boots
 	shoes_grade = 1
@@ -162,7 +162,7 @@ If you want them to actualy show up, go to code\modules\client\preferences.dm on
 
 /datum/outfit/dwarf_spearman
 	name = "Dwarf Spearman"
-	skills = list(/datum/skill/combat/spear=6)
+	skills = list(/datum/skill/melee/spear=6)
 	suit_store = /obj/item/spear
 	suit_store_grade = 2
 	suit_store_materials = list(PART_HANDLE=/datum/material/wood/treated, PART_HEAD=/datum/material/iron)
@@ -180,7 +180,7 @@ If you want them to actualy show up, go to code\modules\client\preferences.dm on
 
 /datum/outfit/dwarf_hammerman
 	name = "Dwarf Hammerman"
-	skills = list(/datum/skill/combat/hammer=6)
+	skills = list(/datum/skill/melee/hammer=6)
 	suit_store = /obj/item/warhammer
 	suit_store_grade = 2
 	suit_store_materials = list(PART_HANDLE=/datum/material/wood/treated, PART_HEAD=/datum/material/iron)
@@ -198,7 +198,7 @@ If you want them to actualy show up, go to code\modules\client\preferences.dm on
 
 /datum/outfit/dwarf_axeman
 	name = "Dwarf Axeman"
-	skills = list(/datum/skill/combat/axe=7)
+	skills = list(/datum/skill/melee/axe=7)
 	suit_store = /obj/item/battleaxe
 	suit_store_grade = 3
 	suit_store_materials = list(PART_HANDLE=/datum/material/wood/treated, PART_HEAD=/datum/material/steel)
@@ -217,7 +217,7 @@ If you want them to actualy show up, go to code\modules\client\preferences.dm on
 
 /datum/outfit/dwarf_halberd
 	name = "Dwarf Halberdman"
-	skills = list(/datum/skill/combat/halberd=7)
+	skills = list(/datum/skill/melee/halberd=7)
 	suit_store = /obj/item/halberd
 	suit_store_grade = 3
 	suit_store_materials = list(PART_HANDLE=/datum/material/wood/treated, PART_HEAD=/datum/material/steel)
@@ -236,7 +236,7 @@ If you want them to actualy show up, go to code\modules\client\preferences.dm on
 
 /datum/outfit/dwarf_elite_swordman
 	name = "Dwarf Elite Swordman"
-	skills = list(/datum/skill/combat/sword=9, /datum/skill/combat/shield=9)
+	skills = list(/datum/skill/melee/sword=9, /datum/skill/melee/shield=9)
 	r_hand = /obj/item/sword
 	r_hand_grade = 4
 	r_hand_materials = list(PART_HANDLE=/datum/material/wood/treated, PART_HEAD=/datum/material/steel)
@@ -259,7 +259,7 @@ If you want them to actualy show up, go to code\modules\client\preferences.dm on
 
 /datum/outfit/dwarf_elite_hammerman
 	name = "Dwarf Elite Hammerman"
-	skills = list(/datum/skill/combat/hammer=9)
+	skills = list(/datum/skill/melee/hammer=9)
 	suit_store = /obj/item/warhammer
 	suit_store_grade = 4
 	suit_store_materials = list(PART_HANDLE=/datum/material/wood/treated, PART_HEAD=/datum/material/steel)
@@ -279,7 +279,7 @@ If you want them to actualy show up, go to code\modules\client\preferences.dm on
 
 /datum/outfit/dwarf_general
 	name = "Dwarf General"
-	skills = list(/datum/skill/combat/longsword=11)
+	skills = list(/datum/skill/melee/longsword=11)
 	suit_store = /obj/item/zwei
 	suit_store_grade = 6
 	suit_store_materials = list(PART_HANDLE=/datum/material/wood/treated, PART_HEAD=/datum/material/adamantine)
@@ -299,7 +299,7 @@ If you want them to actualy show up, go to code\modules\client\preferences.dm on
 
 /datum/outfit/dwarf_ranger
 	name = "Dwarf Ranger"
-	skills = list(/datum/skill/combat/martial=4, /datum/skill/ranged/crossbow=5)
+	skills = list(/datum/skill/melee/martial=4, /datum/skill/ranged/crossbow=5)
 	r_hand = /obj/item/gun/crossbow
 	r_hand_grade = 3
 	r_hand_materials = list(PART_PLANKS=/datum/material/wood/treated, PART_HEAD=/datum/material/bronze, PART_CLOTH=/datum/material/cloth/pig_tail_cotton)
@@ -318,7 +318,7 @@ If you want them to actualy show up, go to code\modules\client\preferences.dm on
 
 /datum/outfit/dwarf_marksman
 	name = "Dwarf Elite Marksman"
-	skills = list(/datum/skill/combat/martial=7, /datum/skill/ranged/crossbow=9)
+	skills = list(/datum/skill/melee/martial=7, /datum/skill/ranged/crossbow=9)
 	r_hand = /obj/item/gun/crossbow
 	r_hand_grade = 4
 	r_hand_materials = list(PART_PLANKS=/datum/material/wood/treated, PART_HEAD=/datum/material/steel, PART_CLOTH=/datum/material/cloth/pig_tail_cotton)
@@ -341,7 +341,7 @@ If you want them to actualy show up, go to code\modules\client\preferences.dm on
 
 /datum/outfit/goblin_raid_warrior
 	name = "Goblin Raid Warrior(Easy)"
-	skills = list(/datum/skill/combat/martial=2)
+	skills = list(/datum/skill/melee/martial=2)
 	uniform = /obj/item/clothing/under/loincloth
 	r_hand = /obj/item/club
 	r_hand_grade = 1
@@ -352,14 +352,14 @@ If you want them to actualy show up, go to code\modules\client\preferences.dm on
 
 /datum/outfit/goblin_raid_warrior/middle
 	name = "Goblin Raid Warrior(Middle)"
-	skills = list(/datum/skill/combat/martial=4)
+	skills = list(/datum/skill/melee/martial=4)
 	head = /obj/item/clothing/head/leather_helmet
 	head_grade = 1
 	back_grade = 2
 
 /datum/outfit/goblin_raid_warrior/hard
 	name = "Goblin Raid Warrior(Hard)"
-	skills = list(/datum/skill/combat/martial=4, /datum/skill/combat/spear=4)
+	skills = list(/datum/skill/melee/martial=4, /datum/skill/melee/spear=4)
 	r_hand = /obj/item/spear
 	r_hand_grade = 3
 	r_hand_materials = list(PART_HANDLE=/datum/material/wood/towercap/treated, PART_HEAD=/datum/material/bronze)
@@ -370,7 +370,7 @@ If you want them to actualy show up, go to code\modules\client\preferences.dm on
 
 /datum/outfit/goblin_raid_leader
 	name = "Goblin Raid Leader(Easy)"
-	skills = list(/datum/skill/combat/martial=3, /datum/skill/combat/dagger=3)
+	skills = list(/datum/skill/melee/martial=3, /datum/skill/melee/dagger=3)
 	uniform = /obj/item/clothing/under/loincloth
 	r_hand = /obj/item/dagger
 	r_hand_grade = 2
@@ -381,7 +381,7 @@ If you want them to actualy show up, go to code\modules\client\preferences.dm on
 
 /datum/outfit/goblin_raid_leader/middle
 	name = "Goblin Raid Leader(Middle)"
-	skills = list(/datum/skill/combat/martial=4, /datum/skill/combat/dagger=4)
+	skills = list(/datum/skill/melee/martial=4, /datum/skill/melee/dagger=4)
 	head = /obj/item/clothing/head/leather_helmet
 	head_grade = 1
 	shoes = /obj/item/clothing/shoes/leather_boots
@@ -391,7 +391,7 @@ If you want them to actualy show up, go to code\modules\client\preferences.dm on
 
 /datum/outfit/goblin_raid_leader/hard
 	name = "Goblin Raid Leader(Hard)"
-	skills = list(/datum/skill/combat/martial=6, /datum/skill/combat/sword=6)
+	skills = list(/datum/skill/melee/martial=6, /datum/skill/melee/sword=6)
 	uniform = /obj/item/clothing/under/chainmail
 	uniform_grade = 3
 	uniform_materials = /datum/material/bronze
@@ -406,7 +406,7 @@ If you want them to actualy show up, go to code\modules\client\preferences.dm on
 
 /datum/outfit/goblin_concript
 	name = "Goblin Conscript"
-	skills = list(/datum/skill/combat/dagger=3, /datum/skill/combat/martial=3)
+	skills = list(/datum/skill/melee/dagger=3, /datum/skill/melee/martial=3)
 	r_hand = /obj/item/dagger
 	r_hand_grade = 1
 	r_hand_materials = list(PART_HANDLE=/datum/material/wood/treated, PART_HEAD=/datum/material/copper)
@@ -414,7 +414,7 @@ If you want them to actualy show up, go to code\modules\client\preferences.dm on
 
 /datum/outfit/goblin_footsoldier
 	name = "Goblin Footsoldier"
-	skills = list(/datum/skill/combat/spear=3)
+	skills = list(/datum/skill/melee/spear=3)
 	uniform = /obj/item/clothing/under/loincloth
 	back = /obj/item/spear
 	back_grade = 1
@@ -426,7 +426,7 @@ If you want them to actualy show up, go to code\modules\client\preferences.dm on
 
 /datum/outfit/goblin_grunt
 	name = "Goblin Grunt"
-	skills = list(/datum/skill/combat/flail=4, /datum/skill/combat/shield=4)
+	skills = list(/datum/skill/melee/flail=4, /datum/skill/melee/shield=4)
 	l_hand = /obj/item/shield
 	l_hand_grade = 1
 	l_hand_materials = list(PART_PLANKS=/datum/material/wood/treated, PART_HEAD=/datum/material/bronze)
@@ -443,7 +443,7 @@ If you want them to actualy show up, go to code\modules\client\preferences.dm on
 
 /datum/outfit/goblin_spearman
 	name = "Goblin Soldier"
-	skills = list(/datum/skill/combat/spear=5)
+	skills = list(/datum/skill/melee/spear=5)
 	uniform = /obj/item/clothing/under/loincloth
 	suit_store = /obj/item/spear
 	suit_store_grade = 2
@@ -458,7 +458,7 @@ If you want them to actualy show up, go to code\modules\client\preferences.dm on
 
 /datum/outfit/goblin_hammerman
 	name = "Goblin Hammerer"
-	skills = list(/datum/skill/combat/hammer=5)
+	skills = list(/datum/skill/melee/hammer=5)
 	suit_store = /obj/item/warhammer
 	suit_store_grade = 3
 	suit_store_materials = list(PART_HANDLE=/datum/material/wood/treated, PART_HEAD=/datum/material/bronze)
@@ -473,7 +473,7 @@ If you want them to actualy show up, go to code\modules\client\preferences.dm on
 
 /datum/outfit/goblin_cataphract
 	name = "Goblin Cataphract"
-	skills = list(/datum/skill/combat/flail=6, /datum/skill/combat/shield=6)
+	skills = list(/datum/skill/melee/flail=6, /datum/skill/melee/shield=6)
 	l_hand = /obj/item/shield
 	l_hand_grade = 3
 	l_hand_materials = list(PART_PLANKS=/datum/material/wood/treated, PART_HEAD=/datum/material/iron)
@@ -494,7 +494,7 @@ If you want them to actualy show up, go to code\modules\client\preferences.dm on
 
 /datum/outfit/goblin_chariot
 	name = "Goblin Chariot"
-	skills = list(/datum/skill/combat/axe=7)
+	skills = list(/datum/skill/melee/axe=7)
 	suit_store = /obj/item/battleaxe
 	suit_store_grade = 3
 	suit_store_materials = list(PART_HANDLE=/datum/material/wood/treated, PART_HEAD=/datum/material/iron)
@@ -512,7 +512,7 @@ If you want them to actualy show up, go to code\modules\client\preferences.dm on
 
 /datum/outfit/goblin_warlord
 	name = "Goblin Warlord"
-	skills = list(/datum/skill/combat/sword=7, /datum/skill/combat/shield=7)
+	skills = list(/datum/skill/melee/sword=7, /datum/skill/melee/shield=7)
 	suit_store = /obj/item/sword
 	suit_store_grade = 4
 	suit_store_materials = list(PART_HANDLE=/datum/material/wood/treated, PART_HEAD=/datum/material/iron)
@@ -533,7 +533,7 @@ If you want them to actualy show up, go to code\modules\client\preferences.dm on
 
 /datum/outfit/goblin_archer
 	name = "Goblin Archer"
-	skills = list(/datum/skill/combat/dagger=5, /datum/skill/ranged/bow=5)
+	skills = list(/datum/skill/melee/dagger=5, /datum/skill/ranged/bow=5)
 	r_hand = /obj/item/dagger
 	r_hand_grade = 3
 	r_hand_materials = list(PART_HANDLE=/datum/material/wood/towercap/treated, PART_HEAD=/datum/material/copper)
@@ -568,7 +568,7 @@ If you want them to actualy show up, go to code\modules\client\preferences.dm on
 
 /datum/outfit/goblin_bowmaster
 	name = "Goblin Bowmaster"
-	skills = list(/datum/skill/combat/dagger=8, /datum/skill/ranged/bow=8)
+	skills = list(/datum/skill/melee/dagger=8, /datum/skill/ranged/bow=8)
 	r_hand = /obj/item/dagger
 	r_hand_grade = 5
 	r_hand_materials = list(PART_HANDLE=/datum/material/wood/towercap/treated, PART_HEAD=/datum/material/steel)

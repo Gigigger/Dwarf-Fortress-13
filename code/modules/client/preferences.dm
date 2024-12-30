@@ -1519,7 +1519,7 @@ GLOBAL_LIST_INIT(combat_loadout_choices, list(
 /datum/skill_pref/ui_data(mob/user)
 	var/list/data = list()
 	var/list/available_skills = subtypesof(/datum/skill)
-	available_skills.Remove(/datum/skill/combat)
+	available_skills.Remove(/datum/skill/melee)
 	available_skills.Remove(/datum/skill/ranged)
 	var/list/askills = list()
 	for(var/skilltype in available_skills)

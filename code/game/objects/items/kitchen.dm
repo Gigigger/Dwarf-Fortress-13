@@ -24,6 +24,7 @@
 	tool_behaviour = TOOL_KNIFE
 	materials = list(PART_HANDLE=/datum/material/wood/pine/treated, PART_HEAD=/datum/material/copper)
 	item_flags = parent_type::item_flags | ITEM_SMELTABLE
+	melee_skill = /datum/skill/cooking
 
 /obj/item/kitchen/knife/build_material_icon(_file, state)
 	return apply_palettes(..(), list(materials[PART_HANDLE], materials[PART_HEAD]))
@@ -59,6 +60,7 @@
 	custom_price = PAYCHECK_EASY * 1.5
 	tool_behaviour = TOOL_ROLLINGPIN
 	materials = /datum/material/wood/pine/treated
+	melee_skill = /datum/skill/cooking
 
 /obj/item/kitchen/rollingpin/build_material_icon(_file, state)
 	return apply_palettes(..(), materials)

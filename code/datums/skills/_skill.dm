@@ -19,6 +19,21 @@ GLOBAL_LIST_INIT(skill_types, subtypesof(/datum/skill))
 	///Whether this skill counts in round-end report
 	var/admin_spawned = FALSE
 
+	// Adding these here since it has to be possible to have a skill that is affecting mutually exclusive things
+	// etc. melee and ranged at the same time, which is not possible with skill/melee/... and skill/ranged/...
+	//TODO: find a better way of doing it. Best case scenario would be an alist with each var being a define, probably
+
+	var/exp_per_parry = 0
+	var/exp_per_attack = 0
+	var/weapon_parry_modifier = 0
+	var/weapon_parry_level = 0
+	var/hand_parry_modifier = 0
+	var/hand_parry_level = 0
+	var/projectile_parry_modifier = 0
+	var/projectile_parry_level = 0
+	var/exp_per_shot = 0
+	var/exp_per_ranged_hit = 0
+
 /datum/skill/proc/get_skill_modifier(modifier, level)
 	return modifiers[modifier][level] //Levels range from 1 (None) to 11 (Legendary)
 /**
@@ -29,17 +44,19 @@ GLOBAL_LIST_INIT(skill_types, subtypesof(/datum/skill))
 /datum/skill/New(mob/new_owner)
 	. = ..()
 	owner = new_owner
-	levelUpMessages = list(span_green("What the hell is [name]? Tell an admin if you see this message."), //This first index shouldn't ever really be used
-	span_green("I'm starting to figure out what [name] is!"),
-	span_green("I'm getting a little better at [name]!"),
-	span_green("I'm starting to understand some details of [name]!"),
-	span_green("I'm getting better at [name]! I realise that there is a lot more to learn about [name]!"),
-	span_green("I'm getting much better at [name]!"),
-	span_green("I fell like i've reached a new level of understanding of [name]! I can be considered an expert [title]!"),
-	span_green("I feel like I've become even more proficient at [name]!"),
-	span_green("After lots of practice, I've begun to truly understand the intricacies and surprising depth behind [name]. I now consider myself a master [title]."),
-	span_green("With immense effort I feel like I've reachen a new enlightment in [name]! I now consider myself a grand master [title]."),
-	span_green("Through incredible determination and effort, I've reached the peak of my [name] abiltities. I'm finally able to consider myself a legendary [title]!") )
+	levelUpMessages = list(
+		span_green("What the hell is [name]? Tell an admin if you see this message."), //This first index shouldn't ever really be used
+		span_green("I'm starting to figure out what [name] is!"),
+		span_green("I'm getting a little better at [name]!"),
+		span_green("I'm starting to understand some details of [name]!"),
+		span_green("I'm getting better at [name]! I realise that there is a lot more to learn about [name]!"),
+		span_green("I'm getting much better at [name]!"),
+		span_green("I fell like i've reached a new level of understanding of [name]! I can be considered an expert [title]!"),
+		span_green("I feel like I've become even more proficient at [name]!"),
+		span_green("After lots of practice, I've begun to truly understand the intricacies and surprising depth behind [name]. I now consider myself a master [title]."),
+		span_green("With immense effort I feel like I've reachen a new enlightment in [name]! I now consider myself a grand master [title]."),
+		span_green("Through incredible determination and effort, I've reached the peak of my [name] abiltities. I'm finally able to consider myself a legendary [title]!")
+	)
 
 /datum/skill/Destroy(force, ...)
 	owner = null

@@ -116,7 +116,7 @@
 	if(to_parry && !to_parry?.melee_skill) // we are blocking with something that isn't a weapon or a fist
 		return FALSE
 
-	var/datum/skill/combat/used_skill = to_parry ? to_parry.melee_skill : /datum/skill/combat/martial
+	var/datum/skill/used_skill = to_parry ? to_parry.melee_skill : /datum/skill/melee/martial
 	var/skill_level = get_skill_level(used_skill)
 	var/parry_chance = get_skill_modifier(used_skill, SKILL_PARRY_MODIFIER) * chance_multiplier + (to_parry ? to_parry.block_chance : 0)
 	var/parry_sound = to_parry ? to_parry.parrysound : 'sound/effects/hit_punch.ogg'

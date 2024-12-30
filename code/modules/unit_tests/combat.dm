@@ -4,7 +4,7 @@
 
 	// Avoid all randomness in tests
 	ADD_TRAIT(puncher, TRAIT_PERFECT_ATTACKER, INNATE_TRAIT)
-	puncher.adjust_experience(/datum/skill/combat/martial, SKILL_EXP_LEGEND)
+	puncher.adjust_experience(/datum/skill/melee/martial, SKILL_EXP_LEGEND)
 
 	puncher.a_intent_change(INTENT_HARM)
 	victim.attack_hand(puncher)
@@ -16,8 +16,8 @@
 	var/mob/living/carbon/human/victim = allocate(/mob/living/carbon/human)
 	var/obj/item/kitchen/knife/knife = allocate(/obj/item/kitchen/knife)
 
-	knife.melee_skill = /datum/skill/combat/dagger
-	tider.adjust_experience(/datum/skill/combat/dagger, SKILL_EXP_LEGEND)
+	knife.melee_skill = /datum/skill/melee/dagger
+	tider.adjust_experience(/datum/skill/melee/dagger, SKILL_EXP_LEGEND)
 
 	tider.put_in_active_hand(knife, forced = TRUE)
 	tider.a_intent_change(INTENT_HARM)
@@ -43,8 +43,8 @@
 	var/mob/living/carbon/human/victim = allocate(/mob/living/carbon/human)
 	var/obj/item/kitchen/knife/knife = allocate(/obj/item/kitchen/knife)
 
-	knife.melee_skill = /datum/skill/combat/dagger
-	attacker.adjust_experience(/datum/skill/combat/dagger, SKILL_EXP_LEGEND)
+	knife.melee_skill = /datum/skill/melee/dagger
+	attacker.adjust_experience(/datum/skill/melee/dagger, SKILL_EXP_LEGEND)
 
 	RegisterSignal(knife, COMSIG_ITEM_PRE_ATTACK, PROC_REF(pre_attack_hit))
 	RegisterSignal(knife, COMSIG_ITEM_ATTACK, PROC_REF(attack_hit))
