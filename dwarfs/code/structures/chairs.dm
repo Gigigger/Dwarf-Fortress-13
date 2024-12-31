@@ -7,6 +7,7 @@
 	max_integrity = 150
 	materials = list(PART_STONE=/datum/material/stone)
 	buildstacktype = /obj/item/stack/sheet/stone
+	item_chair = null
 
 /obj/structure/chair/stone/build_material_icon(_file, state)
 	return apply_palettes(..(), materials)
