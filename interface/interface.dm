@@ -27,13 +27,6 @@
 		to_chat(src, span_danger("The forum URL is not set in the server configuration."))
 	return
 
-// /client/verb/donate()
-// 	set name = "donate"
-// 	set desc = "Donate."
-// 	set category = null
-// 	src << link("https://hub.station13.ru/pp/")
-// 	return
-
 /client/verb/rules()
 	set name = "rules"
 	set desc = "Show Server Rules."
