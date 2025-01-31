@@ -32,6 +32,11 @@
 /obj/structure/stove/build_material_icon(_file, state)
 	return apply_palettes(..(), list(materials[PART_INGOT], materials[PART_STONE]))
 
+/obj/structure/stove/examine(mob/user)
+	. = ..()
+	. += "<hr>"
+	. += span_notice("Alt-click to toggle open.")
+
 /obj/structure/stove/update_icon_state()
 	. = ..()
 	if(working)

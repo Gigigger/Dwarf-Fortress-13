@@ -16,6 +16,11 @@
 	create_reagents(300, OPENCONTAINER)
 	AddComponent(/datum/component/liftable)
 
+/obj/structure/barrel/examine(mob/user)
+	. = ..()
+	. += "<hr>"
+	. += span_notice("Alt-click to toggle open.")
+
 /obj/structure/barrel/update_overlays()
 	. = ..()
 	if(open && reagents.total_volume)

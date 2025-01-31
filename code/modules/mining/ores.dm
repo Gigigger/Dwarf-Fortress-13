@@ -38,6 +38,7 @@
 		. += stack_overlays
 
 /obj/item/stack/ore/smeltable
+	desc = "Can be smelted at a smelter."
 	var/refined_type
 	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 

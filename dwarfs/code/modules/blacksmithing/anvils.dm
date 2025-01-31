@@ -11,6 +11,10 @@
 /obj/structure/anvil/build_material_icon(_file, state)
 	return apply_palettes(..(), materials)
 
+/obj/structure/anvil/apply_material(list/_materials)
+	. = ..()
+	name = "[get_material_name(materials)] anvil"
+
 /obj/structure/anvil/update_overlays()
 	. = ..()
 	if(current_ingot)
