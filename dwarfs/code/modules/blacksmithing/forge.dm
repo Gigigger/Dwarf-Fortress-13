@@ -79,8 +79,7 @@
 			if(istype(I.contents[I.contents.len], /obj/item/ingot))
 				if(I.use_tool(src, user, 2 SECONDS))
 					var/obj/item/ingot/N = I.contents[I.contents.len]
-					N.heattemp = 350
-					I.update_appearance()
+					N.set_temp(350)
 					to_chat(user, span_notice("You heat up [N]."))
 		else
 			to_chat(user, span_warning("[I] has nothing to heat up."))

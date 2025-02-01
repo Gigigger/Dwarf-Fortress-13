@@ -18,13 +18,9 @@
 /obj/structure/anvil/update_overlays()
 	. = ..()
 	if(current_ingot)
-		var/mutable_appearance/Ingot = mutable_appearance('dwarfs/icons/structures/workshops.dmi', "anvil_ingot")
-		// Ingot.color = current_ingot.metal_color
-		. += Ingot
-		var/mutable_appearance/Ingot_heat = mutable_appearance('dwarfs/icons/structures/workshops.dmi', "anvil_ingot")
-		Ingot_heat.color = "#ffb35c"
-		Ingot_heat.alpha =  255 * (current_ingot.heattemp / 350)
-		. += Ingot_heat
+		var/mutable_appearance/I = mutable_appearance(create_material_icon(null, 'dwarfs/icons/structures/workshops.dmi', null, current_ingot.materials), "anvil_ingot")
+		I.color = current_ingot.get_temperature_color()
+		. += I
 
 /obj/structure/anvil/Topic(href, list/href_list)
 	. = ..()

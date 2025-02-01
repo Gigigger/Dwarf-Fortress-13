@@ -175,23 +175,17 @@
 	. = ..()
 	if(contents.len)
 		var/obj/item/ingot/I = contents[1]
-		var/icon/Ingot = I.get_material_icon('dwarfs/icons/items/tools.dmi', "tongs_ingot")
+		var/mutable_appearance/Ingot = mutable_appearance(I.get_material_icon('dwarfs/icons/items/tools.dmi', "tongs_ingot"))
+		Ingot.color = I.get_temperature_color()
 		. += Ingot
-		var/mutable_appearance/Ingot_heat = mutable_appearance('dwarfs/icons/items/tools.dmi', "tongs_ingot_heat")
-		Ingot_heat.color = "#ff9900"
-		Ingot_heat.alpha =  255 * (I.heattemp / 350)
-		. += Ingot_heat
 
 /obj/item/tongs/worn_overlays(isinhands, icon_file)
 	. = ..()
 	if(contents.len)
 		var/obj/item/ingot/I = contents[1]
-		var/icon/Ingot = I.get_material_icon(icon_file, "tongs_ingot")
+		var/mutable_appearance/Ingot = mutable_appearance(I.get_material_icon(icon_file, "tongs_ingot"))
+		Ingot.color = I.get_temperature_color()
 		. += Ingot
-		var/mutable_appearance/Ingot_heat = mutable_appearance(icon_file, "tongs_ingot_heat")
-		Ingot_heat.color = "#ff9900"
-		Ingot_heat.alpha =  255 * (I.heattemp / 350)
-		. += Ingot_heat
 
 /obj/item/tongs/update_appearance(updates)
 	. = ..()

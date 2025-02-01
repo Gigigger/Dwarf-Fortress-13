@@ -1,3 +1,5 @@
+#define MAX_INGOT_TEMP 350
+
 /obj/item/ingot
 	name = "ingot"
 	desc = "Can be forged into something."
@@ -58,21 +60,18 @@
 	recipe = null
 	return ..()
 
-/obj/item/ingot/process()
+/obj/item/ingot/update_icon_state()
+	. = ..()
+	color = get_temperature_color()
+
+/obj/item/ingot/process(delta_time)
 	if(!heattemp)
 		return
-	heattemp = max(heattemp-25, 0)
-	update_appearance()
+	set_temp(max(heattemp-25, 0), FALSE)
+	var/next_heattemp = max(heattemp-25, 0)
+	animate(src, time=delta_time SECONDS, color=get_temperature_color(next_heattemp))
 	if(isobj(loc))
 		loc.update_appearance()
-
-/obj/item/ingot/update_overlays()
-	. = ..()
-	var/mutable_appearance/heat = mutable_appearance('dwarfs/icons/items/ingots.dmi', "ingot_heat")
-	heat.color = "#ff9900"
-	heat.alpha =  255 * (heattemp / 350)
-	. += heat
-
 
 /obj/item/ingot/attackby(obj/item/I, mob/living/user, params)
 
@@ -85,7 +84,6 @@
 			return
 		else
 			src.forceMove(I)
-			update_appearance()
 			I.update_appearance()
 			to_chat(user, span_notice("You grab \the [src] with \the [I]."))
 			return
@@ -101,3 +99,34 @@
 		return TRUE
 	else
 		. = ..()
+
+/obj/item/ingot/proc/set_temp(newtemp, update=TRUE)
+	heattemp = min(newtemp, MAX_INGOT_TEMP)
+	if(update)
+		update_appearance(UPDATE_ICON)
+	if(isobj(loc))
+		loc.update_appearance()
+	if(heattemp && length(filters) == 0)
+		filters = filter(type="bloom", size=16, threshold=rgb(150, 80, 0, 50))
+	else if(!heattemp && length(filters))
+		filters = null
+
+/obj/item/ingot/proc/get_temperature_color()
+	if(!heattemp)
+		return null
+	var/ratio = heattemp / 350
+	var/list/new_color = list(
+		1+0.5*ratio,   0.1*ratio,   0,      0,
+		0.5*ratio,   1-0.4*ratio,   0,    0,
+		0.5*ratio,     0.1*ratio,   1-0.5*ratio,    0,
+		0,             0,   0,    1,
+		0.3*ratio,     0,         0,    0
+	)
+	// var/list/new_color = list(
+	// 	1,   0.1*ratio,   0,      0,
+	// 	0,   1-0.6*ratio,   0,    0,
+	// 	0,     0.1*ratio,   1-0.7*ratio,    0,
+	// 	0,             0,   0,    1,
+	// 	0.7*ratio,     0.2*ratio,         0.1*ratio,    0
+	// )
+	return new_color
