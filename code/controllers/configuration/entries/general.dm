@@ -282,6 +282,8 @@
 /// Flag for requiring players who would otherwise be denied access by the panic bunker to complete a written interview
 /datum/config_entry/flag/panic_bunker_interview
 
+/datum/config_entry/number/panic_bunker_min_age
+
 /datum/config_entry/string/panic_bunker_message
 	config_entry_value = "Sorry but the server is currently not accepting connections from never before seen players."
 

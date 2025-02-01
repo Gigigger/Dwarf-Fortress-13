@@ -652,6 +652,17 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 						account_age = text2num(query_datediff.item[1])
 					qdel(query_datediff)
 	qdel(query_get_client_age)
+
+	if(CONFIG_GET(flag/panic_bunker) && !holder && !GLOB.deadmins[ckey])
+		var/age_reqs = CONFIG_GET(number/panic_bunker_min_age)
+		if(account_age >= 0 && account_age < age_reqs)
+			var/reject_message = replacetext(CONFIG_GET(string/panic_bunker_message), "%age%", "[age_reqs]")
+			log_access("Failed Login: [key] - Account age too low during panic bunker")
+			message_admins("Login attempt from [key] was rejected due to their account age being too low while panic bunker is active.")
+			to_chat_immediate(src, reject_message)
+			qdel(src)
+			return
+
 	if(!new_player)
 		var/datum/db_query/query_log_player = SSdbcore.NewQuery(
 			"UPDATE [format_table_name("player")] SET lastseen = Now(), lastseen_round_id = :round_id, ip = INET_ATON(:ip), computerid = :computerid, lastadminrank = :admin_rank, accountjoindate = :account_join_date WHERE ckey = :ckey",
