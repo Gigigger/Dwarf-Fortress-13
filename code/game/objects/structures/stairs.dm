@@ -50,13 +50,15 @@
 	return ..()
 
 /obj/structure/stairs/attackby(obj/item/I, mob/user, params)
-	if(I.tool_behaviour == TOOL_PICKAXE)
+	if(I.tool_behaviour == TOOL_PICKAXE && user.a_intent != INTENT_HARM)
 		user.visible_message(span_notice("[user] starts deconstructing [src]."), span_notice("You start deconstructing [src]."))
 		if(I.use_tool(src, user, 5 SECONDS))
 			var/obj/item/stack/sheet/O = new /obj/item/stack/sheet/stone(get_turf(src), 2)
 			O.apply_material(materials)
 			qdel(src)
 			user.visible_message(span_notice("[user] deconstruct [src]."), span_notice("You deconstruct [src]."))
+	else
+		return ..()
 
 /obj/structure/stairs/Move() //Look this should never happen but...
 	. = ..()
