@@ -5,6 +5,10 @@
 	icon_state = "genturf"
 	flags_cavein = CAVEIN_IGNORE
 
+/turf/open/genturf/New(loc, ...)
+	SHOULD_CALL_PARENT(FALSE)
+	return
+
 /turf/open/floor/tiles
 	name = "tiled floor"
 	desc = "Classic."
