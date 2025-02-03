@@ -133,10 +133,6 @@ GLOBAL_LIST_INIT(blacklisted_automated_baseturfs, typecacheof(list(
 		if(lighting_object && !lighting_object.needs_update)
 			lighting_object.update()
 
-	var/area/thisarea = get_area(W)
-	if(thisarea.lighting_effect)
-		W.vis_contents += thisarea.lighting_effect
-
 	if(new_materials)
 		W.apply_material(new_materials)
 

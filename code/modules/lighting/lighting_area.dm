@@ -36,24 +36,23 @@
 	return ..()
 
 /area/proc/update_base_lighting()
-	if(!area_has_base_lighting && (!base_lighting_alpha || !base_lighting_color))
-		return
-
-	if(!area_has_base_lighting)
+	if(!area_has_base_lighting && base_lighting_alpha)
 		add_base_lighting()
 		return
-	if(base_lighting_alpha && base_lighting_color)
-		lighting_effect.alpha = base_lighting_alpha
-		lighting_effect.color = base_lighting_color
+	underlays -= lighting_effect
+	add_base_lighting()
 
 /area/proc/remove_base_lighting()
-	for(var/turf/T in src)
-		T.cut_overlay(lighting_effect)
+	underlays -= lighting_effect
 	QDEL_NULL(lighting_effect)
 	area_has_base_lighting = FALSE
 
 /area/proc/add_base_lighting()
+	luminosity = base_lighting_alpha > 0
 	if(lighting_effect)
+		lighting_effect.alpha = base_lighting_alpha
+		lighting_effect.color = base_lighting_color
+		underlays += lighting_effect
 		return
 	lighting_effect = new/obj()
 	lighting_effect.icon = 'icons/effects/alphacolors.dmi'
@@ -65,7 +64,5 @@
 	lighting_effect.color = base_lighting_color
 	lighting_effect.appearance_flags = RESET_TRANSFORM | RESET_ALPHA | RESET_COLOR
 	lighting_effect.vis_flags = NONE
-	for(var/turf/T in src)
-		T.vis_contents += lighting_effect
-		T.luminosity = 1
 	area_has_base_lighting = TRUE
+	underlays += lighting_effect
