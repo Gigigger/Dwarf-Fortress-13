@@ -174,6 +174,7 @@
 		damtype = BURN
 		START_PROCESSING(SSobj, src)
 	else
+		STOP_PROCESSING(SSobj, src)
 		turned_off()
 
 /obj/item/flashlight/fueled/process(delta_time)
@@ -186,7 +187,6 @@
 				icon_state = "[initial(icon_state)]_burned"
 			else
 				icon_state = "[initial(icon_state)]"
-		STOP_PROCESSING(SSobj, src)
 
 /obj/item/flashlight/fueled/ignition_effect(atom/A, mob/user)
 	. = fuel && on ? span_notice("[user] ignites [A.name] with [src.name].")  : ""
