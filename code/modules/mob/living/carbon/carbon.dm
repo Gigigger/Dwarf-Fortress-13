@@ -100,8 +100,10 @@
 		if(hurt)
 			victim.take_bodypart_damage(10 + 5 * extra_speed, check_armor = TRUE, wound_bonus = extra_speed * 5)
 			take_bodypart_damage(10 + 5 * extra_speed, check_armor = TRUE, wound_bonus = extra_speed * 5)
-			victim.Paralyze(2 SECONDS)
-			Paralyze(2 SECONDS)
+			Paralyze(1.5 SECONDS)
+			if(.) // should be true if the throw_impact was blocked
+				return
+			victim.Paralyze(1 SECONDS)
 			visible_message(span_danger("<b>[src]</b> crashes into <b>[victim]</b>[extra_speed ? " really hard" : ""], knocking them both over!") ,\
 				span_userdanger("You violently crash into <b>[victim]</b>[extra_speed ? " extra hard" : ""]!"))
 		playsound(src,'sound/weapons/punch1.ogg',50,TRUE)
@@ -161,6 +163,7 @@
 	if(thrown_thing)
 
 		if(isliving(thrown_thing))
+			adjustStaminaLoss(25) // mobs are heavy
 			var/turf/start_T = get_turf(loc) //Get the start and target tile for the descriptors
 			var/turf/end_T = get_turf(target)
 			if(start_T && end_T)
