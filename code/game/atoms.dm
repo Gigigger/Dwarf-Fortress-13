@@ -222,7 +222,7 @@
 	if(color)
 		add_atom_colour(color, FIXED_COLOUR_PRIORITY)
 
-	if(materials && init_materials)
+	if(init_materials && materials)
 		apply_material(materials)
 
 	if (light_system == STATIC_LIGHT && light_power && light_range)

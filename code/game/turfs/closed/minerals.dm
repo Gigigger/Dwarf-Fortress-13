@@ -22,7 +22,8 @@
 
 /turf/closed/mineral/set_smoothed_icon_state(new_junction)
 	. = ..()
-	update_appearance()
+	if(mineralType && mineralAmt)
+		update_appearance(UPDATE_OVERLAYS)
 
 /turf/closed/mineral/update_overlays()
 	. = ..()

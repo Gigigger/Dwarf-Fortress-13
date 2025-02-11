@@ -92,7 +92,7 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	if(SSicon_smooth.border_smooth)
 		borders = list()
 
-	if(materials && init_materials)
+	if(init_materials && materials)
 		apply_material(materials)
 
 	// by default, vis_contents is inherited from the turf that was here before
