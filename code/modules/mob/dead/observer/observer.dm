@@ -629,14 +629,10 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	target.faction = list("neutral")
 	return TRUE
 
-//this is a mob verb instead of atom for performance reasons
-//see /mob/verb/examinate() in mob.dm for more info
-//overridden here and in /mob/living for different point span classes and sanity checks
-/mob/dead/observer/pointed(atom/A as mob|obj|turf in view(client.view, src))
+/mob/dead/observer/_pointed(atom/pointed_at)
 	if(!..())
 		return FALSE
-	usr.visible_message(span_deadsay("<b>[src]</b> points at [A]."))
-	return TRUE
+	usr.visible_message(span_deadsay("<b>[src]</b> points to [pointed_at]."))
 
 
 //this is called when a ghost is drag clicked to something.

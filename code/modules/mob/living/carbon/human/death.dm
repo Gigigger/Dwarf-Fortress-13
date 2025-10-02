@@ -40,7 +40,7 @@ GLOBAL_LIST_EMPTY(dead_players_during_shift)
 		log_message("has died (BRUTE: [src.getBruteLoss()], BURN: [src.getFireLoss()], TOX: [src.getToxLoss()], OXY: [src.getOxyLoss()])", LOG_ATTACK)
 
 /client/proc/show_tgui_notice(header, msg)
-	tgui_alert_async(src, header, msg, list("Understood"))
+	tgui_alert(src, header, msg, list("Understood"))
 
 /mob/living/carbon/proc/Drain()
 	become_husk(CHANGELING_DRAIN)

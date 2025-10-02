@@ -1,0 +1,58 @@
+/**
+ * Dwarf TGUI Theme
+ * SPDX-License-Identifier: MIT
+ */
+
+ @use 'sass:color';
+ @use 'sass:meta';
+
+ $dwarf-color: #492c15;
+ $dwarf-text: #bc8435;
+ $dwarf-button: #5b3920;
+ $dwarf-accent: #ffd354;
+ $dwarf-bg-second: #432918;
+
+ @use '../colors.scss' with (
+   $fg-map-keys: (),
+   $bg-map-keys: ()
+ );
+
+ @use '../base.scss' with (
+   $color-bg: color.scale($dwarf-color, $lightness: -45%)
+ );
+
+ .theme-dwarf {
+   // Components
+   @include meta.load-css(
+     '~tgui-core/styles/components/Button',
+     $with: (
+       'color-default': $dwarf-button,
+       'color-transparent-text': rgba(255, 255, 255, 0.5)
+     )
+   );
+
+   @include meta.load-css(
+     '~tgui-core/styles/components/ProgressBar',
+     $with: (
+       'color-default-fill': $dwarf-accent,
+       'background-color': rgba(0, 0, 0, 0.4)
+     )
+   );
+
+   @include meta.load-css('~tgui-core/styles/components/Section');
+
+   // Layouts
+   @include meta.load-css('../layouts/Layout.scss');
+   @include meta.load-css('../layouts/Window.scss');
+
+   @include meta.load-css(
+     '../layouts/TitleBar.scss',
+     $with: (
+       'background-color': color.scale($dwarf-color, $lightness: -25%),
+     )
+   );
+
+   .Layout__content {
+    background-image: url('../../assets/bg-dwarf.svg');
+  }
+ }

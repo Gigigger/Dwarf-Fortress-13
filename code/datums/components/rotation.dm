@@ -46,7 +46,8 @@
 
 /datum/component/simple_rotation/proc/add_signals()
 	if(rotation_flags & ROTATION_ALTCLICK)
-		RegisterSignal(parent, COMSIG_CLICK_ALT, PROC_REF(HandRot))
+		RegisterSignal(parent, COMSIG_CLICK_ALT, PROC_REF(rotate_left))
+		RegisterSignal(parent, COMSIG_CLICK_ALT_SECONDARY, PROC_REF(rotate_right))
 		RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(ExamineMessage))
 	if(rotation_flags & ROTATION_WRENCH)
 		RegisterSignal(parent, COMSIG_ATOM_TOOL_ACT(TOOL_WRENCH), PROC_REF(WrenchRot))
@@ -69,12 +70,19 @@
 		AM.verbs -= /atom/movable/proc/simple_rotate_counterclockwise
 
 /datum/component/simple_rotation/proc/remove_signals()
-	UnregisterSignal(parent, list(COMSIG_CLICK_ALT, COMSIG_PARENT_EXAMINE, COMSIG_PARENT_ATTACKBY))
+	UnregisterSignal(parent, list(
+		COMSIG_CLICK_ALT,
+		COMSIG_CLICK_ALT_SECONDARY,
+		COMSIG_PARENT_EXAMINE,
+		// COMSIG_ATOM_REQUESTING_CONTEXT_FROM_ITEM,
+	))
 
 /datum/component/simple_rotation/RegisterWithParent()
 	add_verbs()
 	add_signals()
-	. = ..()
+
+	ADD_TRAIT(parent, TRAIT_ALT_CLICK_BLOCKER, REF(src))
+	return ..()
 
 /datum/component/simple_rotation/PostTransfer()
 	//Because of the callbacks which we don't track cleanly we can't transfer this
@@ -85,7 +93,9 @@
 /datum/component/simple_rotation/UnregisterFromParent()
 	remove_verbs()
 	remove_signals()
-	. = ..()
+
+	REMOVE_TRAIT(parent, TRAIT_ALT_CLICK_BLOCKER, REF(src))
+	return ..()
 
 /datum/component/simple_rotation/Destroy()
 	QDEL_NULL(can_user_rotate)
@@ -143,6 +153,14 @@
 
 /datum/component/simple_rotation/proc/default_after_rotation(mob/user, rotation_type)
 	to_chat(user,span_notice("You [rotation_type == ROTATION_FLIP ? "flip" : "rotate"] [parent]."))
+
+/datum/component/simple_rotation/proc/rotate_right(datum/source, mob/user)
+	SIGNAL_HANDLER
+	HandRot(null, user, ROTATION_CLOCKWISE)
+
+/datum/component/simple_rotation/proc/rotate_left(datum/source, mob/user)
+	SIGNAL_HANDLER
+	HandRot(null, user, ROTATION_COUNTERCLOCKWISE)
 
 /atom/movable/proc/simple_rotate_clockwise()
 	set name = "Rotate clockwise"

@@ -13,6 +13,7 @@
 	mob_biotypes = MOB_ORGANIC|MOB_HUMANOID
 	blocks_emissive = EMISSIVE_BLOCK_UNIQUE
 	can_be_shoved_into = TRUE
+	initial_language_holder = /datum/language_holder/empty // We get stuff from our species
 
 	//Hair colour and style
 	var/hair_color = "000"

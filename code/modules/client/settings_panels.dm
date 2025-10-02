@@ -176,7 +176,7 @@
 /atom/movable/screen/emote_button/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, "EmoteMenu", name)
+		ui = new(user, src, "_EmoteMenu", name)
 		ui.open()
 
 /atom/movable/screen/emote_button/ui_status(mob/user)

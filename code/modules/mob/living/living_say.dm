@@ -158,10 +158,8 @@ GLOBAL_LIST_INIT(message_modes_stat_limits, list(
 	if(!can_speak_basic(original_message, ignore_spam, forced))
 		return
 
-	language = message_mods[LANGUAGE_EXTENSION]
+	language = message_mods[LANGUAGE_EXTENSION] || get_selected_language()
 
-	if(!language)
-		language = get_selected_language()
 	var/mob/living/carbon/human/H = src
 	if(!can_speak_vocal(message))
 		if (HAS_TRAIT(src, TRAIT_SIGN_LANG) && H.mind.miming)
@@ -414,12 +412,7 @@ GLOBAL_LIST_INIT(message_modes_stat_limits, list(
 	else
 		. = ..()
 
-/mob/living/whisper(message, bubble_type, list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null)
+/mob/living/whisper(message, bubble_type, list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = FALSE, filterproof)
 	if(!message)
 		return
-	say("#[message]", bubble_type, spans, sanitize, language, ignore_spam, forced)
-
-/mob/living/get_language_holder(get_minds = TRUE)
-	if(get_minds && mind)
-		return mind.get_language_holder()
-	. = ..()
+	say("#[message]", bubble_type, spans, sanitize, language, ignore_spam, forced, filterproof)

@@ -7,3 +7,6 @@
 //Returns an integer given a hex input, supports negative values "-ff"
 //skips preceding invalid characters
 #define hex2num(X) text2num(X, 16)
+
+/// Takes a datum as input, returns its ref string
+#define text_ref(datum) ref(datum)

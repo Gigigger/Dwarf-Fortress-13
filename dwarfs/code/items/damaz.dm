@@ -41,5 +41,5 @@
 		return
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, "Damaz")
+		ui = new(user, src, "_Damaz")
 		ui.open()

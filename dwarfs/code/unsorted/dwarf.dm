@@ -23,6 +23,10 @@
 	GLOB.dwarf_list -= C
 	. = ..()
 
+/datum/species/dwarf/on_species_destroy(mob/living/carbon/human/C)
+	GLOB.dwarf_list -= C
+	. = ..()
+
 /datum/species/dwarf/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H)
 	if(!..())
 		if(istype(chem, /datum/reagent/consumable/ethanol))

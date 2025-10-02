@@ -55,7 +55,7 @@
 /obj/item/builder_hammer/ui_interact(mob/user, datum/tgui/ui)
   ui = SStgui.try_update_ui(user, src, ui)
   if(!ui)
-    ui = new(user, src, "BuilderHammer")
+    ui = new(user, src, "_BuilderHammer")
     ui.open()
 
 /obj/item/builder_hammer/ui_static_data(mob/user)

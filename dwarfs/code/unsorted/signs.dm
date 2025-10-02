@@ -52,7 +52,7 @@
 /obj/structure/sign/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, "Sign", "Sign")
+		ui = new(user, src, "_Sign", "Sign")
 		ui.open()
 		ui.set_autoupdate(TRUE)
 

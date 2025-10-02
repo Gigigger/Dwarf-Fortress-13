@@ -31,7 +31,6 @@
 	var/list/hauntee_list = blackboard[BB_TO_HAUNT_LIST]
 	hauntee_list[equipper] = hauntee_list[equipper] + HAUNTED_ITEM_AGGRO_ADDITION //You have now become one of the victims of the HAAAAUNTTIIIINNGGG OOOOOO~~~
 	RegisterSignal(pawn, COMSIG_ITEM_DROPPED, PROC_REF(on_dropped))
-	SIGNAL_HANDLER
 
 ///Flip it so we listen for equip again but not for drop.
 /datum/ai_controller/haunted/proc/on_dropped(datum/source, mob/user)

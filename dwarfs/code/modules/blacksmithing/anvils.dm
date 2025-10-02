@@ -186,7 +186,7 @@
 	dat += "<div><center>"
 
 	for(var/category in SSmaterials.smithing_recipes)
-		dat += "<a [category == selected_tab ? "class='linkOn'" : ""] href='?src=[REF(src)];switch_tab=[category]'>[category]</a>"
+		dat += "<a [category == selected_tab ? "class='linkOn'" : ""] href='byond://?src=[REF(src)];switch_tab=[category]'>[category]</a>"
 
 	dat += "</center></div>"
 	dat += "<hr>"
@@ -195,7 +195,7 @@
 			continue
 		if(recipe.blacklisted_materials && (current_ingot.materials in recipe.blacklisted_materials))
 			continue
-		dat += "<a href='?src=[REF(src)];select_recipe=[recipe.type]'>[recipe.name]</a><br>"
+		dat += "<a href='byond://?src=[REF(src)];select_recipe=[recipe.type]'>[recipe.name]</a><br>"
 
 	var/datum/browser/popup = new(user, "anvil_select", "<div align='center'>What to make?</div>", 300, 450)
 	popup.set_content(dat.Join())

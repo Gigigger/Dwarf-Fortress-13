@@ -202,8 +202,8 @@ GLOBAL_LIST_INIT(combat_loadout_choices, list(
 
 #define SETUP_START_NODE(L)  		  	 		 	 		"<div class='csetup_character_node'><div class='csetup_character_label'>[L]</div><div class='csetup_character_input'>"
 
-#define SETUP_GET_LINK(pref, task, task_type, value) 		"<a href='?_src_=prefs;preference=[pref][task ? ";[task_type]=[task]" : ""]'>[value]</a>"
-#define SETUP_GET_LINK_RANDOM(random_type) 		  	 		"<a href='?_src_=prefs;preference=toggle_random;random_type=[random_type]'>[randomise[random_type] ? "Yes" : "No"]</a>"
+#define SETUP_GET_LINK(pref, task, task_type, value) 		"<a href='byond://?_src_=prefs;preference=[pref][task ? ";[task_type]=[task]" : ""]'>[value]</a>"
+#define SETUP_GET_LINK_RANDOM(random_type) 		  	 		"<a href='byond://?_src_=prefs;preference=toggle_random;random_type=[random_type]'>[randomise[random_type] ? "Yes" : "No"]</a>"
 #define SETUP_COLOR_BOX(color) 				  	 	 		"<span style='border: 1px solid #161616; background-color: #[color];'>&nbsp;&nbsp;&nbsp;</span>"
 
 #define SETUP_NODE_SWITCH(label, pref, value)		  		"[SETUP_START_NODE(label)][SETUP_GET_LINK(pref, null, null, value)][SETUP_CLOSE_NODE]"
@@ -225,10 +225,10 @@ GLOBAL_LIST_INIT(combat_loadout_choices, list(
 	update_preview_icon()
 	var/list/dat = list("<center>")
 
-	dat += "<a href='?_src_=prefs;preference=tab;tab=0' [current_tab == 0 ? "class='linkOn'" : ""]>Character</a>"
-	dat += "<a href='?_src_=prefs;preference=tab;tab=2' [current_tab == 2 ? "class='linkOn'" : ""]>Game</a>"
-	dat += "<a href='?_src_=prefs;preference=tab;tab=3' [current_tab == 3 ? "class='linkOn'" : ""]>OOC</a>"
-	dat += "<a href='?_src_=prefs;preference=tab;tab=4' [current_tab == 4 ? "class='linkOn'" : ""]>Hotkeys</a>"
+	dat += "<a href='byond://?_src_=prefs;preference=tab;tab=0' [current_tab == 0 ? "class='linkOn'" : ""]>Character</a>"
+	dat += "<a href='byond://?_src_=prefs;preference=tab;tab=2' [current_tab == 2 ? "class='linkOn'" : ""]>Game</a>"
+	dat += "<a href='byond://?_src_=prefs;preference=tab;tab=3' [current_tab == 3 ? "class='linkOn'" : ""]>OOC</a>"
+	dat += "<a href='byond://?_src_=prefs;preference=tab;tab=4' [current_tab == 4 ? "class='linkOn'" : ""]>Hotkeys</a>"
 
 	if(!path)
 		dat += "<div class='notice'>Create a new character.</div>"
@@ -249,10 +249,10 @@ GLOBAL_LIST_INIT(combat_loadout_choices, list(
 						S["real_name"] >> name
 						if(!name)
 							name = "Character [i]"
-						dat += "<a href='?_src_=prefs;preference=changeslot;num=[i];' [i == default_slot ? "class='linkOn'" : ""]>[name]</a> "
+						dat += "<a href='byond://?_src_=prefs;preference=changeslot;num=[i];' [i == default_slot ? "class='linkOn'" : ""]>[name]</a> "
 					dat += "</div>"
-			dat += "<center><a href='?_src_=prefs;preference=skills'>Skills</a></center>"
-			dat += "<center><a href='?_src_=prefs;preference=loadout'>Loadout</a></center>"
+			dat += "<center><a href='byond://?_src_=prefs;preference=skills'>Skills</a></center>"
+			dat += "<center><a href='byond://?_src_=prefs;preference=loadout'>Loadout</a></center>"
 			dat += "<div class='csetup_main'>"
 			if(is_banned_from(user.ckey, "Appearance"))
 				dat += "<div class='csetup_banned'>You are banned from appearance. You can still setup your character but you name and appearance will be random.</div>"
@@ -524,10 +524,10 @@ GLOBAL_LIST_INIT(combat_loadout_choices, list(
 	dat += "<hr><center>"
 
 	if(!IsGuestKey(user.key))
-		dat += "<a href='?_src_=prefs;preference=load'>Cancel</a> "
-		dat += "<a href='?_src_=prefs;preference=save'>Save</a> "
+		dat += "<a href='byond://?_src_=prefs;preference=load'>Cancel</a> "
+		dat += "<a href='byond://?_src_=prefs;preference=save'>Save</a> "
 
-	dat += "<a href='?_src_=prefs;preference=reset_all'>Reset</a>"
+	dat += "<a href='byond://?_src_=prefs;preference=reset_all'>Reset</a>"
 	dat += "</center>"
 
 	winshow(user, "preferences_window", TRUE)
@@ -1513,7 +1513,7 @@ GLOBAL_LIST_INIT(combat_loadout_choices, list(
 /datum/skill_pref/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, "SkillPrefs")
+		ui = new(user, src, "_SkillPrefs")
 		ui.open()
 
 /datum/skill_pref/ui_data(mob/user)

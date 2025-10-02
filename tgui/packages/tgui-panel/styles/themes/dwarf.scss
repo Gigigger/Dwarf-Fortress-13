@@ -1,0 +1,99 @@
+/**
+ * Copyright (c) 2020 Aleksej Komarov
+ * SPDX-License-Identifier: MIT
+ */
+
+ @use "sass:color";
+ @use "sass:meta";
+
+ // Dwarf Theme Colors
+ $dwarf-bg-base: #392414;
+ $dwarf-bg-second: #2a1a0f;
+ $dwarf-button: #5b3920;
+ $dwarf-text: #bc8435;
+ $dwarf-accent: #ffd354;
+ $dwarf-fg-dark: #2a1a0f;
+ $dwarf-label: #bc8435;
+ $dwarf-grey: #5b3920;
+
+ @use "~tgui/styles/colors.scss" with (
+   $primary: $dwarf-text,
+   $bg-lightness: -25%,
+   $fg-lightness: -10%,
+   $label: $dwarf-label,
+   $grey: $dwarf-grey
+ );
+
+ @use "~tgui/styles/base.scss" with (
+   $color-fg: $dwarf-text,
+   $color-bg: $dwarf-bg-base,
+   $color-bg-grad-spread: 0%
+ );
+
+ .theme-dwarf {
+   // Atomic classes
+   @include meta.load-css("~tgui/styles/atomic/color.scss");
+
+   // Components
+   @include meta.load-css(
+     "~tgui-core/styles/components/Tabs",
+     $with: (
+       "text-color": rgba(255, 255, 255, 0.5),
+       "color-default": rgba(255, 255, 255, 1),
+       "tab-color-selected": rgba(255, 255, 255, 0.125),
+       "tab-color-hovered": rgba(255, 255, 255, 0.075)
+     )
+   );
+   @include meta.load-css(
+     "~tgui-core/styles/components/Section",
+     $with: ("background-color": $dwarf-bg-second)
+   );
+
+   @include meta.load-css(
+     "~tgui-core/styles/components/Button",
+     $with: (
+       "color-default": $dwarf-grey,
+       "color-disabled": darken($dwarf-grey, 20%),
+       "color-selected": $dwarf-text,
+       "color-caution": $dwarf-accent,
+       "color-danger": darken($dwarf-accent, 20%),
+       "color-transparent-text": rgba(255, 255, 255, 0.5)
+     )
+   );
+   @include meta.load-css(
+     "~tgui-core/styles/components/Input",
+     $with: (
+       "border-color": colors.fg(colors.$label),
+       "background-color": lighten($dwarf-bg-second, 10%)
+     )
+   );
+   @include meta.load-css("~tgui-core/styles/components/NumberInput");
+   @include meta.load-css("~tgui-core/styles/components/TextArea");
+   @include meta.load-css("~tgui-core/styles/components/Knob");
+   @include meta.load-css("~tgui-core/styles/components/Slider");
+   @include meta.load-css("~tgui-core/styles/components/ProgressBar");
+
+   // Components specific to tgui-panel
+   @include meta.load-css(
+     "../components/Chat.scss",
+     $with: ("text-color": $dwarf-text)
+   );
+
+   // Layouts
+   @include meta.load-css(
+     "~tgui/styles/layouts/Layout.scss",
+     $with: ("scrollbar-color-multiplier": -1)
+   );
+   @include meta.load-css("~tgui/styles/layouts/Window.scss");
+   @include meta.load-css(
+     "~tgui/styles/layouts/TitleBar.scss",
+     $with: (
+       "text-color": rgba(255, 255, 255, 0.75),
+       "background-color": $dwarf-bg-base,
+       "shadow-color-core": rgba(0, 0, 0, 0.25)
+     )
+   );
+
+   // tgchat styles
+   @include meta.load-css("../tgchat/chat-dwarf.scss");
+ }

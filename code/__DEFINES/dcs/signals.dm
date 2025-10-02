@@ -1367,3 +1367,19 @@
 #define COMSIG_TURF_RESET_ELEVATION "turf_reset_elevation"
 	#define ELEVATION_CURRENT_PIXEL_SHIFT 1
 	#define ELEVATION_MAX_PIXEL_SHIFT 2
+
+///from mind/transfer_to. Sent after the mind has been transferred: (mob/previous_body)
+#define COMSIG_MIND_TRANSFERRED "mind_transferred"
+
+/// Called on the mind when an antagonist is being gained, after the antagonist list has updated (datum/antagonist/antagonist)
+#define COMSIG_ANTAGONIST_GAINED "antagonist_gained"
+
+/// Called on the mind when an antagonist is being removed, after the antagonist list has updated (datum/antagonist/antagonist)
+#define COMSIG_ANTAGONIST_REMOVED "antagonist_removed"
+
+/// Called on the mob when losing an antagonist datum (datum/antagonist/antagonist)
+#define COMSIG_MOB_ANTAGONIST_REMOVED "mob_antagonist_removed"
+///from mind/transfer_to. Sent to the receiving mob.
+#define COMSIG_MOB_MIND_TRANSFERRED_INTO "mob_mind_transferred_into"
+///from mind/transfer_from. Sent to the mob the mind is being transferred out of.
+#define COMSIG_MOB_MIND_TRANSFERRED_OUT_OF "mob_mind_transferred_out_of"

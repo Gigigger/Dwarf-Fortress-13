@@ -62,24 +62,12 @@
 	parents = list("changelog.html" = 'html/changelog.html')
 
 
-/datum/asset/simple/statbrowser
-	legacy = TRUE
-	assets = list(
-		"statbrowser-status.png" = 'html/statbrowser/status.png',
-		"statbrowser-ic.png" = 'html/statbrowser/ic.png',
-		"statbrowser-ooc.png" = 'html/statbrowser/ooc.png',
-		"statbrowser-cog.png" = 'html/statbrowser/cog.png',
-		"statbrowser-obj.png" = 'html/statbrowser/obj.png',
-		"statbrowser-other.png" = 'html/statbrowser/other.png',
-		"statbrowser-ghost.png" = 'html/statbrowser/ghost.png',
-		"statbrowser-admin.png" = 'html/statbrowser/admin.png',
-		"statbrowser-debug.png" = 'html/statbrowser/debug.png',
-		"statbrowser-mc.png" = 'html/statbrowser/mc.png',
-		"statbrowser-tickets.png" = 'html/statbrowser/tickets.png',
-		"statbrowser-mc.png" = 'html/statbrowser/mc.png',
-		"statbrowser-magic.png" = 'html/statbrowser/magic.png',
-		"statbrowser-other.png" = 'html/statbrowser/other.png',
-	)
+/datum/asset/spritesheet_batched/statpanel_icons
+	name = "statpanel"
+
+/datum/asset/spritesheet_batched/statpanel_icons/create_spritesheets()
+	for(var/icon_state in icon_states('icons/ui_icons/statpanel_tabs.dmi'))
+		insert_icon("tabicon-[icon_state]", uni_icon('icons/ui_icons/statpanel_tabs.dmi', icon_state))
 
 /datum/asset/simple/jquery
 	legacy = TRUE
@@ -105,22 +93,6 @@
 	parents = list(
 		"tgfont.css" = file("tgui/packages/tgfont/static/tgfont.css"),
 	)
-
-/datum/asset/spritesheet/chat
-	name = "chat"
-
-/datum/asset/spritesheet/chat/register()
-	InsertAll("emoji", EMOJI_SET)
-	// pre-loading all lanugage icons also helps to avoid meta
-	InsertAll("language", 'icons/misc/language.dmi')
-	// catch languages which are pulling icons from another file
-	for(var/path in typesof(/datum/language))
-		var/datum/language/L = path
-		var/icon = initial(L.icon)
-		if (icon != 'icons/misc/language.dmi')
-			var/icon_state = initial(L.icon_state)
-			Insert("language-[icon_state]", icon, icon_state=icon_state)
-	..()
 
 /datum/asset/simple/lobby
 	assets = list(
@@ -258,13 +230,6 @@
 		"cornoil" = 'icons/UI_Icons/Condiments/oliveoil.png',
 	)
 
-//this exists purely to avoid meta by pre-loading all language icons.
-/datum/asset/language/register()
-	for(var/path in typesof(/datum/language))
-		set waitfor = FALSE
-		var/datum/language/L = new path ()
-		L.get_icon()
-
 /datum/asset/simple/inventory
 	assets = list(
 		"inventory-glasses.png" = 'icons/UI_Icons/inventory/glasses.png',
@@ -306,9 +271,8 @@
 /datum/asset/spritesheet/sheetmaterials
 	name = "sheetmaterials"
 
-/datum/asset/spritesheet/sheetmaterials/register()
+/datum/asset/spritesheet/sheetmaterials/create_spritesheets()
 	InsertAll("", 'icons/obj/stack_objects.dmi')
-	..()
 
 /datum/asset/simple/safe
 	assets = list(
@@ -337,12 +301,11 @@
 	name = "moods"
 	var/iconinserted = 1
 
-/datum/asset/spritesheet/moods/register()
+/datum/asset/spritesheet/moods/create_spritesheets()
 	for(var/i in 1 to 9)
 		var/target_to_insert = "mood"+"[iconinserted]"
 		Insert(target_to_insert, 'icons/hud/screen_gen.dmi', target_to_insert)
 		iconinserted++
-	..()
 
 /datum/asset/spritesheet/moods/ModifyInserted(icon/pre_asset)
 	var/blended_color

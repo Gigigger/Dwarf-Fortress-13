@@ -18,3 +18,6 @@
 #define ui_multiz_down "EAST-1:44,SOUTH+2:24"
 
 #define ui_emotes "EAST-1:44,SOUTH+2:8"
+
+/// The filter name for the hover outline
+#define HOVER_OUTLINE_FILTER "hover_outline"

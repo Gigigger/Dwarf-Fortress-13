@@ -17,7 +17,7 @@
 /datum/skill_panel/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, "SkillPanel")
+		ui = new(user, src, "_SkillPanel")
 		ui.open()
 
 /datum/skill_panel/ui_data(mob/user) //Sends info about the skills to UI

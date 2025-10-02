@@ -1,0 +1,269 @@
+/**
+ * Copyright (c) 2020 Aleksej Komarov
+ * SPDX-License-Identifier: MIT
+ */
+
+ @use "sass:map";
+ @use "sass:color";
+
+ // Theme Colors
+ $dwarf-bg-base: #392414;
+ $dwarf-bg-second: #2a1a0f;
+ $dwarf-button: #5b3920;
+ $dwarf-text: #bc8435;
+ $dwarf-accent: #ffd354;
+
+ // General styles
+ em {
+   font-style: normal;
+   font-weight: bold;
+ }
+
+ img {
+   margin: 0;
+   padding: 0;
+   line-height: 1;
+   -ms-interpolation-mode: nearest-neighbor;
+   image-rendering: pixelated;
+ }
+
+ img.icon {
+   height: 1em;
+   min-height: 16px;
+   width: auto;
+   vertical-align: bottom;
+ }
+
+ // Theme-specific styles
+ .dwarf:root {
+   --scrollbar-base: #392414;
+   --scrollbar-thumb: #bc8435;
+ }
+
+ body.dwarf {
+   background-color: $dwarf-bg-base;
+   color: $dwarf-text;
+   scrollbar-base-color: $dwarf-bg-second;
+   scrollbar-face-color: $dwarf-text;
+   scrollbar-3dlight-color: #432918;
+   scrollbar-highlight-color: #432918;
+   scrollbar-track-color: $dwarf-bg-second;
+   scrollbar-arrow-color: #929292;
+   scrollbar-shadow-color: $dwarf-text;
+ }
+
+ // Links
+ .dwarf a {
+   color: $dwarf-text;
+ }
+
+ .dwarf a:hover,
+ .dwarf .grid-item:hover,
+ .dwarf .grid-item:active {
+   color: $dwarf-accent;
+ }
+
+ // Menu and buttons
+ .dwarf #menu {
+   background-color: $dwarf-bg-base;
+ }
+
+ .dwarf #menu.tabs-classic .button.active {
+   background-color: #20b142;
+ }
+
+ .dwarf .button {
+   color: rgba(255, 255, 255, 0.5);
+ }
+
+ .dwarf .button:hover {
+   background-color: $dwarf-button;
+ }
+
+ .dwarf .button.active {
+   background-color: $dwarf-text;
+   color: $dwarf-accent;
+   border-bottom-color: $dwarf-accent;
+ }
+
+ // Under-menu and content
+ .dwarf #under-menu,
+ .dwarf #under-content {
+   background-color: $dwarf-bg-second;
+ }
+
+ // Grid items
+ .dwarf .grid-item {
+   color: $dwarf-text;
+ }
+
+ .dwarf .grid-item:hover .grid-item-text {
+   background-color: $dwarf-button;
+ }
+
+ .dwarf .grid-item:active .grid-item-text {
+   background-color: $dwarf-text;
+ }
+
+ // Popup styles
+ .popup {
+   position: fixed;
+   top: 50%;
+   left: 50%;
+   background: $dwarf-bg-second;
+ }
+
+ .popup .close {
+   position: absolute;
+   background: $dwarf-text;
+   top: 0;
+   right: 0;
+   color: $dwarf-bg-base;
+   text-decoration: none;
+   z-index: 2;
+   padding: 0 10px;
+   height: 30px;
+   line-height: 30px;
+ }
+
+ .popup .close:hover {
+   background: $dwarf-accent;
+ }
+
+ .popup .head {
+   background: $dwarf-text;
+   color: $dwarf-accent;
+   padding: 0 10px;
+   height: 30px;
+   line-height: 30px;
+   text-transform: uppercase;
+   font-size: 0.9em;
+   font-weight: bold;
+   border-bottom: 2px solid green;
+ }
+
+ // Inputs
+ .popup input {
+   border: 1px solid $dwarf-text;
+   background: hsl(0, 0%, 100%);
+   margin: 0;
+   padding: 5px;
+   outline: none;
+   color: $dwarf-bg-base;
+ }
+
+ .popup input[type="text"]:hover,
+ .popup input[type="text"]:active,
+ .popup input[type="text"]:focus {
+   border-color: green;
+ }
+
+ .popup input[type="submit"] {
+   padding: 5px 10px;
+   background: $dwarf-text;
+   color: $dwarf-accent;
+   text-transform: uppercase;
+   font-size: 0.9em;
+   font-weight: bold;
+ }
+
+ .popup input[type="submit"]:hover,
+ .popup input[type="submit"]:focus,
+ .popup input[type="submit"]:active {
+   background: $dwarf-accent;
+   cursor: pointer;
+ }
+
+ // Context Menu
+ .contextMenu {
+   background-color: $dwarf-bg-second;
+   position: fixed;
+   margin: 2px;
+   width: 150px;
+ }
+
+ .contextMenu a {
+   display: block;
+   padding: 2px 5px;
+   text-decoration: none;
+   color: $dwarf-text;
+ }
+
+ .contextMenu a:hover {
+   background-color: $dwarf-button;
+ }
+
+ // Announcements
+ .announcement_header {
+   padding: 0.5rem 0;
+   display: flex;
+   flex-direction: column;
+ }
+
+ .ooc_alert {
+   background: $dwarf-bg-second;
+   border: 1px solid $dwarf-accent;
+   margin: 0.5em;
+   padding: 0.5em 0.5em 0.5em 0.2em;
+   color: hsl(0, 0%, 100%);
+   font-weight: bold;
+   display: flex;
+   flex-direction: column;
+ }
+
+ .ooc_announcement_text {
+   color: $dwarf-accent;
+   padding: 0.5em 0 0 0.35em;
+   display: flex;
+   flex-direction: column;
+ }
+
+ // Alerts
+ .chat_alert {
+   color: hsl(0, 0%, 100%);
+   padding: 0.5rem 0.5rem;
+   box-shadow: none;
+   font-weight: bold;
+   margin: 1rem 0 1rem 0;
+   padding: 0;
+   display: flex;
+   flex-direction: column;
+   border-width: 4px;
+   border-style: solid;
+ }
+
+ .chat_alert .major_announcement_title {
+   color: $dwarf-accent;
+ }
+
+ .chat_alert .minor_announcement_title {
+   color: $dwarf-accent;
+ }
+
+ .chat_alert .subheader_announcement_text {
+   color: $dwarf-accent;
+ }
+
+ .chat_alert .minor_announcement_text {
+   background-color: darken($dwarf-text, 10%);
+ }
+
+ .chat_alert .major_announcement_text {
+   background-color: darken($dwarf-text, 10%);
+ }
+
+ // Examine Block
+ .examine_block {
+   background: rgba(55, 55, 55, 0.1);
+   border: 1px solid rgba(55, 55, 55, 0.33);
+   margin: 2px 8px;
+   padding: 8px 12px;
+   max-width: 550px;
+ }
+
+ .examine_block hr {
+   border: none;
+   background: #222;
+   height: 1px;
+   margin: 8px 4px 8px 4px;
+ }

@@ -710,3 +710,5 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_TURF_HAS_ELEVATED_OBJ(z) "turf_has_elevated_obj_[z]"
 #define TRAIT_ON_ELEVATED_SURFACE "on_elevated_surface"
 #define TRAIT_ELEVATED_TURF "elevated_turf"
+/// Prevents the affected object from opening a loot window via alt click. See atom/AltClick()
+#define TRAIT_ALT_CLICK_BLOCKER "no_alt_click"
