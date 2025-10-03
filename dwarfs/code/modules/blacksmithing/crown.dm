@@ -78,15 +78,15 @@ GLOBAL_VAR_INIT(king, null)
 
 /obj/item/clothing/head/crown/attack_self(mob/user)
 	. = ..()
+	if(user == GLOB.king)
+		to_chat(user, span_warning("YOU ALREADY HAVE POWER!"))
+		return
+
 	if(GLOB.king)
 		var/mob/living/carbon/human/H = GLOB.king
 		if(H.stat != DEAD)
 			to_chat(user, span_warning("YOU HAVE NO POWER!"))
 			return
-	if(user == GLOB.king)
-		to_chat(user, span_warning("YOU ALREADY HAVE POWER!"))
-		return
-
 
 	if(is_species(user, /datum/species/dwarf))
 		make_king(user)
