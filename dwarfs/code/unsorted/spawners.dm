@@ -88,14 +88,33 @@
 
 /obj/effect/spawner/crafters/Initialize(mapload)
 	. = ..()
+	var/obj/O
 	var/turf/T = get_turf(src)
 	var/turf/D = get_step(T, SOUTH)
 	var/turf/R = locate(T.x+2, T.y, T.z)
-	new/obj/structure/crafter/carpenter_table(T)
-	new/obj/structure/crafter/workbench(R)
-	new/obj/item/stack/sheet/planks(D, 20)
-	var/obj/P = new/obj/item/partial/pickaxe(D)
-	P.apply_material(/datum/material/steel)
+	O = new/obj/structure/crafter/carpenter_table(T)
+	O.apply_material(O.materials)
+	O = new/obj/structure/crafter/workbench(R)
+	O.apply_material(O.materials)
+	O = new/obj/item/stack/sheet/planks(D, 20)
+	O.apply_material(O.materials)
+	O = new/obj/item/partial/pickaxe(D)
+	O.apply_material(/datum/material/steel)
+	O = new/obj/item/stack/sheet/leather(D, 20)
+	O = new/obj/structure/crafter/tailor_table(get_step(T, WEST))
+	O.apply_material(list(PART_PLANKS=/datum/material/wood/pine/treated, PART_INGOT=/datum/material/iron))
+	return INITIALIZE_HINT_QDEL
+
+/obj/effect/spawner/tailor/Initialize(mapload)
+	. = ..()
+	var/obj/structure/crafter/tailor_table/table = new(get_turf(src))
+	table.apply_material(table.materials)
+	table.selected_recipe = new/datum/crafter_recipe/tailor_recipe/leather_vest(table)
+	table.ready = TRUE
+	new/obj/item/stack/sheet/leather(table, 6)
+	var/mob/H = new/mob/living/carbon/human/species/dwarf(get_step(src, SOUTH))
+	H.key = usr.key
+	H.set_level(/datum/skill/tailoring, 11)
 	return INITIALIZE_HINT_QDEL
 
 /obj/effect/spawner/wood_showcase/Initialize(mapload)

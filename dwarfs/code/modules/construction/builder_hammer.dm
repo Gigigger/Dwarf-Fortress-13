@@ -10,6 +10,7 @@
 	atck_type = BLUNT
 	item_flags = parent_type::item_flags | ITEM_SMELTABLE
 	slot_flags = ITEM_SLOT_BELT | ITEM_SLOT_POCKETS
+	grade_parts = list(/obj/item/stick=1,/obj/item/partial/builder_hammer=1)
 	materials = list(PART_HANDLE=/datum/material/wood/towercap/treated, PART_HEAD=/datum/material/copper)
 	//What do we want to build -> selected in gui
 	var/obj/structure/blueprint/selected_blueprint

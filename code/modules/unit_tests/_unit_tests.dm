@@ -62,6 +62,7 @@
 #include "resist.dm"
 #include "say.dm"
 #include "cooking.dm"
+#include "grades.dm"
 #include "serving_tray.dm"
 #include "siunit.dm"
 #include "spawn_humans.dm"

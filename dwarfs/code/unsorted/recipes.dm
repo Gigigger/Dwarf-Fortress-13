@@ -283,6 +283,29 @@
 	var/affecting_skill
 	/// How much exp towards the affected skill you get for crafting this recipe
 	var/exp_gain = 10
+	/// Minigame datum that is used when crafting this recipe
+	var/datum/minigame/minigame
+
+/datum/crafter_recipe/New(obj/crafter)
+	. = ..()
+	if(minigame)
+		minigame = new minigame(crafter, src)
+
+/datum/crafter_recipe/Destroy(force, ...)
+	. = ..()
+	if(minigame)
+		QDEL_NULL(minigame)
+
+/datum/crafter_recipe/proc/start_crafting(mob/user)
+	if(!minigame)
+		return
+
+	if(minigame.result)
+		return minigame.result
+
+	minigame.start(user)
+
+	return minigame.get_result()
 
 /datum/crafter_recipe/workbench_recipe
 
@@ -429,12 +452,15 @@
 	reqs = list(/obj/item/stack/sheet/planks=3, /obj/item/stack/sheet/string=2, /obj/item/partial/crossbow=1)
 
 /datum/crafter_recipe/carpenter_recipe
-	affecting_skill = /datum/skill/logging
+	affecting_skill = /datum/skill/carpentry
+
 
 /datum/crafter_recipe/carpenter_recipe/weapon_hilt
 	name = "weapon hilt"
 	reqs = list(/obj/item/stack/sheet/planks=1)
 	result = /obj/item/weapon_hilt
+	result_amount = 2
+	minigame = /datum/minigame/carpenter
 
 /datum/crafter_recipe/carpenter_recipe/bucket
 	name = "bucket"
@@ -461,6 +487,8 @@
 	name = "stick"
 	reqs = list(/obj/item/stack/sheet/planks=1)
 	result = /obj/item/stick
+	result_amount = 2
+	minigame = /datum/minigame/carpenter
 
 /datum/crafter_recipe/carpenter_recipe/cup
 	name = "wooden cup"
@@ -477,8 +505,10 @@
 	name = "club"
 	reqs = list(/obj/item/stack/sheet/planks=5)
 	result = /obj/item/club
+	minigame = /datum/minigame/carpenter
 
 /datum/crafter_recipe/tailor_recipe
+	affecting_skill = /datum/skill/tailoring
 
 /datum/crafter_recipe/tailor_recipe/boots
 	name = "boots"
@@ -499,49 +529,45 @@
 	name = "satchel"
 	reqs = list(/obj/item/stack/sheet/leather=3)
 	result = /obj/item/storage/satchel
-	affecting_skill = /datum/skill/skinning
 
 /datum/crafter_recipe/tailor_recipe/soil_bag
 	name = "soil bag"
 	reqs = list(/obj/item/stack/sheet/leather=4)
 	result = /obj/item/storage/soil
-	affecting_skill = /datum/skill/skinning
 
 /datum/crafter_recipe/tailor_recipe/grains_sack
 	name = "grains sack"
 	reqs = list(/obj/item/stack/sheet/cloth=3)
 	result = /obj/item/reagent_containers/glass/sack
-	affecting_skill = /datum/skill/skinning
 
 /datum/crafter_recipe/tailor_recipe/leather_helmet
 	name = "leather helmet"
 	reqs = list(/obj/item/stack/sheet/leather=4)
 	result = /obj/item/clothing/head/leather_helmet
-	affecting_skill = /datum/skill/skinning
+	minigame = /datum/minigame/tailor
 
 /datum/crafter_recipe/tailor_recipe/waterskin
 	name = "waterskin"
 	reqs = list(/obj/item/stack/sheet/leather=3, /obj/item/stack/sheet/string=1)
 	result = /obj/item/reagent_containers/glass/waterskin
-	affecting_skill = /datum/skill/skinning
 
 /datum/crafter_recipe/tailor_recipe/leather_vest
 	name = "leather vest"
 	reqs = list(/obj/item/stack/sheet/leather=6)
 	result = /obj/item/clothing/suit/leather_vest
-	affecting_skill = /datum/skill/skinning
+	minigame = /datum/minigame/tailor
 
 /datum/crafter_recipe/tailor_recipe/leather_boots
 	name = "leather boots"
 	reqs = list(/obj/item/stack/sheet/leather=4)
 	result = /obj/item/clothing/shoes/leather_boots
-	affecting_skill = /datum/skill/skinning
+	minigame = /datum/minigame/tailor
 
 /datum/crafter_recipe/tailor_recipe/leather_gloves
 	name = "leather gloves"
 	reqs = list(/obj/item/stack/sheet/leather=2)
 	result = /obj/item/clothing/gloves/leather
-	affecting_skill = /datum/skill/skinning
+	minigame = /datum/minigame/tailor
 
 /datum/crafter_recipe/tailor_recipe/rag
 	name = "rag"

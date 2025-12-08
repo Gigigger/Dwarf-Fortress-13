@@ -5,6 +5,8 @@ SUBSYSTEM_DEF(materials)
 
 	var/list/palettes = list()
 	var/list/materials = list()
+	// typelist for different item parts
+	var/list/parts = list()
 	var/list/alloy_recipes = list()
 	var/list/smithing_recipes = list()
 	var/list/smithing_recipes_type = list()
@@ -32,3 +34,10 @@ SUBSYSTEM_DEF(materials)
 		smithing_recipes_type[recipe.type] = recipe
 
 	return ..()
+
+/datum/controller/subsystem/materials/proc/get_part(part_type)
+	var/obj/part = parts[part_type]
+	if(part)
+		return part
+	parts[part_type] = new part_type()
+	return parts[part_type]

@@ -1,17 +1,47 @@
-/atom/proc/update_stats(_grade=null)
+/atom/proc/update_stats(grade_override=null)
 	reset_stats()
 	if(!SSatoms.initialized)
 		return
 	apply_material_stats()
 
-/obj/update_stats(_grade)
+/obj/update_stats(grade_override)
 	reset_stats()
+
 	if(!SSatoms.initialized)
 		return
-	apply_grade(_grade)
+
+	var/part_amount = LAZYLEN(grade_parts)
+
+	if(grade_override)
+		if(!grade_parts)
+			src.grade = grade_override
+		else
+			for(var/part_type in grade_parts)
+				grade_parts[part_type] = grade_override
+
+	if(part_amount)
+		var/grd = 0
+		var/real_parts = 0
+		for(var/part_type in grade_parts)
+			grd += grade_parts[part_type]
+			real_parts++
+		src.grade = floor(grd/real_parts)
+
+	if(part_amount)
+		apply_grade_from_parts()
+	else
+		apply_grade(grade_override)
+
+	apply_grade_extra(grade_override)
+
+	// don't visually show that we use grades even if we actually use them. Maybe later on I will make it make more sense
+	if(!(obj_flags & IGNORES_GRADES))
+		obj_flags |= USES_GRADES
+		apply_grade_name()
+
 	apply_material_stats()
 
-/obj/item/update_stats(_grade)
+/obj/item/update_stats(grade_override)
 	. = ..()
 	// two-handed weapons when unwielded should usually have low force
 	// 5 is just what is used most of the time for force_unwielded
@@ -28,30 +58,47 @@
 
 /obj/item/reset_stats()
 	. = ..()
-	slowdown = initial(slowdown)
-	melee_cd = initial(melee_cd)
+	if(LAZYLEN(grade_parts))
+		slowdown = 0
+		melee_cd = CLICK_CD_MELEE
+		toolspeed = 1
+		force = 0
+		block_chance = 0
+	else
+		slowdown = initial(slowdown)
+		melee_cd = initial(melee_cd)
 
-/obj/proc/apply_grade(_grade=null)
-	if(_grade)
-		src.grade = _grade
-	// don't visually show that we use grades even if we actually use them. Maybe later on I will make it make more sense
-	if(!(obj_flags & IGNORES_GRADES))
-		obj_flags |= USES_GRADES
-		var/grd_name = grade_name(grade)
-		name = "[grd_name][initial(name)][grd_name]"
-	apply_grade_extra(_grade)
-
-/obj/proc/apply_grade_extra(_grade=null)
+/obj/proc/apply_grade(grade_override=null)
 	return
 
-/proc/grade_name(grade)
+/obj/proc/apply_grade_extra(grade_override=null)
+	return
+
+/obj/proc/apply_grade_name()
+	var/symbol = grade_symbol(grade)
+	name = "[symbol][initial(name)][symbol]"
+
+/obj/proc/apply_grade_from_parts()
+	for(var/part_type in grade_parts)
+		var/part_grade = grade_parts[part_type]
+		var/obj/part = SSmaterials.get_part(part_type)
+		part.apply_part_grade(part_grade, src)
+
+/// Called by individual parts to apply stats to parent
+/obj/proc/apply_part_grade(grade, obj/parent)
+	return
+
+/obj/item/apply_part_grade(grade, obj/item/parent)
+	return
+
+/proc/grade_symbol(grade)
 	var/list/grades = list("-", "+", "*", "≡", "☼", "☼☼")
 	return grades[min(6, grade)]
 
 /*******************************************************************************************************************/
 
 
-/obj/item/zwei/apply_grade(_grade)
+/obj/item/zwei/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -91,7 +138,20 @@
             toolspeed = 1
             armor_penetration.setRating(sharp=15,pierce=8, blunt=8, fire=0, magic=0)
 
-/obj/item/flail/apply_grade(_grade)
+/obj/item/partial/zwei/apply_part_grade(grade, obj/item/parent)
+	. = ..()
+	parent.melee_cd += 12
+	APPLY_GRADES(parent.force, 20, 27, 33, 38, 42, 45)
+	APPLY_GRADES(parent.throwforce, 10, 18, 25, 30, 36, 40)
+	APPLY_GRADES_RATING( \
+		parent.armor_penetration.setRating(sharp=8, pierce=4, blunt=2, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=8, pierce=4, blunt=4, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=9, pierce=5, blunt=5, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=11,pierce=6, blunt=5, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=13,pierce=7, blunt=6, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=15,pierce=8, blunt=8, fire=0, magic=0))
+
+/obj/item/flail/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -131,7 +191,20 @@
             toolspeed = 1
             armor_penetration.setRating(sharp=4, pierce=6, blunt=10,fire=0, magic=0)
 
-/obj/item/dagger/apply_grade(_grade)
+/obj/item/partial/flail/apply_part_grade(grade, obj/item/parent)
+	. = ..()
+	parent.melee_cd += 2
+	APPLY_GRADES(parent.force, 9, 12, 16, 21, 25, 30)
+	APPLY_GRADES(parent.throwforce, 8, 10, 14, 18, 22, 25)
+	APPLY_GRADES_RATING( \
+		parent.armor_penetration.setRating(sharp=0, pierce=2, blunt=2, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=0, pierce=3, blunt=4, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=1, pierce=3, blunt=6, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=2, pierce=5, blunt=8, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=3, pierce=5, blunt=9, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=4, pierce=6, blunt=10,fire=0, magic=0))
+
+/obj/item/dagger/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -171,7 +244,20 @@
             toolspeed = 1
             armor_penetration.setRating(sharp=10,pierce=13,blunt=3, fire=0, magic=0)
 
-/obj/item/sword/apply_grade(_grade)
+/obj/item/partial/dagger/apply_part_grade(grade, obj/item/parent)
+	. = ..()
+	parent.melee_cd -= 4
+	APPLY_GRADES(parent.force, 4, 6, 9, 12, 15, 18)
+	APPLY_GRADES(parent.throwforce, 4, 6, 9, 12, 15, 18)
+	APPLY_GRADES_RATING( \
+		parent.armor_penetration.setRating(sharp=4, pierce=5, blunt=0, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=5, pierce=7, blunt=0, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=7, pierce=8, blunt=0, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=8, pierce=9, blunt=1, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=9, pierce=11,blunt=2, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=10,pierce=13,blunt=3, fire=0, magic=0))
+
+/obj/item/sword/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -211,7 +297,19 @@
             toolspeed = 1
             armor_penetration.setRating(sharp=14,pierce=8, blunt=5, fire=0, magic=0)
 
-/obj/item/spear/apply_grade(_grade)
+/obj/item/partial/sword/apply_part_grade(grade, obj/item/parent)
+	parent.melee_cd += 2
+	APPLY_GRADES(parent.force, 10, 15, 20, 23, 26, 31)
+	APPLY_GRADES(parent.throwforce, 8, 12, 15, 18, 21, 25)
+	APPLY_GRADES_RATING( \
+		parent.armor_penetration.setRating(sharp=5, pierce=3, blunt=0, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=7, pierce=3, blunt=1, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=9, pierce=5, blunt=2, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=11,pierce=6, blunt=3, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=12,pierce=7, blunt=4, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=14,pierce=8, blunt=5, fire=0, magic=0))
+
+/obj/item/spear/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -251,7 +349,20 @@
             toolspeed = 1
             armor_penetration.setRating(sharp=8, pierce=14,blunt=7, fire=0, magic=0)
 
-/obj/item/warhammer/apply_grade(_grade)
+/obj/item/partial/spear/apply_part_grade(grade, obj/item/parent)
+	. = ..()
+	parent.melee_cd += 4
+	APPLY_GRADES(parent.force, 12, 16, 23, 26, 30, 34)
+	APPLY_GRADES(parent.throwforce, 12, 16, 23, 26, 30, 34)
+	APPLY_GRADES_RATING( \
+		armor_penetration.setRating(sharp=2, pierce=7, blunt=2, fire=0, magic=0), \
+		armor_penetration.setRating(sharp=3, pierce=7, blunt=2, fire=0, magic=0), \
+		armor_penetration.setRating(sharp=5, pierce=9, blunt=3, fire=0, magic=0), \
+		armor_penetration.setRating(sharp=5, pierce=11,blunt=5, fire=0, magic=0), \
+		armor_penetration.setRating(sharp=7, pierce=13,blunt=6, fire=0, magic=0), \
+		armor_penetration.setRating(sharp=8, pierce=14,blunt=7, fire=0, magic=0))
+
+/obj/item/warhammer/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -291,7 +402,20 @@
             toolspeed = 1
             armor_penetration.setRating(sharp=4, pierce=6, blunt=13,fire=0, magic=0)
 
-/obj/item/halberd/apply_grade(_grade)
+/obj/item/partial/warhammer/apply_part_grade(grade, obj/item/parent)
+	. = ..()
+	parent.melee_cd += 6
+	APPLY_GRADES(parent.force, 15, 19, 23, 28, 32, 36)
+	APPLY_GRADES(parent.throwforce, 15, 19, 23, 28, 32, 36)
+	APPLY_GRADES_RATING( \
+		parent.armor_penetration.setRating(sharp=0, pierce=0, blunt=5, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=1, pierce=2, blunt=7, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=2, pierce=3, blunt=9, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=3, pierce=5, blunt=11,fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=3, pierce=5, blunt=12,fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=4, pierce=6, blunt=13,fire=0, magic=0))
+
+/obj/item/halberd/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -331,7 +455,20 @@
             toolspeed = 1
             armor_penetration.setRating(sharp=18,pierce=18,blunt=0, fire=0, magic=0)
 
-/obj/item/battleaxe/apply_grade(_grade)
+/obj/item/partial/halberd/apply_part_grade(grade, obj/item/parent)
+	. = ..()
+	parent.melee_cd += 4
+	APPLY_GRADES(parent.force, 15, 17, 18, 20, 24, 28)
+	APPLY_GRADES(parent.throwforce, 8, 10, 13, 15, 18, 22)
+	APPLY_GRADES_RATING( \
+		parent.armor_penetration.setRating(sharp=3, pierce=4, blunt=0, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=5, pierce=5, blunt=0, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=7, pierce=8, blunt=0, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=10,pierce=12,blunt=0, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=15,pierce=14,blunt=0, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=18,pierce=18,blunt=0, fire=0, magic=0))
+
+/obj/item/battleaxe/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -371,7 +508,20 @@
             toolspeed = 1
             armor_penetration.setRating(sharp=4, pierce=6, blunt=13,fire=0, magic=0)
 
-/obj/item/scepter/apply_grade(_grade)
+/obj/item/partial/battleaxe/apply_part_grade(grade, obj/item/parent)
+	. = ..()
+	parent.melee_cd += 4
+	APPLY_GRADES(parent.force, 15, 19, 23, 28, 32, 36)
+	APPLY_GRADES(parent.throwforce, 15, 19, 23, 28, 32, 36)
+	APPLY_GRADES_RATING( \
+		parent.armor_penetration.setRating(sharp=0, pierce=0, blunt=5, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=1, pierce=2, blunt=7, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=2, pierce=3, blunt=9, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=3, pierce=5, blunt=11,fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=3, pierce=5, blunt=12,fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=4, pierce=6, blunt=13,fire=0, magic=0))
+
+/obj/item/scepter/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -411,7 +561,19 @@
             toolspeed = 1
             armor_penetration.setRating(sharp=0, pierce=0, blunt=6, fire=0, magic=0)
 
-/obj/item/pickaxe/apply_grade(_grade)
+/obj/item/partial/scepter_part/apply_part_grade(grade, obj/item/parent)
+	. = ..()
+	APPLY_GRADES(parent.force, 4, 5, 6, 7, 8, 8)
+	APPLY_GRADES(parent.throwforce, 4, 5, 6, 7, 8, 8)
+	APPLY_GRADES_RATING( \
+		parent.armor_penetration.setRating(sharp=0, pierce=0, blunt=0, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=0, pierce=0, blunt=1, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=0, pierce=0, blunt=2, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=0, pierce=0, blunt=4, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=0, pierce=0, blunt=5, fire=0, magic=0), \
+		parent.armor_penetration.setRating(sharp=0, pierce=0, blunt=6, fire=0, magic=0))
+
+/obj/item/pickaxe/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -451,7 +613,14 @@
             toolspeed = 0.6
             armor_penetration.setRating(sharp=0, pierce=0, blunt=0, fire=0, magic=0)
 
-/obj/item/axe/apply_grade(_grade)
+/obj/item/partial/pickaxe/apply_part_grade(grade, obj/item/parent)
+	. = ..()
+	parent.block_chance = 0
+	parent.armor_penetration.setRating(sharp=0, pierce=0, blunt=0, fire=0, magic=0)
+	APPLY_GRADES(parent.force, 3, 5, 7, 10, 13, 15)
+	APPLY_GRADES(parent.throwforce, 3, 5, 7, 10, 13, 15)
+
+/obj/item/axe/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -491,7 +660,13 @@
             toolspeed = 0.6
             armor_penetration.setRating(sharp=0, pierce=0, blunt=0, fire=0, magic=0)
 
-/obj/item/hoe/apply_grade(_grade)
+/obj/item/partial/axe/apply_part_grade(grade, obj/item/parent)
+	. = ..()
+	parent.armor_penetration.setRating(sharp=0, pierce=0, blunt=0, fire=0, magic=0)
+	APPLY_GRADES(parent.force, 5, 8, 10, 13, 15, 16)
+	APPLY_GRADES(parent.throwforce, 5, 8, 10, 13, 15, 16)
+
+/obj/item/hoe/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -531,7 +706,13 @@
             toolspeed = 0.6
             armor_penetration.setRating(sharp=0, pierce=0, blunt=0, fire=0, magic=0)
 
-/obj/item/shovel/apply_grade(_grade)
+/obj/item/partial/hoe/apply_part_grade(grade, obj/item/parent)
+	. = ..()
+	parent.armor_penetration.setRating(sharp=0, pierce=0, blunt=0, fire=0, magic=0)
+	APPLY_GRADES(parent.force, 3, 5, 6, 7, 8, 10)
+	APPLY_GRADES(parent.throwforce, 3, 5, 6, 7, 8, 10)
+
+/obj/item/shovel/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -571,7 +752,13 @@
             toolspeed = 0.6
             armor_penetration.setRating(sharp=0, pierce=0, blunt=0, fire=0, magic=0)
 
-/obj/item/chisel/apply_grade(_grade)
+/obj/item/partial/shovel/apply_part_grade(grade, obj/item/parent)
+	. = ..()
+	parent.armor_penetration.setRating(sharp=0, pierce=0, blunt=0, fire=0, magic=0)
+	APPLY_GRADES(parent.force, 3, 5, 6, 7, 8, 10)
+	APPLY_GRADES(parent.throwforce, 3, 5, 6, 7, 8, 10)
+
+/obj/item/chisel/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -611,7 +798,13 @@
             toolspeed = 0.6
             armor_penetration.setRating(sharp=0, pierce=0, blunt=0, fire=0, magic=0)
 
-/obj/item/builder_hammer/apply_grade(_grade)
+/obj/item/partial/chisel/apply_part_grade(grade, obj/item/parent)
+	. = ..()
+	parent.armor_penetration.setRating(sharp=0, pierce=0, blunt=0, fire=0, magic=0)
+	APPLY_GRADES(parent.force, 2, 3, 4, 5, 6, 8)
+	APPLY_GRADES(parent.throwforce, 2, 3, 4, 5, 6, 8)
+
+/obj/item/builder_hammer/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -651,7 +844,13 @@
             toolspeed = 0.6
             armor_penetration.setRating(sharp=0, pierce=0, blunt=0, fire=0, magic=0)
 
-/obj/item/smithing_hammer/apply_grade(_grade)
+/obj/item/partial/builder_hammer/apply_part_grade(grade, obj/item/parent)
+	. = ..()
+	parent.armor_penetration.setRating(sharp=0, pierce=0, blunt=0, fire=0, magic=0)
+	APPLY_GRADES(parent.force, 2, 4, 6, 8, 10, 12)
+	APPLY_GRADES(parent.throwforce, 2, 4, 6, 8, 10, 12)
+
+/obj/item/smithing_hammer/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -691,7 +890,13 @@
             toolspeed = 0.6
             armor_penetration.setRating(sharp=0, pierce=0, blunt=0, fire=0, magic=0)
 
-/obj/item/tongs/apply_grade(_grade)
+/obj/item/partial/smithing_hammer/apply_part_grade(grade, obj/item/parent)
+	. = ..()
+	parent.armor_penetration.setRating(sharp=0, pierce=0, blunt=0, fire=0, magic=0)
+	APPLY_GRADES(parent.force, 3, 5, 6, 7, 8, 10)
+	APPLY_GRADES(parent.throwforce, 3, 5, 6, 7, 8, 10)
+
+/obj/item/tongs/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -731,7 +936,7 @@
             toolspeed = 0.6
             armor_penetration.setRating(sharp=0, pierce=0, blunt=0, fire=0, magic=0)
 
-/obj/item/trowel/apply_grade(_grade)
+/obj/item/trowel/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -771,7 +976,7 @@
             toolspeed = 0.6
             armor_penetration.setRating(sharp=0, pierce=0, blunt=0, fire=0, magic=0)
 
-/obj/item/kitchen/knife/apply_grade(_grade)
+/obj/item/kitchen/knife/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -811,7 +1016,13 @@
             toolspeed = 0.6
             armor_penetration.setRating(sharp=0, pierce=0, blunt=0, fire=0, magic=0)
 
-/obj/item/shield/apply_grade(_grade)
+/obj/item/partial/kitchen_knife/apply_part_grade(grade, obj/item/parent)
+	. = ..()
+	parent.armor_penetration.setRating(sharp=0, pierce=0, blunt=0, fire=0, magic=0)
+	APPLY_GRADES(parent.force, 4, 5, 6, 7, 8, 10)
+	APPLY_GRADES(parent.throwforce, 4, 5, 6, 7, 8, 10)
+
+/obj/item/shield/apply_grade(grade_override)
 	..()
 	switch(grade)
 		if(1)
@@ -851,7 +1062,23 @@
 			toolspeed = 1
 			armor_penetration.setRating(sharp=0, pierce=0, blunt=0, fire=0, magic=0)
 
-/obj/item/shield/large/apply_grade(_grade)
+// since both shields use the same primary component (shield parts)
+/obj/item/shield/large/reset_stats()
+	. = ..()
+	block_chance = 10
+
+/obj/item/shield/large/reset_stats()
+	. = ..()
+	block_chance = 20
+
+/obj/item/partial/shield/apply_part_grade(grade, obj/item/parent)
+	. = ..()
+	parent.armor_penetration.setRating(sharp=0, pierce=0, blunt=0, fire=0, magic=0)
+	APPLY_GRADES_ADD(parent.block_chance, 5, 10, 15, 20, 25, 30)
+	APPLY_GRADES(parent.force, 1, 2, 3, 4, 5, 6)
+	APPLY_GRADES(parent.throwforce, 2, 3, 5, 6, 7, 8)
+
+/obj/item/shield/large/apply_grade(grade_override)
 	..()
 	switch(grade)
 		if(1)
@@ -893,7 +1120,7 @@
 
 /*******************************************************************************************************************/
 
-/obj/item/clothing/suit/light_plate/apply_grade(_grade)
+/obj/item/clothing/suit/light_plate/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -909,7 +1136,7 @@
         if(6)
             armor = armor.setRating(sharp=23,pierce=15,blunt=20,fire=9, wound=40)
 
-/obj/item/clothing/suit/heavy_plate/apply_grade(_grade)
+/obj/item/clothing/suit/heavy_plate/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -925,7 +1152,7 @@
         if(6)
             armor = armor.setRating(sharp=30,pierce=25,blunt=27,fire=11,wound=50)
 
-/obj/item/clothing/under/chainmail/apply_grade(_grade)
+/obj/item/clothing/under/chainmail/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -941,7 +1168,7 @@
         if(6)
             armor = armor.setRating(sharp=20,pierce=14,blunt=15,fire=10,wound=35)
 
-/obj/item/clothing/head/heavy_plate/apply_grade(_grade)
+/obj/item/clothing/head/heavy_plate/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -957,7 +1184,7 @@
         if(6)
             armor = armor.setRating(sharp=35,pierce=40,blunt=35,fire=10,wound=40)
 
-/obj/item/clothing/gloves/plate_gloves/apply_grade(_grade)
+/obj/item/clothing/gloves/plate_gloves/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -973,7 +1200,7 @@
         if(6)
             armor = armor.setRating(sharp=23,pierce=24,blunt=28,fire=10,wound=40)
 
-/obj/item/clothing/shoes/plate_boots/apply_grade(_grade)
+/obj/item/clothing/shoes/plate_boots/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -989,7 +1216,7 @@
         if(6)
             armor = armor.setRating(sharp=23,pierce=25,blunt=30,fire=10,wound=40)
 
-/obj/item/clothing/head/crown/apply_grade(_grade)
+/obj/item/clothing/head/crown/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -1005,7 +1232,7 @@
         if(6)
             armor = armor.setRating(sharp=10,pierce=0, blunt=0, fire=0, wound=0)
 
-/obj/item/clothing/shoes/boots/apply_grade(_grade)
+/obj/item/clothing/shoes/boots/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -1021,7 +1248,7 @@
         if(6)
             armor = armor.setRating(sharp=0, pierce=0, blunt=0, fire=0, wound=0)
 
-/obj/item/clothing/under/tunic/apply_grade(_grade)
+/obj/item/clothing/under/tunic/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -1037,7 +1264,7 @@
         if(6)
             armor = armor.setRating(sharp=0, pierce=0, blunt=0, fire=0, wound=0)
 
-/obj/item/clothing/head/light_plate/apply_grade(_grade)
+/obj/item/clothing/head/light_plate/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -1053,7 +1280,7 @@
         if(6)
             armor = armor.setRating(sharp=25,pierce=23,blunt=27,fire=9, wound=35)
 
-/obj/item/clothing/head/leather_helmet/apply_grade(_grade)
+/obj/item/clothing/head/leather_helmet/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -1069,7 +1296,7 @@
         if(6)
             armor = armor.setRating(sharp=18,pierce=14,blunt=12,fire=9, wound=35)
 
-/obj/item/clothing/suit/leather_vest/apply_grade(_grade)
+/obj/item/clothing/suit/leather_vest/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -1085,7 +1312,7 @@
         if(6)
             armor = armor.setRating(sharp=20,pierce=15,blunt=14,fire=9, wound=35)
 
-/obj/item/clothing/gloves/leather/apply_grade(_grade)
+/obj/item/clothing/gloves/leather/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)
@@ -1101,7 +1328,7 @@
         if(6)
             armor = armor.setRating(sharp=16,pierce=15,blunt=15,fire=11,wound=30)
 
-/obj/item/clothing/shoes/leather_boots/apply_grade(_grade)
+/obj/item/clothing/shoes/leather_boots/apply_grade(grade_override)
     ..()
     switch(grade)
         if(1)

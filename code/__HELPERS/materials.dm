@@ -45,6 +45,19 @@
 		else
 			return /obj/item/stack/sheet/stone
 
+/proc/get_part_from_path(path)
+	switch(path)
+		if(/obj/item/stick, /obj/item/weapon_hilt)
+			return PART_HANDLE
+		if(/obj/item/ingot)
+			return PART_INGOT
+		if(/obj/item/stack/sheet/planks)
+			return PART_PLANKS
+		else
+			if(ispath(path, /obj/item/partial))
+				return PART_HEAD
+	return PART_ANY
+
 /// Get uniqie material types from material list. Can handle anything from single material objects to multi-part objects.
 /proc/materials2mats(list/materials)
 	. = list()
@@ -85,6 +98,13 @@
 	if(!M)
 		return "unknown material"
 	return M.name
+
+/// Return material hex color based on provided type
+/proc/get_material_color(type)
+	var/datum/material/M = get_material(type)
+	if(!M)
+		return "#FFF"
+	return M.color
 
 /**
  * Creates an icon object with materials appplied to it.

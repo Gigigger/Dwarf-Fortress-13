@@ -17,6 +17,7 @@
 	usesound = list('sound/effects/picaxe1.ogg', 'sound/effects/picaxe2.ogg', 'sound/effects/picaxe3.ogg')
 	attack_verb_continuous = list("hits", "pierces", "slashes", "attacks")
 	attack_verb_simple = list("hit", "pierce", "slash", "attacks")
+	grade_parts = list(/obj/item/stick=1,/obj/item/partial/pickaxe=1)
 	materials = list(PART_HANDLE=/datum/material/wood/towercap/treated, PART_HEAD=/datum/material/copper)
 	melee_skill = /datum/skill/mining
 
@@ -49,6 +50,7 @@
 	attack_verb_continuous = list("smashes", "hits", "attacks")
 	attack_verb_simple = list("smash", "hit", "attack")
 	atck_type = SHARP
+	grade_parts = list(/obj/item/stick=1,/obj/item/partial/shovel=1)
 	materials = list(PART_HANDLE=/datum/material/wood/towercap/treated, PART_HEAD=/datum/material/copper)
 
 /obj/item/shovel/Initialize()
@@ -81,6 +83,7 @@
 	slot_flags = ITEM_SLOT_BACK | ITEM_SLOT_SUITSTORE
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	usesound = 'dwarfs/sounds/tools/axe/axe_chop.ogg'
+	grade_parts = list(/obj/item/stick=1,/obj/item/partial/axe=1)
 	materials = list(PART_HANDLE=/datum/material/wood/towercap/treated, PART_HEAD=/datum/material/copper)
 	melee_skill = /datum/skill/logging
 
@@ -102,6 +105,7 @@
 	throwforce = 25
 	throw_range = 4
 	atck_type = BLUNT
+	grade_parts = list(/obj/item/stick=1,/obj/item/partial/smithing_hammer=1)
 	materials = list(PART_HANDLE=/datum/material/wood/towercap/treated, PART_HEAD=/datum/material/copper)
 	melee_skill = /datum/skill/smithing
 
@@ -124,6 +128,7 @@
 	force = 10
 	throwforce = 12
 	throw_range = 7
+	grade_parts = list(/obj/item/stick=1,/obj/item/partial/chisel=1)
 	materials = list(PART_HANDLE=/datum/material/wood/towercap/treated, PART_HEAD=/datum/material/copper)
 	melee_skill = /datum/skill/masonry
 	/// Flag that controls whether we chisel big tiles frol rock floor or regular tiles
@@ -237,6 +242,7 @@
 	w_class = WEIGHT_CLASS_BULKY
 	atck_type = PIERCE
 	force = 7
+	grade_parts = list(/obj/item/stick=1,/obj/item/partial/hoe=1)
 	materials = list(PART_HANDLE=/datum/material/wood/towercap/treated, PART_HEAD=/datum/material/copper)
 	melee_skill = /datum/skill/farming
 

@@ -65,3 +65,11 @@
 	else
 		. = ..()
 		update_appearance()
+
+/obj/item/stick/apply_part_grade(grade, obj/item/parent)
+	APPLY_GRADES_ADD(parent.melee_cd, 3, 2, 1, 0, -1, -2)
+	APPLY_GRADES_MUL(parent.toolspeed, 2.5, 2, 1, 0.9, 0.8, 0.6)
+
+/obj/item/weapon_hilt/apply_part_grade(grade, obj/item/parent)
+	APPLY_GRADES_ADD(parent.melee_cd, 3, 2, 1, 0, -1, -2)
+	APPLY_GRADES_MUL(parent.toolspeed, 2.5, 2, 1, 0.9, 0.8, 0.6)

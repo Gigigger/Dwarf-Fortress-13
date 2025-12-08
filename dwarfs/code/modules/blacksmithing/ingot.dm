@@ -24,10 +24,9 @@
 	var/datum/material/M = get_material(materials)
 	name = "[M.name] ingot"
 
-/obj/item/ingot/update_stats(_grade)
-	. = ..()
-	var/grd = grade_name(grade)
-	name = "[grd][get_material_name(materials)] ingot[grd]"
+/obj/item/ingot/apply_grade_name()
+	var/symbol = grade_symbol(grade)
+	name = "[symbol][get_material_name(materials)] ingot[symbol]"
 
 /obj/item/ingot/build_material_icon(_file, state)
 	return apply_palettes(..(), materials)

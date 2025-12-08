@@ -8,6 +8,8 @@
 	var/name = "material"
 	/// Palettes used. Used as icon_states for it's palette at 'dwarfs/icons/palettes.dmi'. Depending on amount of materials will use template palettes in increasing order.
 	var/list/palettes = list("template1")
+	/// Material color for text etc.
+	var/color = "#FFF"
 	/// What material type this is
 	var/mat
 	/// What default raw resource type does this material have

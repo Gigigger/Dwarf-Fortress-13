@@ -1090,6 +1090,18 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 		. += span_italics("<font color='grey'>You need to be closer to analyze [src]...</font>")
 		return
 
+	if(grade_parts)
+		. += "It's made out of "
+		for(var/i in 1 to length(grade_parts))
+			var/obj/part_path = grade_parts[i]
+			var/part_grade = grade_parts[part_path] || 1
+			var/part_name = get_part_from_path(part_path)
+			var/part_material = materials[part_name] || materials[part_path]
+			. += "<font color='[get_grade_color(part_grade)]'>[get_grade_name(part_grade)]</font> <font color='[get_material_color(part_material)]'>[get_material_name(part_material)]</font> [part_path::name]"
+			if(i < length(materials))
+				. += ", "
+		. += ".<br>"
+
 	var/w_atcktype = "magical"
 	var/w_pentr = armor_penetration.GetRating(atck_type)
 

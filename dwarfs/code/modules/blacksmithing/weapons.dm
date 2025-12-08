@@ -20,6 +20,7 @@
 	reach = 2
 	melee_skill = /datum/skill/melee/longsword
 	melee_cd = 2 SECONDS
+	grade_parts = list(/obj/item/weapon_hilt=1, /obj/item/partial/zwei=1)
 	materials = list(PART_HANDLE=/datum/material/wood/towercap/treated, PART_HEAD=/datum/material/iron)
 
 /obj/item/zwei/ComponentInitialize()
@@ -51,6 +52,7 @@
 	resistance_flags = FIRE_PROOF
 	melee_skill = /datum/skill/melee/flail
 	melee_cd = 1 SECONDS
+	grade_parts = list(/obj/item/weapon_hilt=1, /obj/item/partial/flail=1)
 	materials = list(PART_HANDLE=/datum/material/wood/towercap/treated, PART_HEAD=/datum/material/iron)
 
 /obj/item/flail/build_material_icon(_file, state)
@@ -75,6 +77,7 @@
 	resistance_flags = FIRE_PROOF
 	melee_skill = /datum/skill/melee/dagger
 	melee_cd = 0.6 SECONDS
+	grade_parts = list(/obj/item/weapon_hilt=1, /obj/item/partial/dagger=1)
 	materials = list(PART_HANDLE=/datum/material/wood/towercap/treated, PART_HEAD=/datum/material/iron)
 
 /obj/item/dagger/build_material_icon(_file, state)
@@ -111,7 +114,11 @@
 	resistance_flags = FIRE_PROOF
 	melee_skill = /datum/skill/melee/sword
 	melee_cd = 1 SECONDS
+	grade_parts = list(/obj/item/weapon_hilt=1, /obj/item/partial/sword=1)
 	materials = list(PART_HANDLE=/datum/material/wood/towercap/treated, PART_HEAD=/datum/material/iron)
+
+/obj/item/sword/parttest
+	grade_parts = list(/obj/item/partial/sword=3, /obj/item/weapon_hilt=3, /obj/item/stack/sheet/leather=6)
 
 /obj/item/sword/build_material_icon(_file, state)
 	return apply_palettes(..(), list(materials[PART_HANDLE], materials[PART_HEAD]))
@@ -136,6 +143,7 @@
 	max_integrity = 50
 	melee_skill = /datum/skill/melee/spear
 	melee_cd = 1.2 SECONDS
+	grade_parts = list(/obj/item/stick=1, /obj/item/partial/spear=1)
 	materials = list(PART_HANDLE=/datum/material/wood/towercap/treated, PART_HEAD=/datum/material/iron)
 
 /obj/item/spear/Initialize()
@@ -160,6 +168,7 @@
 	reach = 2
 	melee_skill = /datum/skill/melee/hammer
 	melee_cd = 1.5 SECONDS
+	grade_parts = list(/obj/item/stick=1, /obj/item/partial/warhammer=1)
 	materials = list(PART_HANDLE=/datum/material/wood/towercap/treated, PART_HEAD=/datum/material/iron)
 
 /obj/item/warhammer/Initialize()
@@ -211,6 +220,7 @@
 	melee_skill = /datum/skill/melee/halberd
 	tool_behaviour = TOOL_AXE
 	melee_cd = 1.2 SECONDS
+	grade_parts = list(/obj/item/stick=1, /obj/item/partial/halberd=1)
 	materials = list(PART_HANDLE=/datum/material/wood/towercap/treated, PART_HEAD=/datum/material/iron)
 
 /obj/item/halberd/Initialize()
@@ -238,6 +248,8 @@
 	max_integrity = 50
 	resistance_flags = FIRE_PROOF
 	melee_cd = 0.6 SECONDS
+	grade_parts = list(/obj/item/stick=1, /obj/item/partial/scepter_part=1)
+	materials = list(PART_HEAD=/datum/material/gold, PART_HANDLE=/datum/material/wood/treated)
 	///Cooldown between stuns
 	var/cooldown = 2 SECONDS
 	var/next_stun = 0
@@ -322,6 +334,7 @@
 	force = 20
 	melee_skill = /datum/skill/melee/axe
 	melee_cd = 1 SECONDS
+	grade_parts = list(/obj/item/stick=1, /obj/item/partial/battleaxe=1)
 	materials = list(PART_HANDLE=/datum/material/wood/towercap/treated, PART_HEAD=/datum/material/iron)
 
 /obj/item/battleaxe/Initialize()

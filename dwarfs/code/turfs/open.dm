@@ -377,6 +377,10 @@
 	create_reagents(100, DRAINABLE)
 	reagents.add_reagent(/datum/reagent/water, 100)
 
+/turf/open/water/hitby(atom/movable/AM, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum)
+	. = ..()
+	to_chat(world, "water hit")
+
 /turf/open/water/set_smoothed_icon_state(new_junction)
 	. = ..()
 	update_appearance(UPDATE_OVERLAYS)

@@ -33,8 +33,15 @@
 
 	vis_flags = VIS_INHERIT_PLANE //when this be added to vis_contents of something it inherit something.plane, important for visualisation of obj in openspace.
 
-	var/grade = 1 // object grade value. Defaults to 1
+
+	/// Object grade (1-6)
+	var/grade = 1
+	/// Object parts used for stats before material modifiers are applied
+	/// TODO: unify this with material parts
+	var/list/grade_parts = null
+	/// Whether we should call update_stats in init
 	var/init_grade = FALSE
+	/// Part name used for materials
 	var/part_name = PART_NONE
 	/// Obj hardness, works with materials
 	var/hardness = 1
@@ -303,7 +310,7 @@
 	. = ..()
 	if(materials)
 		var/line_break = "<br>"
-		if(.[LAZYLEN(.)] == "<hr>")
+		if(LAZYLEN(.) && .[LAZYLEN(.)] == "<hr>")
 			line_break = ""
 		if(islist(materials) && materials.len)
 			var/list/l = list()
@@ -315,20 +322,4 @@
 		else if(!islist(materials)) // re-check if this is not an emtpy list
 			. += "[line_break]It's made out of [get_material_name(materials)]."
 	if(grade && (obj_flags & USES_GRADES) && !(obj_flags & IGNORES_GRADES))
-		var/qualtity_text
-		switch(grade)
-			if(1)
-				qualtity_text = "poorly-crafted"
-			if(2)
-				qualtity_text = "decently-crafted"
-			if(3)
-				qualtity_text = "finely-crafted"
-			if(4)
-				qualtity_text = "superior quality"
-			if(5)
-				qualtity_text = "exceptional"
-			if(6)
-				qualtity_text = "masterful"
-			else
-				qualtity_text = "masterful?"
-		. += "<br>\The [src] is [qualtity_text]."
+		. += "<br>\The [src] is [get_grade_name(grade)]."
