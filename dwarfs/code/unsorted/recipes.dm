@@ -507,6 +507,11 @@
 	result = /obj/item/club
 	minigame = /datum/minigame/carpenter
 
+/datum/crafter_recipe/carpenter_recipe/compass_frame
+	name = "compass frame"
+	reqs = list(/obj/item/stack/sheet/planks=2)
+	result = /obj/item/partial/compass_frame
+
 /datum/crafter_recipe/tailor_recipe
 	affecting_skill = /datum/skill/tailoring
 
