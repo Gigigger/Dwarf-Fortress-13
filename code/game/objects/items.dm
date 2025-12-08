@@ -1114,7 +1114,22 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 			w_atcktype = "slashing"
 
 	. += "It's [statnumber_to_adj(force)] at [w_atcktype].<br>"
-	. += "It's [statnumber_to_adj(w_pentr)] at penetrating armor."
+	. += "It's [statnumber_to_adj(w_pentr)] at penetrating armor.<br>"
+	. += "It has [melee_cd_to_adj()] attack speed."
+
+/obj/item/proc/melee_cd_to_adj()
+	switch(melee_cd)
+		if(13 to INFINITY)
+			return "very slow"
+		if(10 to 12)
+			return "slow"
+		if(7 to 9)
+			return "normal"
+		if(4 to 6)
+			return "fast"
+		if(0 to 4)
+			return "very fast"
+	return "unknown"
 
 /// Basicly number to quality. Used in /obj/item/examine_more.
 /obj/item/proc/statnumber_to_adj(stat)
