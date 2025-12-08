@@ -553,7 +553,7 @@
 
 /datum/crafter_recipe/tailor_recipe/waterskin
 	name = "waterskin"
-	reqs = list(/obj/item/stack/sheet/leather=3, /obj/item/stack/sheet/string=1)
+	reqs = list(/obj/item/stack/sheet/leather=1, /obj/item/stack/sheet/string=1)
 	result = /obj/item/reagent_containers/glass/waterskin
 
 /datum/crafter_recipe/tailor_recipe/leather_vest
