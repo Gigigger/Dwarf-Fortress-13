@@ -588,3 +588,8 @@
 	name = "bolt quiver"
 	result = /obj/item/storage/quiver/bolts
 	reqs = list(/obj/item/stack/sheet/leather=4)
+
+/datum/crafter_recipe/tailor_recipe/seed_bag
+	name = "seed bag"
+	result = /obj/item/storage/seed_bag
+	reqs = list(/obj/item/stack/sheet/leather=3)
