@@ -217,12 +217,13 @@
 			return TRUE
 	else if(istype(exposed_obj, /obj/item/stack/sheet/bark))
 		var/obj/item/stack/B = exposed_obj
-		B.use(1)
-		var/datum/reagents/h = holder
-		var/vol = volume
-		h.remove_reagent(src.type, vol)
-		h.add_reagent(/datum/reagent/tannin, vol)
-		h.my_atom.visible_message(span_notice("The water in [h.my_atom] turns into tannin!"))
+		var/vol_per_bark = 30
+		var/used_items = min(B.amount, ceil(volume/vol_per_bark))
+		B.use(used_items)
+		var/vol = min(volume, used_items*vol_per_bark)
+		holder.remove_reagent(src.type, vol)
+		holder.add_reagent(/datum/reagent/tannin, vol)
+		holder.my_atom.visible_message(span_notice("The water in [holder.my_atom] turns into tannin!"))
 		return TRUE
 
 /*
