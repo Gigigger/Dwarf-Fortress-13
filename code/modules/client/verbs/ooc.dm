@@ -430,12 +430,12 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 
 /client/verb/fix_stat_panel()
 	set name = "Fix THIS Panel"
-	set hidden = TRUE
+	set hidden = FALSE
 
 	init_verbs()
 
 /client/verb/fix_chat()
 	set name = "fix-chat"
-	set hidden = TRUE
+	set hidden = FALSE
 
 	nuke_chat()
