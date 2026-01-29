@@ -389,8 +389,9 @@ function draw_status() {
 			document.getElementById("statcontent").appendChild(div);
 		}
 	}
-	if (verb_tabs.length == 0 || !verbs)
-		init_verbs()
+	if (verb_tabs.length == 0 || !verbs) {
+		Byond.command("Fix-Stat-Panel");
+	}
 }
 
 function draw_mc() {
